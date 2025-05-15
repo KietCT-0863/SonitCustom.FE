@@ -3,6 +3,21 @@
   grid-template-columns: repeat(4, 1fr);
 }
 
+.technology-section-slider {
+  width: 100%;
+  padding: 0 0 40px 0;
+}
+
+.tech-swiper {
+  width: 100%;
+  padding-bottom: 40px;
+}
+
+.swiper-pagination {
+  bottom: 10px !important;
+  text-align: center;
+}
+
 .tech-item {
   padding: 2rem;
   text-align: center;
@@ -10,6 +25,9 @@
   transition: all 0.3s ease;
   cursor: pointer;
   overflow: hidden;
+  border-radius: 12px;
+  background: #000;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
 }
 
 .tech-item:hover {
@@ -31,7 +49,7 @@
 .tech-title {
   font-family: var(--heading-font);
   font-size: 1.2rem;
-  font-weight: bold;
+  font-weight: 300;
   margin: 1rem 0;
   text-transform: uppercase;
   color: var(--primary-color);
@@ -51,5 +69,11 @@
 @media (max-width: 768px) {
   .technology-section {
     grid-template-columns: 1fr 1fr;
+  }
+  .tech-item {
+    padding: 1rem;
+  }
+  .tech-title {
+    font-size: 1rem;
   }
 } 

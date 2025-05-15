@@ -5,7 +5,7 @@ function App() {
   return (
     <div className="app">
       <header className="header">
-        <img src="/logo.png" alt="Exceed Logo" className="logo" />
+        <img src="/sonit new.jpg" alt="Exceed Logo" className="logo" />
         <nav className="nav-links">
           <a href="/">CUES</a>
           <a href="/shafts">SHAFTS</a>

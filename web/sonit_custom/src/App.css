@@ -27,7 +27,7 @@
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-weight: 500;
+  font-weight: 300;
 }
 
 .nav-links a:hover {
@@ -65,13 +65,14 @@
 
 .hero-title {
   font-size: 4rem;
-  font-weight: bold;
+  font-weight: 300;
   margin-bottom: 1rem;
   color: #ffffff;
 }
 
 .hero-subtitle {
   font-size: 1.5rem;
+  font-weight: 300;
   margin-bottom: 2rem;
   color: #ffffff;
 }
@@ -111,12 +112,13 @@
 
 .product-name {
   font-size: 2rem;
-  font-weight: bold;
+  font-weight: 300;
   margin-bottom: 0.5rem;
 }
 
 .product-description {
   font-size: 1rem;
+  font-weight: 300;
 }
 
 .technology-section {
@@ -132,13 +134,14 @@
 
 .tech-title {
   font-size: 1.2rem;
-  font-weight: bold;
+  font-weight: 300;
   margin: 1rem 0;
   text-transform: uppercase;
 }
 
 .tech-description {
   font-size: 0.9rem;
+  font-weight: 300;
   color: #aaa;
 }
 
@@ -158,6 +161,7 @@
 
 .copyright {
   font-size: 0.8rem;
+  font-weight: 300;
   color: #666;
 }
 
