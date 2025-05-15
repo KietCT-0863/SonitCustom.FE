@@ -45,7 +45,7 @@ const Footer = () => {
         <a href="https://twitter.com">{t('footer.social.X')}</a>
         <a href="https://tiktok.com">{t('footer.social.TT')}</a>
       </div>
-      <img src="/public/assets/logo.png" alt="Sonit Custom" className="logo-animated" />
+      <img src="/public/assets/logo.jpg" alt="Sonit Custom" className="logo-animated" />
       <p className="slogan font-effect-outline">{t('footer.slogan')}</p>
       <p className="copyright">{t('footer.copyright')}</p>
     </footer>

@@ -181,7 +181,7 @@ const Header = () => {
     <>
     <header className={`header ${scrolled ? 'scrolled' : ''}`}>
         <Link to="/" className="logo-link" aria-label="Đến trang chủ">
-          <img src="/public/assets/logo.png" alt="Sonit Custom" className="logo-animated" />
+          <img src="/public/assets/logo.jpg" alt="Sonit Custom" className="logo-animated" />
         </Link>
         
         {/* Desktop Navigation */}
