@@ -245,4 +245,20 @@
   .products-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* Fix for img, video, canvas overflow issue */
+img, video, canvas {
+  max-width: 100%;
+  display: block;
+  overflow: hidden !important;
+}
+
+/* Đảm bảo tất cả container chứa hình ảnh đều có overflow hidden */
+.product-image, 
+.product-card, 
+.product-thumbnails .thumbnail,
+.related-image,
+.main-image {
+  overflow: hidden;
 } 

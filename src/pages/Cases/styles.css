@@ -119,6 +119,7 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+  overflow: hidden;
 }
 
 .product-thumbnails {
@@ -146,6 +147,14 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  overflow: hidden;
+}
+
+/* Fix for img, video, canvas overflow issue */
+img, video, canvas {
+  max-width: 100%;
+  display: block;
+  overflow: hidden;
 }
 
 .product-detail-right {
@@ -344,8 +353,10 @@
 
 .related-products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+  overflow: hidden;
 }
 
 /* Responsive */

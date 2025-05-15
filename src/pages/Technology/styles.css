@@ -104,10 +104,24 @@
   height: 100%;
   object-fit: cover;
   transition: transform 0.5s ease;
+  overflow: hidden;
 }
 
 .blog-card:hover .blog-image img {
   transform: scale(1.05);
+}
+
+/* Fix for img, video, canvas overflow issue */
+img, video, canvas {
+  max-width: 100%;
+  display: block;
+  overflow: hidden;
+}
+
+.content-image {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
 }
 
 .blog-content {

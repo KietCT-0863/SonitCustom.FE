@@ -73,24 +73,34 @@ const cueDetailTranslations = {
 };
 
 const CueDetail = () => {
-  const { category, id } = useParams();
+  // 1. State hooks first
+  const { id } = useParams();
   const navigate = useNavigate();
-  const [product, setProduct] = useState(null);
-  const [relatedProducts, setRelatedProducts] = useState([]);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [selectedColor, setSelectedColor] = useState(null);
   const { language, registerTranslations } = useLanguage();
+  const [cue, setCue] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedTab, setSelectedTab] = useState('description');
+  const [relatedProducts, setRelatedProducts] = useState([]);
   
-  // Đăng ký bản dịch
+  // 2. Effect hooks
   useEffect(() => {
     registerTranslations('cueDetail', cueDetailTranslations);
   }, [registerTranslations]);
+
+  useEffect(() => {
+    // Load cue data
+    setLoading(true);
+    // Fetch logic...
+  }, [id]);
   
   // Mock data - trong thực tế sẽ fetch từ API
   const cueData = {
     id: id,
     name: t('cueDetail.product.name'),
-    category: category,
+    category: 'professional',
     images: [
       '/images/cues/exceed-pro-1.jpg',
       '/images/cues/exceed-pro-2.jpg',
@@ -135,12 +145,13 @@ const CueDetail = () => {
   
   useEffect(() => {
     // Mô phỏng API call để lấy chi tiết sản phẩm
-    setProduct(cueData);
+    setCue(cueData);
     setSelectedImage(cueData.images[0]);
     setSelectedColor(cueData.colors[0]);
     setRelatedProducts(mockRelatedProducts);
-  }, [category, id]);
+  }, [id]);
   
+  // 3. Handler functions
   const handleBack = () => {
     navigate(-1);
   };
@@ -157,14 +168,15 @@ const CueDetail = () => {
     navigate(path);
   };
   
-  if (!product) {
+  // 4. Return JSX
+  if (!cue) {
     return <div className="loading">{t('cueDetail.loading')}</div>;
   }
   
   // Tính giá sau giảm giá nếu có
-  const finalPrice = product.discount 
-    ? product.price * (1 - product.discount / 100) 
-    : product.price;
+  const finalPrice = cue.discount 
+    ? cue.price * (1 - cue.discount / 100) 
+    : cue.price;
   
   return (
     <div className="product-detail-page">
@@ -177,42 +189,42 @@ const CueDetail = () => {
       <div className="product-detail-container">
         <div className="product-detail-left">
           <div className="product-main-image">
-            <img src={selectedImage} alt={product.name} />
+            <img src={selectedImage} alt={cue.name} />
           </div>
           <div className="product-thumbnails">
-            {product.images.map((image, index) => (
+            {cue.images.map((image, index) => (
               <div 
                 key={index} 
                 className={`thumbnail ${selectedImage === image ? 'active' : ''}`}
                 onClick={() => handleImageClick(image)}
               >
-                <img src={image} alt={`${product.name} ${index+1}`} />
+                <img src={image} alt={`${cue.name} ${index+1}`} />
               </div>
             ))}
           </div>
         </div>
         
         <div className="product-detail-right">
-          <h1 className="product-title">{product.name}</h1>
+          <h1 className="product-title">{cue.name}</h1>
           
           <div className="product-price-container">
-            {product.discount > 0 && (
-              <span className="original-price">${product.price.toFixed(2)}</span>
+            {cue.discount > 0 && (
+              <span className="original-price">${cue.price.toFixed(2)}</span>
             )}
             <span className="final-price">${finalPrice.toFixed(2)}</span>
-            {product.discount > 0 && (
-              <span className="discount-tag">-{product.discount}%</span>
+            {cue.discount > 0 && (
+              <span className="discount-tag">-{cue.discount}%</span>
             )}
           </div>
           
-          <div className="product-status">{product.status}</div>
+          <div className="product-status">{cue.status}</div>
           
-          <p className="product-short-description">{product.shortDescription}</p>
+          <p className="product-short-description">{cue.shortDescription}</p>
           
           <div className="color-selection">
             <h3>{t('cueDetail.color')}</h3>
             <div className="color-options">
-              {product.colors.map((color, index) => (
+              {cue.colors.map((color, index) => (
                 <div 
                   key={index} 
                   className={`color-option ${selectedColor === color ? 'active' : ''}`}
@@ -239,7 +251,7 @@ const CueDetail = () => {
         
         <div className="tab-content">
           <div className="description-tab">
-            <p>{product.description}</p>
+            <p>{cue.description}</p>
           </div>
         </div>
       </div>

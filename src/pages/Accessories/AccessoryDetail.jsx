@@ -72,74 +72,29 @@ const accessoryDetailTranslations = {
 };
 
 const AccessoryDetail = () => {
-  const { category, id } = useParams();
+  // 1. Khai báo tất cả state hooks trước
+  const { id } = useParams();
   const navigate = useNavigate();
-  const [product, setProduct] = useState(null);
-  const [relatedProducts, setRelatedProducts] = useState([]);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [selectedColor, setSelectedColor] = useState(null);
   const { language, registerTranslations } = useLanguage();
+  const [accessory, setAccessory] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedTab, setSelectedTab] = useState('description');
+  const [relatedProducts, setRelatedProducts] = useState([]);
   
-  // Đăng ký bản dịch
+  // 2. Sau đó đến các effect hooks
   useEffect(() => {
     registerTranslations('accessoryDetail', accessoryDetailTranslations);
   }, [registerTranslations]);
-  
-  // Mock data - trong thực tế sẽ fetch từ API
-  const accessoryData = {
-    id: id,
-    name: t('accessoryDetail.product.name'),
-    category: category,
-    images: [
-      '/images/accessories/premium-chalk-detail.jpg',
-      '/images/accessories/premium-chalk-detail-2.jpg',
-      '/images/accessories/premium-chalk-detail-3.jpg'
-    ],
-    colors: ['#3366FF', '#00CC66', '#FFFFFF'],
-    price: 12.99,
-    discount: 0,
-    shortDescription: t('accessoryDetail.product.shortDescription'),
-    description: t('accessoryDetail.product.description'),
-    features: accessoryDetailTranslations[language].product.features,
-    specs: accessoryDetailTranslations[language].product.specs,
-    status: t('common.status.inStock', language === 'en' ? 'In Stock' : 'Còn hàng')
-  };
-  
-  const mockRelatedProducts = [
-    {
-      id: 'chalk-2',
-      name: 'TOURNAMENT CHALK',
-      category: 'chalks',
-      image: '/images/accessories/tournament-chalk.jpg',
-      price: 15.99,
-      path: '/products/accessories/chalks/tournament',
-      status: 'In Stock',
-      colors: ['#3366FF', '#FF3366'],
-      discount: 15,
-      isNew: true
-    },
-    {
-      id: 'tip-1',
-      name: 'PRO TIP SET',
-      category: 'tips',
-      image: '/images/accessories/pro-tip-set.jpg',
-      price: 24.99,
-      path: '/products/accessories/tips/pro-set',
-      status: 'In Stock',
-      colors: [],
-      discount: 0,
-      isNew: true
-    }
-  ];
-  
+
   useEffect(() => {
-    // Mô phỏng API call để lấy chi tiết sản phẩm
-    setProduct(accessoryData);
-    setSelectedImage(accessoryData.images[0]);
-    setSelectedColor(accessoryData.colors[0]);
-    setRelatedProducts(mockRelatedProducts);
-  }, [category, id]);
+    // Load data
+    // ...
+  }, [id]);
   
+  // 3. Các hàm xử lý sự kiện
   const handleBack = () => {
     navigate(-1);
   };
@@ -156,14 +111,15 @@ const AccessoryDetail = () => {
     navigate(path);
   };
   
-  if (!product) {
+  // 4. Return JSX
+  if (!accessory) {
     return <div className="loading">{t('accessoryDetail.loading')}</div>;
   }
   
   // Tính giá sau giảm giá nếu có
-  const finalPrice = product.discount 
-    ? product.price * (1 - product.discount / 100) 
-    : product.price;
+  const finalPrice = accessory.discount 
+    ? accessory.price * (1 - accessory.discount / 100) 
+    : accessory.price;
   
   return (
     <div className="product-detail-page">
@@ -176,43 +132,43 @@ const AccessoryDetail = () => {
       <div className="product-detail-container">
         <div className="product-detail-left">
           <div className="product-main-image">
-            <img src={selectedImage} alt={product.name} />
+            <img src={selectedImage} alt={accessory.name} />
           </div>
           <div className="product-thumbnails">
-            {product.images.map((image, index) => (
+            {accessory.images.map((image, index) => (
               <div 
                 key={index} 
                 className={`thumbnail ${selectedImage === image ? 'active' : ''}`}
                 onClick={() => handleImageClick(image)}
               >
-                <img src={image} alt={`${product.name} ${index+1}`} />
+                <img src={image} alt={`${accessory.name} ${index+1}`} />
               </div>
             ))}
           </div>
         </div>
         
         <div className="product-detail-right">
-          <h1 className="product-title">{product.name}</h1>
+          <h1 className="product-title">{accessory.name}</h1>
           
           <div className="product-price-container">
-            {product.discount > 0 && (
-              <span className="original-price">${product.price.toFixed(2)}</span>
+            {accessory.discount > 0 && (
+              <span className="original-price">${accessory.price.toFixed(2)}</span>
             )}
             <span className="final-price">${finalPrice.toFixed(2)}</span>
-            {product.discount > 0 && (
-              <span className="discount-tag">-{product.discount}%</span>
+            {accessory.discount > 0 && (
+              <span className="discount-tag">-{accessory.discount}%</span>
             )}
           </div>
           
-          <div className="product-status">{product.status}</div>
+          <div className="product-status">{accessory.status}</div>
           
-          <p className="product-short-description">{product.shortDescription}</p>
+          <p className="product-short-description">{accessory.shortDescription}</p>
           
-          {product.colors && product.colors.length > 0 && (
+          {accessory.colors && accessory.colors.length > 0 && (
             <div className="color-selection">
               <h3>{t('accessoryDetail.color')}</h3>
               <div className="color-options">
-                {product.colors.map((color, index) => (
+                {accessory.colors.map((color, index) => (
                   <div 
                     key={index} 
                     className={`color-option ${selectedColor === color ? 'active' : ''}`}
@@ -249,7 +205,7 @@ const AccessoryDetail = () => {
         
         <div className="tab-content">
           <div className="description-tab">
-            <p>{product.description}</p>
+            <p>{accessory.description}</p>
           </div>
         </div>
       </div>

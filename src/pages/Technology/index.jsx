@@ -1,11 +1,56 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage, t } from '../../contexts/LanguageContext';
+import { SearchBar } from '../../components/ProductsPage/SearchBar';
+import { Pagination } from '../../components/ProductsPage/Pagination';
 import './styles.css';
 
+// Bản dịch cho trang Technology
+const technologyTranslations = {
+  en: {
+    bannerTitle: 'OUR TECHNOLOGY',
+    bannerDesc: 'Explore the innovations and advanced techniques behind Sonit Custom products',
+    searchPlaceholder: 'Search articles...',
+    categories: [
+      { id: 'all', name: 'ALL ARTICLES' },
+      { id: 'shaft', name: 'SHAFT TECHNOLOGY' },
+      { id: 'butt', name: 'BUTT TECHNOLOGY' },
+      { id: 'manufacturing', name: 'MANUFACTURING' },
+      { id: 'materials', name: 'MATERIALS' },
+      { id: 'joints', name: 'JOINT SYSTEMS' }
+    ],
+    readMore: 'Read more',
+    minRead: 'min read'
+  },
+  vi: {
+    bannerTitle: 'CÔNG NGHỆ CỦA CHÚNG TÔI',
+    bannerDesc: 'Khám phá những đổi mới và kỹ thuật tiên tiến đằng sau sản phẩm của Sonit Custom',
+    searchPlaceholder: 'Tìm kiếm bài viết...',
+    categories: [
+      { id: 'all', name: 'TẤT CẢ BÀI VIẾT' },
+      { id: 'shaft', name: 'CÔNG NGHỆ THÂN CƠ' },
+      { id: 'butt', name: 'CÔNG NGHỆ ĐUÔI CƠ' },
+      { id: 'manufacturing', name: 'SẢN XUẤT' },
+      { id: 'materials', name: 'VẬT LIỆU' },
+      { id: 'joints', name: 'HỆ THỐNG KHỚP NỐI' }
+    ],
+    readMore: 'Đọc tiếp',
+    minRead: 'phút đọc'
+  }
+};
+
 const TechnologyPage = () => {
-  const { language } = useLanguage();
+  const { language, registerTranslations } = useLanguage();
   const [activeCategory, setActiveCategory] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sortOption, setSortOption] = useState('newest');
+  const navigate = useNavigate();
+
+  // Đăng ký bản dịch
+  useEffect(() => {
+    registerTranslations('technology', technologyTranslations);
+  }, [registerTranslations]);
   
   // Dữ liệu mẫu cho các bài viết blog
   const blogPosts = [
@@ -101,20 +146,30 @@ const TechnologyPage = () => {
     }
   ];
 
-  // Lọc bài viết theo danh mục
-  const filteredPosts = activeCategory === 'all' 
-    ? blogPosts 
-    : blogPosts.filter(post => post.category === activeCategory);
-
-  // Danh sách các danh mục
-  const categories = [
-    { id: 'all', name: { en: 'All Articles', vi: 'Tất cả bài viết' } },
-    { id: 'shaft', name: { en: 'Shaft Technology', vi: 'Công nghệ thân cơ' } },
-    { id: 'butt', name: { en: 'Butt Technology', vi: 'Công nghệ đuôi cơ' } },
-    { id: 'manufacturing', name: { en: 'Manufacturing', vi: 'Sản xuất' } },
-    { id: 'materials', name: { en: 'Materials', vi: 'Vật liệu' } },
-    { id: 'joints', name: { en: 'Joint Systems', vi: 'Hệ thống khớp nối' } }
-  ];
+  const categories = technologyTranslations[language].categories;
+  
+  // Xử lý thay đổi danh mục
+  const handleCategoryChange = (categoryId) => {
+    setActiveCategory(categoryId);
+    setCurrentPage(1);
+  };
+  
+  // Xử lý tìm kiếm
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+    setCurrentPage(1);
+  };
+  
+  // Xử lý khi click vào bài viết
+  const handleBlogClick = (id) => {
+    navigate(`/technology/blog/${id}`);
+  };
+  
+  // Xử lý thay đổi trang
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo(0, 0);
+  };
 
   // Format date
   const formatDate = (dateString) => {
@@ -126,36 +181,68 @@ const TechnologyPage = () => {
     });
   };
 
+  // Lọc bài viết theo danh mục
+  let filteredPosts = blogPosts;
+  
+  if (activeCategory !== 'all') {
+    filteredPosts = filteredPosts.filter(post => post.category === activeCategory);
+  }
+  
+  // Lọc theo search term
+  if (searchTerm) {
+    const term = searchTerm.toLowerCase();
+    filteredPosts = filteredPosts.filter(post => 
+      post.title[language].toLowerCase().includes(term) ||
+      post.excerpt[language].toLowerCase().includes(term)
+    );
+  }
+  
+  // Sắp xếp bài viết
+  switch (sortOption) {
+    case 'newest':
+      filteredPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+      break;
+    case 'oldest':
+      filteredPosts.sort((a, b) => new Date(a.date) - new Date(b.date));
+      break;
+    default:
+      break;
+  }
+  
+  // Phân trang
+  const itemsPerPage = 6;
+  const totalPages = Math.ceil(filteredPosts.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentPosts = filteredPosts.slice(startIndex, endIndex);
+
   return (
-    <div className="technology-blog-page">
-      <div className="tech-hero">
-        <h1>{language === 'vi' ? 'CÔNG NGHỆ CỦA CHÚNG TÔI' : 'OUR TECHNOLOGY'}</h1>
-        <p>
-          {language === 'vi' 
-            ? 'Khám phá những đổi mới và kỹ thuật tiên tiến đằng sau sản phẩm của Sonit Custom' 
-            : 'Explore the innovations and advanced techniques behind Sonit Custom products'}
-        </p>
+    <div className="products-page technology-blog-page">
+      <div className="products-banner tech-hero">
+        <h1>{t('technology.bannerTitle')}</h1>
+        <p>{t('technology.bannerDesc')}</p>
       </div>
 
-      <div className="blog-container">
-        <div className="blog-filter">
-          <h3>{language === 'vi' ? 'Danh mục' : 'Categories'}</h3>
-          <div className="category-buttons">
-            {categories.map(category => (
-              <button 
-                key={category.id}
-                className={activeCategory === category.id ? 'active' : ''}
-                onClick={() => setActiveCategory(category.id)}
-              >
-                {category.name[language]}
-              </button>
-            ))}
-          </div>
+      <div className="products-content">
+        <div className="products-search-bar">
+          <SearchBar onSearch={handleSearch} placeholder={t('technology.searchPlaceholder')} />
         </div>
-
+        
+        <div className="products-filter">
+          {categories.map(category => (
+            <button 
+              key={category.id} 
+              className={`category-button ${activeCategory === category.id ? 'active' : ''}`}
+              onClick={() => handleCategoryChange(category.id)}
+            >
+              {category.name}
+            </button>
+          ))}
+        </div>
+        
         <div className="blog-grid">
-          {filteredPosts.map(post => (
-            <Link to={`/technology/blog/${post.id}`} className="blog-card" key={post.id}>
+          {currentPosts.map(post => (
+            <div className="blog-card" key={post.id} onClick={() => handleBlogClick(post.id)}>
               <div className="blog-image">
                 <img src={post.image} alt={post.title[language]} />
               </div>
@@ -163,18 +250,26 @@ const TechnologyPage = () => {
                 <div className="blog-meta">
                   <span className="blog-date">{formatDate(post.date)}</span>
                   <span className="blog-read-time">
-                    {post.readTime} {language === 'vi' ? 'phút đọc' : 'min read'}
+                    {post.readTime} {t('technology.minRead')}
                   </span>
                 </div>
                 <h2 className="blog-title">{post.title[language]}</h2>
                 <p className="blog-excerpt">{post.excerpt[language]}</p>
                 <span className="read-more">
-                  {language === 'vi' ? 'Đọc tiếp' : 'Read more'} →
+                  {t('technology.readMore')} →
                 </span>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
+        
+        {totalPages > 1 && (
+          <Pagination 
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        )}
       </div>
     </div>
   );
