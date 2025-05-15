@@ -1,0 +1,7 @@
+Thư mục này dùng để lưu trữ các custom React hooks.
+
+Ví dụ:
+- useWindowSize.js - Hook để theo dõi kích thước cửa sổ trình duyệt
+- useScrollPosition.js - Hook để theo dõi vị trí cuộn
+- useLocalStorage.js - Hook để tương tác với localStorage
+- useFetch.js - Hook để xử lý các yêu cầu API 

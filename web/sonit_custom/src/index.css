@@ -1,0 +1,100 @@
+:root {
+  --primary-font: 'Montserrat', sans-serif;
+  --heading-font: 'Oswald', sans-serif;
+  --primary-color: #ffffff;
+  --secondary-color: #cccccc;
+  --accent-color: #006eb6;
+  --background-color: #000000;
+  --border-color: #222222;
+  --title-glow: 0 0 10px rgba(255, 255, 255, 0.5);
+  --title-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  
+  font-family: var(--primary-font);
+  line-height: 1.5;
+  font-weight: 400;
+  
+  color-scheme: dark;
+  color: var(--primary-color);
+  background-color: var(--background-color);
+  
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--background-color);
+  color: var(--primary-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--heading-font);
+  line-height: 1.1;
+  letter-spacing: 1px;
+}
+
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 1.8em;
+  margin-bottom: 1rem;
+}
+
+button {
+  border-radius: 0;
+  border: 1px solid var(--primary-color);
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: var(--primary-font);
+  background-color: transparent;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.25s, transform 0.2s;
+}
+
+button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+
+a:hover {
+  color: var(--accent-color);
+  text-shadow: 0 0 8px rgba(0, 110, 182, 0.5);
+}
+
+.text-glow {
+  text-shadow: var(--title-glow);
+}
+
+.neon-text {
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #0073e6, 0 0 20px #0073e6, 0 0 25px #0073e6;
+  color: #fff;
+}
+
+.transition-all {
+  transition: all 0.3s ease;
+}
