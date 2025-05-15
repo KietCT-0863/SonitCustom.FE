@@ -12,6 +12,7 @@ const accessoriesTranslations = {
   en: {
     bannerTitle: 'EXCEED ACCESSORIES',
     bannerDesc: 'Essential accessories for your perfect game',
+    searchPlaceholder: 'Search accessories...',
     categories: [
       { id: 'all', name: 'ALL' },
       { id: 'chalks', name: 'CHALKS' },
@@ -43,6 +44,7 @@ const accessoriesTranslations = {
   vi: {
     bannerTitle: 'PHỤ KIỆN EXCEED',
     bannerDesc: 'Phụ kiện thiết yếu cho trận đấu hoàn hảo',
+    searchPlaceholder: 'Tìm kiếm phụ kiện...',
     categories: [
       { id: 'all', name: 'TẤT CẢ' },
       { id: 'chalks', name: 'PHẤN' },
@@ -74,6 +76,7 @@ const accessoriesTranslations = {
 };
 
 const AccessoriesPage = () => {
+  // State hooks
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -90,6 +93,7 @@ const AccessoriesPage = () => {
   const accessoryCategories = accessoriesTranslations[language].categories;
   const filterOptions = accessoriesTranslations[language].filter;
   
+  // Mock data
   const accessoryProducts = [
     {
       id: 1,
@@ -166,6 +170,7 @@ const AccessoriesPage = () => {
     }
   ];
   
+  // Handler functions
   const handleCategoryChange = (categoryId) => {
     setActiveCategory(categoryId);
     setCurrentPage(1);
@@ -236,7 +241,7 @@ const AccessoriesPage = () => {
   const currentProducts = filteredProducts.slice(startIndex, endIndex);
   
   return (
-    <div className="products-page">
+    <div className="products-page accessories-page">
       <div className="products-banner accessories-banner">
         <h1>{t('accessories.bannerTitle')}</h1>
         <p>{t('accessories.bannerDesc')}</p>
@@ -244,7 +249,7 @@ const AccessoriesPage = () => {
       
       <div className="products-content">
         <div className="products-search-bar">
-          <SearchBar onSearch={handleSearch} />
+          <SearchBar onSearch={handleSearch} placeholder={t('accessories.searchPlaceholder')} />
         </div>
         
         <div className="products-filter">

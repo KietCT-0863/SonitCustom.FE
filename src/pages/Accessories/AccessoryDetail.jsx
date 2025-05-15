@@ -17,6 +17,8 @@ const accessoryDetailTranslations = {
     features: 'Features',
     specifications: 'Specifications',
     relatedProducts: 'Related Products',
+    notFound: 'Accessory not found',
+    backToAccessories: 'Back to Accessories',
     product: {
       name: 'PREMIUM CHALK',
       shortDescription: 'High-performance chalk for optimal tip grip',
@@ -49,6 +51,8 @@ const accessoryDetailTranslations = {
     features: 'Đặc điểm',
     specifications: 'Thông số kỹ thuật',
     relatedProducts: 'Sản phẩm liên quan',
+    notFound: 'Không tìm thấy phụ kiện',
+    backToAccessories: 'Quay lại trang Phụ kiện',
     product: {
       name: 'PHẤN CAO CẤP',
       shortDescription: 'Phấn hiệu suất cao cho độ bám tip tối ưu',
@@ -72,7 +76,7 @@ const accessoryDetailTranslations = {
 };
 
 const AccessoryDetail = () => {
-  // 1. Khai báo tất cả state hooks trước
+  // 1. State hooks
   const { id } = useParams();
   const navigate = useNavigate();
   const { language, registerTranslations } = useLanguage();
@@ -84,17 +88,71 @@ const AccessoryDetail = () => {
   const [selectedTab, setSelectedTab] = useState('description');
   const [relatedProducts, setRelatedProducts] = useState([]);
   
-  // 2. Sau đó đến các effect hooks
+  // 2. Effect hooks
   useEffect(() => {
     registerTranslations('accessoryDetail', accessoryDetailTranslations);
   }, [registerTranslations]);
 
+  // Mock data - trong thực tế sẽ fetch từ API
+  const accessoryData = {
+    id: id,
+    name: t('accessoryDetail.product.name'),
+    category: 'chalks',
+    images: [
+      '/images/accessories/premium-chalk-detail.jpg',
+      '/images/accessories/premium-chalk-detail-2.jpg',
+      '/images/accessories/premium-chalk-detail-3.jpg'
+    ],
+    colors: ['#3366FF', '#FFFFFF', '#00CC66'],
+    price: 12.99,
+    discount: 0,
+    shortDescription: t('accessoryDetail.product.shortDescription'),
+    description: t('accessoryDetail.product.description'),
+    features: accessoryDetailTranslations[language].product.features,
+    specs: accessoryDetailTranslations[language].product.specs,
+    status: t('common.status.inStock', 'In Stock')
+  };
+  
+  const mockRelatedProducts = [
+    {
+      id: 'chalk-2',
+      name: 'TOURNAMENT CHALK',
+      category: 'chalks',
+      image: '/images/accessories/tournament-chalk.jpg',
+      price: 15.99,
+      path: '/products/accessories/chalks/tournament',
+      status: t('common.status.inStock', 'In Stock'),
+      colors: ['#3366FF', '#FF3366'],
+      discount: 15,
+      isNew: true
+    },
+    {
+      id: 'tip-1',
+      name: 'PRO TIP SET',
+      category: 'tips',
+      image: '/images/accessories/pro-tip-set.jpg',
+      price: 24.99,
+      path: '/products/accessories/tips/pro-set',
+      status: t('common.status.inStock', 'In Stock'),
+      colors: [],
+      discount: 0,
+      isNew: true
+    }
+  ];
+  
   useEffect(() => {
-    // Load data
-    // ...
+    // Mô phỏng API call để lấy chi tiết sản phẩm
+    setLoading(true);
+    setTimeout(() => {
+      setAccessory(accessoryData);
+      setSelectedImage(accessoryData.images[0]);
+      setSelectedColor(accessoryData.colors[0]);
+      setRelatedProducts(mockRelatedProducts);
+      setLoading(false);
+    }, 500);
   }, [id]);
   
-  // 3. Các hàm xử lý sự kiện
+  // 3. Handler functions
   const handleBack = () => {
     navigate(-1);
   };
@@ -107,13 +165,32 @@ const AccessoryDetail = () => {
     setSelectedColor(color);
   };
   
+  const handleTabClick = (tab) => {
+    setSelectedTab(tab);
+  };
+  
   const handleRelatedProductClick = (path) => {
     navigate(path);
   };
   
-  // 4. Return JSX
+  // 4. Render functions
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+      </div>
+    );
+  }
+  
   if (!accessory) {
-    return <div className="loading">{t('accessoryDetail.loading')}</div>;
+    return (
+      <div className="not-found">
+        <h2>{t('accessoryDetail.notFound')}</h2>
+        <a href="/products/accessories" className="back-link">
+          {t('accessoryDetail.backToAccessories')}
+        </a>
+      </div>
+    );
   }
   
   // Tính giá sau giảm giá nếu có
@@ -183,9 +260,9 @@ const AccessoryDetail = () => {
           <div className="quantity-selector">
             <h3>{t('accessoryDetail.quantity')}</h3>
             <div className="quantity-control">
-              <button className="qty-btn dec">-</button>
-              <input type="number" min="1" value="1" readOnly />
-              <button className="qty-btn inc">+</button>
+              <button className="qty-btn dec" onClick={() => quantity > 1 && setQuantity(quantity - 1)}>-</button>
+              <input type="number" min="1" value={quantity} readOnly />
+              <button className="qty-btn inc" onClick={() => setQuantity(quantity + 1)}>+</button>
             </div>
           </div>
           
@@ -198,15 +275,57 @@ const AccessoryDetail = () => {
       
       <div className="product-details-tabs">
         <div className="tabs-header">
-          <div className="tab active">{t('accessoryDetail.description')}</div>
-          <div className="tab">{t('accessoryDetail.features')}</div>
-          <div className="tab">{t('accessoryDetail.specifications')}</div>
+          <div 
+            className={`tab ${selectedTab === 'description' ? 'active' : ''}`}
+            onClick={() => handleTabClick('description')}
+          >
+            {t('accessoryDetail.description')}
+          </div>
+          <div 
+            className={`tab ${selectedTab === 'features' ? 'active' : ''}`}
+            onClick={() => handleTabClick('features')}
+          >
+            {t('accessoryDetail.features')}
+          </div>
+          <div 
+            className={`tab ${selectedTab === 'specifications' ? 'active' : ''}`}
+            onClick={() => handleTabClick('specifications')}
+          >
+            {t('accessoryDetail.specifications')}
+          </div>
         </div>
         
         <div className="tab-content">
-          <div className="description-tab">
-            <p>{accessory.description}</p>
-          </div>
+          {selectedTab === 'description' && (
+            <div className="description-tab">
+              <p>{accessory.description}</p>
+            </div>
+          )}
+          
+          {selectedTab === 'features' && (
+            <div className="features-tab">
+              <ul className="key-takeaways-list">
+                {accessory.features.map((feature, index) => (
+                  <li key={index}>{feature}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          
+          {selectedTab === 'specifications' && (
+            <div className="specifications-tab">
+              <table className="specs-table">
+                <tbody>
+                  {Object.entries(accessory.specs).map(([key, value], index) => (
+                    <tr key={index}>
+                      <th>{key.charAt(0).toUpperCase() + key.slice(1)}</th>
+                      <td>{value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
       

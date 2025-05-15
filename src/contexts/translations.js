@@ -315,60 +315,72 @@ export const allTranslations = {
       reset: 'Đặt lại'
     }
   },
-  productCard: {
+  technology: {
     en: {
-      viewDetails: 'View Details'
+      bannerTitle: 'OUR TECHNOLOGY',
+      bannerDesc: 'Explore the innovations and advanced techniques behind Sonit Custom products',
+      searchPlaceholder: 'Search articles...',
+      readMore: 'Read more',
+      minRead: 'min read',
+      title: 'Technology',
+      description: 'Our latest technologies and innovations'
     },
     vi: {
-      viewDetails: 'Xem chi tiết'
+      bannerTitle: 'CÔNG NGHỆ CỦA CHÚNG TÔI',
+      bannerDesc: 'Khám phá những đổi mới và kỹ thuật tiên tiến đằng sau sản phẩm của Sonit Custom',
+      searchPlaceholder: 'Tìm kiếm bài viết...',
+      readMore: 'Đọc tiếp',
+      minRead: 'phút đọc',
+      title: 'Công nghệ',
+      description: 'Công nghệ và đổi mới mới nhất của chúng tôi'
+    }
+  },
+  blogDetail: {
+    en: {
+      loading: 'Loading...',
+      backButton: 'Back',
+      relatedArticles: 'Related Articles',
+      description: 'Article Content',
+      features: 'Key Takeaways',
+      specifications: 'Technical Details',
+      notFound: 'Blog post not found',
+      backToTech: 'Back to Technology page',
+      category: 'Category: ',
+      back: 'Back',
+      relatedPosts: 'Related Posts'
+    },
+    vi: {
+      loading: 'Đang tải...',
+      backButton: 'Quay lại',
+      relatedArticles: 'Bài viết liên quan',
+      description: 'Nội dung bài viết',
+      features: 'Điểm chính',
+      specifications: 'Chi tiết kỹ thuật',
+      notFound: 'Không tìm thấy bài viết',
+      backToTech: 'Quay lại trang công nghệ',
+      category: 'Danh mục: ',
+      back: 'Quay lại',
+      relatedPosts: 'Bài viết liên quan'
     }
   },
   shafts: {
     en: {
+      bannerTitle: 'EXCEED SHAFTS',
+      bannerDesc: 'Precision engineered shafts for optimal performance',
+      searchPlaceholder: 'Search shafts...',
       title: 'Shafts',
-      description: 'Discover our premium shafts'
+      description: 'Premium quality shafts'
     },
     vi: {
-      title: 'Thân Cơ',
-      description: 'Khám phá các thân cơ cao cấp của chúng tôi'
+      bannerTitle: 'THÂN CƠ EXCEED',
+      bannerDesc: 'Thân cơ công nghệ cao cho hiệu suất tối ưu',
+      searchPlaceholder: 'Tìm kiếm thân cơ...',
+      title: 'Thân cơ',
+      description: 'Thân cơ chất lượng cao cấp'
     }
   },
   shaftDetail: {
     en: {
-      title: 'Shaft Details',
-      description: 'Specifications and details',
-      features: 'Features',
-      specs: 'Specifications',
-      materials: 'Materials',
-      related: 'Related Products',
-      back: 'Back to Shafts'
-    },
-    vi: {
-      title: 'Chi tiết thân cơ',
-      description: 'Thông số kỹ thuật và chi tiết',
-      features: 'Đặc điểm',
-      specs: 'Thông số kỹ thuật',
-      materials: 'Vật liệu',
-      related: 'Sản phẩm liên quan',
-      back: 'Quay lại trang Thân cơ'
-    }
-  },
-  cues: {
-    en: {
-      title: 'Cues',
-      description: 'Explore our premium billiard cues',
-      filter: 'Filter',
-      sort: 'Sort By'
-    },
-    vi: {
-      title: 'Cơ Bi-a',
-      description: 'Khám phá bộ sưu tập cơ bi-a cao cấp',
-      filter: 'Lọc',
-      sort: 'Sắp xếp theo'
-    }
-  },
-  cueDetail: {
-    en: {
       loading: 'Loading...',
       backButton: 'Back',
       color: 'Color:',
@@ -378,9 +390,10 @@ export const allTranslations = {
       description: 'Description',
       features: 'Features',
       specifications: 'Specifications',
-      relatedProducts: 'Related Cues',
-      notFound: 'Cue not found',
-      backToCues: 'Back to Cues'
+      relatedProducts: 'Related Products',
+      notFound: 'Shaft not found',
+      backToShafts: 'Back to Shafts',
+      back: 'Back'
     },
     vi: {
       loading: 'Đang tải...',
@@ -392,53 +405,10 @@ export const allTranslations = {
       description: 'Mô tả',
       features: 'Đặc điểm',
       specifications: 'Thông số kỹ thuật',
-      relatedProducts: 'Cơ liên quan',
-      notFound: 'Không tìm thấy cơ',
-      backToCues: 'Quay lại trang Cơ'
-    }
-  },
-  accessories: {
-    en: {
-      title: 'Accessories',
-      description: 'Premium billiard accessories for enhanced play',
-      filter: 'Filter',
-      sort: 'Sort By'
-    },
-    vi: {
-      title: 'Phụ Kiện',
-      description: 'Phụ kiện bi-a cao cấp nâng cao trải nghiệm chơi',
-      filter: 'Lọc',
-      sort: 'Sắp xếp theo'
-    }
-  },
-  accessoryDetail: {
-    en: {
-      loading: 'Loading...',
-      backButton: 'Back',
-      color: 'Color:',
-      quantity: 'Quantity:',
-      addToCart: 'ADD TO CART',
-      buyNow: 'BUY NOW',
-      description: 'Description',
-      features: 'Features',
-      specifications: 'Specifications',
-      relatedProducts: 'Related Accessories',
-      notFound: 'Accessory not found',
-      backToAccessories: 'Back to Accessories'
-    },
-    vi: {
-      loading: 'Đang tải...',
-      backButton: 'Quay lại',
-      color: 'Màu sắc:',
-      quantity: 'Số lượng:',
-      addToCart: 'THÊM VÀO GIỎ HÀNG',
-      buyNow: 'MUA NGAY',
-      description: 'Mô tả',
-      features: 'Đặc điểm',
-      specifications: 'Thông số kỹ thuật',
-      relatedProducts: 'Phụ kiện liên quan',
-      notFound: 'Không tìm thấy phụ kiện',
-      backToAccessories: 'Quay lại trang Phụ kiện'
+      relatedProducts: 'Sản phẩm liên quan',
+      notFound: 'Không tìm thấy thân cơ',
+      backToShafts: 'Quay lại trang Thân cơ',
+      back: 'Quay lại'
     }
   },
   cases: {
@@ -446,15 +416,15 @@ export const allTranslations = {
       bannerTitle: 'EXCEED CASES',
       bannerDesc: 'Protect your equipment with our premium cases',
       searchPlaceholder: 'Search cases...',
-      filter: 'Filter',
-      sort: 'Sort By'
+      title: 'Cases',
+      description: 'Protection for your equipment'
     },
     vi: {
       bannerTitle: 'TÚI ĐỰNG EXCEED',
       bannerDesc: 'Bảo vệ thiết bị của bạn với túi đựng cao cấp',
       searchPlaceholder: 'Tìm kiếm túi đựng...',
-      filter: 'Lọc',
-      sort: 'Sắp xếp theo'
+      title: 'Túi đựng',
+      description: 'Bảo vệ cho thiết bị của bạn'
     }
   },
   caseDetail: {
@@ -468,9 +438,10 @@ export const allTranslations = {
       description: 'Description',
       features: 'Features',
       specifications: 'Specifications',
-      relatedProducts: 'Related Cases',
+      relatedProducts: 'Related Products',
       notFound: 'Case not found',
-      backToCases: 'Back to Cases'
+      backToCases: 'Back to Cases',
+      back: 'Back'
     },
     vi: {
       loading: 'Đang tải...',
@@ -482,53 +453,118 @@ export const allTranslations = {
       description: 'Mô tả',
       features: 'Đặc điểm',
       specifications: 'Thông số kỹ thuật',
-      relatedProducts: 'Túi đựng liên quan',
+      relatedProducts: 'Sản phẩm liên quan',
       notFound: 'Không tìm thấy túi đựng',
-      backToCases: 'Quay lại trang Túi đựng'
+      backToCases: 'Quay lại trang Túi đựng',
+      back: 'Quay lại'
     }
   },
-  technology: {
+  cues: {
     en: {
-      bannerTitle: 'OUR TECHNOLOGY',
-      bannerDesc: 'Explore the innovations and advanced techniques behind Sonit Custom products',
-      searchPlaceholder: 'Search articles...',
-      filter: 'Filter',
-      sort: 'Sort By',
-      readMore: 'Read more',
-      minRead: 'min read'
+      bannerTitle: 'EXCEED CUES',
+      bannerDesc: 'Precision engineered for performance',
+      searchPlaceholder: 'Search cues...',
+      title: 'Cues',
+      description: 'Professional billiard cues'
     },
     vi: {
-      bannerTitle: 'CÔNG NGHỆ CỦA CHÚNG TÔI',
-      bannerDesc: 'Khám phá những đổi mới và kỹ thuật tiên tiến đằng sau sản phẩm của Sonit Custom',
-      searchPlaceholder: 'Tìm kiếm bài viết...',
-      filter: 'Lọc',
-      sort: 'Sắp xếp theo',
-      readMore: 'Đọc tiếp',
-      minRead: 'phút đọc'
+      bannerTitle: 'CƠ EXCEED',
+      bannerDesc: 'Chế tác chuẩn xác cho hiệu suất tối ưu',
+      searchPlaceholder: 'Tìm kiếm cơ...',
+      title: 'Cơ billiard',
+      description: 'Cơ billiard chuyên nghiệp'
     }
   },
-  blogDetail: {
+  cueDetail: {
     en: {
       loading: 'Loading...',
       backButton: 'Back',
-      relatedArticles: 'Related Articles',
-      description: 'Article Content',
-      features: 'Key Takeaways',
-      specifications: 'Technical Details',
-      notFound: 'Blog post not found',
-      backToTech: 'Back to Technology page',
-      category: 'Category: '
+      color: 'Color:',
+      quantity: 'Quantity:',
+      addToCart: 'ADD TO CART',
+      buyNow: 'BUY NOW',
+      description: 'Description',
+      features: 'Features',
+      specifications: 'Specifications',
+      relatedProducts: 'Related Products',
+      notFound: 'Cue not found',
+      backToCues: 'Back to Cues',
+      back: 'Back'
     },
     vi: {
       loading: 'Đang tải...',
       backButton: 'Quay lại',
-      relatedArticles: 'Bài viết liên quan',
-      description: 'Nội dung bài viết',
-      features: 'Điểm chính',
-      specifications: 'Chi tiết kỹ thuật',
-      notFound: 'Không tìm thấy bài viết',
-      backToTech: 'Quay lại trang công nghệ',
-      category: 'Danh mục: '
+      color: 'Màu sắc:',
+      quantity: 'Số lượng:',
+      addToCart: 'THÊM VÀO GIỎ HÀNG',
+      buyNow: 'MUA NGAY',
+      description: 'Mô tả',
+      features: 'Đặc điểm',
+      specifications: 'Thông số kỹ thuật',
+      relatedProducts: 'Sản phẩm liên quan',
+      notFound: 'Không tìm thấy cơ',
+      backToCues: 'Quay lại trang Cơ',
+      back: 'Quay lại'
+    }
+  },
+  accessories: {
+    en: {
+      bannerTitle: 'EXCEED ACCESSORIES',
+      bannerDesc: 'Essential accessories for your perfect game',
+      searchPlaceholder: 'Search accessories...',
+      title: 'Accessories',
+      description: 'Essential billiard accessories'
+    },
+    vi: {
+      bannerTitle: 'PHỤ KIỆN EXCEED',
+      bannerDesc: 'Phụ kiện thiết yếu cho trận đấu hoàn hảo',
+      searchPlaceholder: 'Tìm kiếm phụ kiện...',
+      title: 'Phụ kiện',
+      description: 'Phụ kiện billiard thiết yếu'
+    }
+  },
+  accessoryDetail: {
+    en: {
+      loading: 'Loading...',
+      backButton: 'Back',
+      color: 'Color:',
+      quantity: 'Quantity:',
+      addToCart: 'ADD TO CART',
+      buyNow: 'BUY NOW',
+      description: 'Description',
+      features: 'Features',
+      specifications: 'Specifications',
+      relatedProducts: 'Related Products',
+      notFound: 'Accessory not found',
+      backToAccessories: 'Back to Accessories',
+      back: 'Back'
+    },
+    vi: {
+      loading: 'Đang tải...',
+      backButton: 'Quay lại',
+      color: 'Màu sắc:',
+      quantity: 'Số lượng:',
+      addToCart: 'THÊM VÀO GIỎ HÀNG',
+      buyNow: 'MUA NGAY',
+      description: 'Mô tả',
+      features: 'Đặc điểm',
+      specifications: 'Thông số kỹ thuật',
+      relatedProducts: 'Sản phẩm liên quan',
+      notFound: 'Không tìm thấy phụ kiện',
+      backToAccessories: 'Quay lại trang Phụ kiện',
+      back: 'Quay lại'
+    }
+  },
+  productCard: {
+    en: {
+      new: 'New',
+      sale: 'Sale',
+      viewDetails: 'View Details'
+    },
+    vi: {
+      new: 'Mới',
+      sale: 'Giảm giá',
+      viewDetails: 'Xem chi tiết'
     }
   }
 };
