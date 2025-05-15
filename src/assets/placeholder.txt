@@ -1,7 +1,0 @@
-Thư mục này dùng để lưu trữ các tài nguyên tĩnh như:
-- Hình ảnh
-- Icons
-- Fonts
-- Các file media khác
-
-Trong ứng dụng thực tế, các tài nguyên tĩnh nên được di chuyển vào đây thay vì folder public. 
