@@ -1,0 +1,110 @@
+:root {
+  --primary-font: 'Montserrat', sans-serif;
+  --heading-font: 'Oswald', sans-serif;
+  --primary-color: #ffffff;
+  --secondary-color: #cccccc;
+  --accent-color: #ffffff;
+  --background-color: #000000;
+  --border-color: #222222;
+  --title-glow: none;
+  --title-shadow: none;
+  --bg-color: #000000;
+  --card-border-radius: 12px;
+  --button-border-radius: 8px;
+  --input-border-radius: 6px;
+  --default-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  --hover-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+  --focus-ring: 0 0 0 3px rgba(255, 255, 255, 0.3);
+  --transition-speed: 0.3s;
+  
+  font-family: var(--primary-font);
+  line-height: 1.5;
+  font-weight: 300;
+  
+  color-scheme: dark;
+  color: var(--primary-color);
+  background-color: var(--background-color);
+  
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--background-color);
+  color: var(--primary-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--heading-font);
+  line-height: 1.1;
+  letter-spacing: 1px;
+  font-weight: 300;
+}
+
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 1.8em;
+  margin-bottom: 1rem;
+}
+
+button {
+  border-radius: 0;
+  border: 1px solid var(--primary-color);
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 300;
+  font-family: var(--primary-font);
+  background-color: transparent;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.25s, transform 0.2s;
+}
+
+button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+
+a:hover {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+.text-glow {
+  text-shadow: none;
+}
+
+.neon-text {
+  text-shadow: none;
+  color: #fff;
+}
+
+.transition-all {
+  transition: all 0.3s ease;
+}
