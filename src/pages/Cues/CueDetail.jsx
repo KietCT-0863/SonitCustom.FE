@@ -2,6 +2,75 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './styles.css';
 import { ProductCard } from '../../components/ProductsPage/ProductCard';
+import { useLanguage, t } from '../../contexts/LanguageContext';
+
+// Bản dịch cho component CueDetail
+const cueDetailTranslations = {
+  en: {
+    loading: 'Loading...',
+    backButton: 'Back',
+    color: 'Color:',
+    quantity: 'Quantity:',
+    addToCart: 'ADD TO CART',
+    buyNow: 'BUY NOW',
+    description: 'Description',
+    features: 'Features',
+    specifications: 'Specifications',
+    relatedProducts: 'Related Products',
+    product: {
+      name: 'EXCEED PROFESSIONAL CUE',
+      shortDescription: 'Professional grade billiard cue with advanced technology',
+      description: `Exceed Professional Cue is a premium product designed for professional players. 
+      The cue uses the most advanced technology with EXCEED's exclusive carbon fiber shaft, 
+      providing superior stability and accuracy in every shot. 
+      Designed with premium natural wood grain combined with exquisite metal details.`,
+      features: [
+        'Carbon fiber shaft reduces vibration',
+        'Butt end made from premium maple wood',
+        'Grip designed with anti-slip technology',
+        'Stainless steel joint for precision'
+      ],
+      specs: {
+        weight: '19-21oz',
+        length: '58 inches',
+        tipSize: '12-13mm',
+        material: 'Maple, Carbon Fiber, Stainless Steel'
+      }
+    }
+  },
+  vi: {
+    loading: 'Đang tải...',
+    backButton: 'Quay lại',
+    color: 'Màu sắc:',
+    quantity: 'Số lượng:',
+    addToCart: 'THÊM VÀO GIỎ HÀNG',
+    buyNow: 'MUA NGAY',
+    description: 'Mô tả',
+    features: 'Đặc điểm',
+    specifications: 'Thông số kỹ thuật',
+    relatedProducts: 'Sản phẩm liên quan',
+    product: {
+      name: 'CƠ EXCEED CHUYÊN NGHIỆP',
+      shortDescription: 'Cơ billiards chuyên nghiệp với công nghệ tiên tiến',
+      description: `Exceed Professional Cue là sản phẩm cao cấp được thiết kế cho các tay chơi chuyên nghiệp. 
+      Cây cơ sử dụng công nghệ tiên tiến nhất với shaft carbon fiber độc quyền của EXCEED, 
+      mang lại độ ổn định và độ chính xác vượt trội trong mọi cú đánh. 
+      Thiết kế với vân gỗ tự nhiên cao cấp kết hợp cùng các chi tiết kim loại tinh xảo.`,
+      features: [
+        'Carbon fiber shaft giảm độ rung',
+        'Butt end được làm từ gỗ maple cao cấp',
+        'Grip được thiết kế với công nghệ chống trượt',
+        'Joint bằng thép không gỉ chuẩn xác'
+      ],
+      specs: {
+        weight: '19-21oz',
+        length: '58 inches',
+        tipSize: '12-13mm',
+        material: 'Maple, Carbon Fiber, Stainless Steel'
+      }
+    }
+  }
+};
 
 const CueDetail = () => {
   const { category, id } = useParams();
@@ -10,11 +79,17 @@ const CueDetail = () => {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
+  const { language, registerTranslations } = useLanguage();
+  
+  // Đăng ký bản dịch
+  useEffect(() => {
+    registerTranslations('cueDetail', cueDetailTranslations);
+  }, [registerTranslations]);
   
   // Mock data - trong thực tế sẽ fetch từ API
   const cueData = {
     id: id,
-    name: 'EXCEED PROFESSIONAL CUE',
+    name: t('cueDetail.product.name'),
     category: category,
     images: [
       '/images/cues/exceed-pro-1.jpg',
@@ -24,24 +99,11 @@ const CueDetail = () => {
     colors: ['#223344', '#664422', '#FFFFFF'],
     price: 1299.99,
     discount: 10,
-    shortDescription: 'Professional grade billiard cue with advanced technology',
-    description: `Exceed Professional Cue là sản phẩm cao cấp được thiết kế cho các tay chơi chuyên nghiệp. 
-    Cây cơ sử dụng công nghệ tiên tiến nhất với shaft carbon fiber độc quyền của EXCEED, 
-    mang lại độ ổn định và độ chính xác vượt trội trong mọi cú đánh. 
-    Thiết kế với vân gỗ tự nhiên cao cấp kết hợp cùng các chi tiết kim loại tinh xảo.`,
-    features: [
-      'Carbon fiber shaft giảm độ rung',
-      'Butt end được làm từ gỗ maple cao cấp',
-      'Grip được thiết kế với công nghệ chống trượt',
-      'Joint bằng thép không gỉ chuẩn xác'
-    ],
-    specs: {
-      weight: '19-21oz',
-      length: '58 inches',
-      tipSize: '12-13mm',
-      material: 'Maple, Carbon Fiber, Stainless Steel'
-    },
-    status: 'In Stock'
+    shortDescription: t('cueDetail.product.shortDescription'),
+    description: t('cueDetail.product.description'),
+    features: cueDetailTranslations[language].product.features,
+    specs: cueDetailTranslations[language].product.specs,
+    status: t('common.status.inStock', 'In Stock')
   };
   
   const mockRelatedProducts = [
@@ -52,7 +114,7 @@ const CueDetail = () => {
       image: '/images/cues/exceed-elite.jpg',
       price: 899.99,
       path: '/products/cues/professional/pro-1',
-      status: 'In Stock',
+      status: t('common.status.inStock', 'In Stock'),
       colors: ['#223344', '#664422'],
       discount: 0,
       isNew: true
@@ -64,7 +126,7 @@ const CueDetail = () => {
       image: '/images/cues/exceed-carbon.jpg',
       price: 1099.99,
       path: '/products/cues/professional/pro-2',
-      status: 'In Stock',
+      status: t('common.status.inStock', 'In Stock'),
       colors: ['#000000', '#3366CC'],
       discount: 5,
       isNew: false
@@ -96,7 +158,7 @@ const CueDetail = () => {
   };
   
   if (!product) {
-    return <div className="loading">Đang tải...</div>;
+    return <div className="loading">{t('cueDetail.loading')}</div>;
   }
   
   // Tính giá sau giảm giá nếu có
@@ -108,7 +170,7 @@ const CueDetail = () => {
     <div className="product-detail-page">
       <div className="back-button-container">
         <button className="back-button" onClick={handleBack}>
-          <i className="fas fa-arrow-left"></i> Quay lại
+          <i className="fas fa-arrow-left"></i> {t('cueDetail.backButton')}
         </button>
       </div>
       
@@ -148,7 +210,7 @@ const CueDetail = () => {
           <p className="product-short-description">{product.shortDescription}</p>
           
           <div className="color-selection">
-            <h3>Màu sắc:</h3>
+            <h3>{t('cueDetail.color')}</h3>
             <div className="color-options">
               {product.colors.map((color, index) => (
                 <div 
@@ -162,17 +224,17 @@ const CueDetail = () => {
           </div>
           
           <div className="product-actions">
-            <button className="add-to-cart-button">THÊM VÀO GIỎ HÀNG</button>
-            <button className="buy-now-button">MUA NGAY</button>
+            <button className="add-to-cart-button">{t('cueDetail.addToCart')}</button>
+            <button className="buy-now-button">{t('cueDetail.buyNow')}</button>
           </div>
         </div>
       </div>
       
       <div className="product-details-tabs">
         <div className="tabs-header">
-          <div className="tab active">Mô tả</div>
-          <div className="tab">Đặc điểm</div>
-          <div className="tab">Thông số kỹ thuật</div>
+          <div className="tab active">{t('cueDetail.description')}</div>
+          <div className="tab">{t('cueDetail.features')}</div>
+          <div className="tab">{t('cueDetail.specifications')}</div>
         </div>
         
         <div className="tab-content">
@@ -183,7 +245,7 @@ const CueDetail = () => {
       </div>
       
       <div className="related-products-section">
-        <h2>Sản phẩm liên quan</h2>
+        <h2>{t('cueDetail.relatedProducts')}</h2>
         <div className="related-products-grid">
           {relatedProducts.map(relatedProduct => (
             <ProductCard 
