@@ -2,6 +2,74 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './styles.css';
 import { ProductCard } from '../../components/ProductsPage/ProductCard';
+import { useLanguage, t } from '../../contexts/LanguageContext';
+
+// Bản dịch cho component AccessoryDetail
+const accessoryDetailTranslations = {
+  en: {
+    loading: 'Loading...',
+    backButton: 'Back',
+    color: 'Color:',
+    quantity: 'Quantity:',
+    addToCart: 'ADD TO CART',
+    buyNow: 'BUY NOW',
+    description: 'Description',
+    features: 'Features',
+    specifications: 'Specifications',
+    relatedProducts: 'Related Products',
+    product: {
+      name: 'PREMIUM CHALK',
+      shortDescription: 'High-performance chalk for optimal tip grip',
+      description: `EXCEED Premium Chalk is a high-end product specifically designed for professional players. 
+      With its proprietary formula, EXCEED chalk increases friction between the cue tip and ball, 
+      minimizing miscues and improving shot accuracy. The chalk is tightly compressed, produces less dust, 
+      and adheres well to the cue tip.`,
+      features: [
+        'Proprietary formula for optimal grip',
+        'Low dust, keeps tables cleaner',
+        'Long-lasting performance reduces chalking frequency',
+        'Convenient box design for easy carrying'
+      ],
+      specs: {
+        weight: '0.5oz',
+        size: '1.5 inches',
+        quantity: '1 cube per box',
+        material: 'Premium silica compound'
+      }
+    }
+  },
+  vi: {
+    loading: 'Đang tải...',
+    backButton: 'Quay lại',
+    color: 'Màu sắc:',
+    quantity: 'Số lượng:',
+    addToCart: 'THÊM VÀO GIỎ HÀNG',
+    buyNow: 'MUA NGAY',
+    description: 'Mô tả',
+    features: 'Đặc điểm',
+    specifications: 'Thông số kỹ thuật',
+    relatedProducts: 'Sản phẩm liên quan',
+    product: {
+      name: 'PHẤN CAO CẤP',
+      shortDescription: 'Phấn hiệu suất cao cho độ bám tip tối ưu',
+      description: `Premium Chalk của EXCEED là sản phẩm phấn cao cấp được thiết kế đặc biệt cho các tay chơi chuyên nghiệp. 
+      Với công thức độc quyền, phấn EXCEED giúp tăng ma sát giữa tip cơ và bi, giảm thiểu khả năng bị miscue và tăng độ chính xác cho các cú đánh. 
+      Phấn được nén chặt, ít bụi, đồng thời bám dính tốt trên tip cơ.`,
+      features: [
+        'Công thức pha trộn độc quyền tạo độ bám tốt nhất',
+        'Ít bụi, giữ bàn chơi sạch sẽ hơn',
+        'Duy trì hiệu suất lâu dài không cần thoa phấn thường xuyên',
+        'Thiết kế hộp tiện lợi, dễ mang theo'
+      ],
+      specs: {
+        weight: '0.5oz',
+        size: '1.5 inches',
+        quantity: '1 viên/hộp',
+        material: 'Hợp chất silica cao cấp'
+      }
+    }
+  }
+};
 
 const AccessoryDetail = () => {
   const { category, id } = useParams();
@@ -10,11 +78,17 @@ const AccessoryDetail = () => {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
+  const { language, registerTranslations } = useLanguage();
+  
+  // Đăng ký bản dịch
+  useEffect(() => {
+    registerTranslations('accessoryDetail', accessoryDetailTranslations);
+  }, [registerTranslations]);
   
   // Mock data - trong thực tế sẽ fetch từ API
   const accessoryData = {
     id: id,
-    name: 'PREMIUM CHALK',
+    name: t('accessoryDetail.product.name'),
     category: category,
     images: [
       '/images/accessories/premium-chalk-detail.jpg',
@@ -24,23 +98,11 @@ const AccessoryDetail = () => {
     colors: ['#3366FF', '#00CC66', '#FFFFFF'],
     price: 12.99,
     discount: 0,
-    shortDescription: 'High-performance chalk for optimal tip grip',
-    description: `Premium Chalk của EXCEED là sản phẩm phấn cao cấp được thiết kế đặc biệt cho các tay chơi chuyên nghiệp. 
-    Với công thức độc quyền, phấn EXCEED giúp tăng ma sát giữa tip cơ và bi, giảm thiểu khả năng bị miscue và tăng độ chính xác cho các cú đánh. 
-    Phấn được nén chặt, ít bụi, đồng thời bám dính tốt trên tip cơ.`,
-    features: [
-      'Công thức pha trộn độc quyền tạo độ bám tốt nhất',
-      'Ít bụi, giữ bàn chơi sạch sẽ hơn',
-      'Duy trì hiệu suất lâu dài không cần thoa phấn thường xuyên',
-      'Thiết kế hộp tiện lợi, dễ mang theo'
-    ],
-    specs: {
-      weight: '0.5oz',
-      size: '1.5 inches',
-      quantity: '1 cube per box',
-      material: 'Premium silica compound'
-    },
-    status: 'In Stock'
+    shortDescription: t('accessoryDetail.product.shortDescription'),
+    description: t('accessoryDetail.product.description'),
+    features: accessoryDetailTranslations[language].product.features,
+    specs: accessoryDetailTranslations[language].product.specs,
+    status: t('common.status.inStock', language === 'en' ? 'In Stock' : 'Còn hàng')
   };
   
   const mockRelatedProducts = [
@@ -95,7 +157,7 @@ const AccessoryDetail = () => {
   };
   
   if (!product) {
-    return <div className="loading">Đang tải...</div>;
+    return <div className="loading">{t('accessoryDetail.loading')}</div>;
   }
   
   // Tính giá sau giảm giá nếu có
@@ -107,7 +169,7 @@ const AccessoryDetail = () => {
     <div className="product-detail-page">
       <div className="back-button-container">
         <button className="back-button" onClick={handleBack}>
-          <i className="fas fa-arrow-left"></i> Quay lại
+          <i className="fas fa-arrow-left"></i> {t('accessoryDetail.backButton')}
         </button>
       </div>
       
@@ -148,7 +210,7 @@ const AccessoryDetail = () => {
           
           {product.colors && product.colors.length > 0 && (
             <div className="color-selection">
-              <h3>Màu sắc:</h3>
+              <h3>{t('accessoryDetail.color')}</h3>
               <div className="color-options">
                 {product.colors.map((color, index) => (
                   <div 
@@ -163,7 +225,7 @@ const AccessoryDetail = () => {
           )}
           
           <div className="quantity-selector">
-            <h3>Số lượng:</h3>
+            <h3>{t('accessoryDetail.quantity')}</h3>
             <div className="quantity-control">
               <button className="qty-btn dec">-</button>
               <input type="number" min="1" value="1" readOnly />
@@ -172,17 +234,17 @@ const AccessoryDetail = () => {
           </div>
           
           <div className="product-actions">
-            <button className="add-to-cart-button">THÊM VÀO GIỎ HÀNG</button>
-            <button className="buy-now-button">MUA NGAY</button>
+            <button className="add-to-cart-button">{t('accessoryDetail.addToCart')}</button>
+            <button className="buy-now-button">{t('accessoryDetail.buyNow')}</button>
           </div>
         </div>
       </div>
       
       <div className="product-details-tabs">
         <div className="tabs-header">
-          <div className="tab active">Mô tả</div>
-          <div className="tab">Đặc điểm</div>
-          <div className="tab">Thông số kỹ thuật</div>
+          <div className="tab active">{t('accessoryDetail.description')}</div>
+          <div className="tab">{t('accessoryDetail.features')}</div>
+          <div className="tab">{t('accessoryDetail.specifications')}</div>
         </div>
         
         <div className="tab-content">
@@ -193,7 +255,7 @@ const AccessoryDetail = () => {
       </div>
       
       <div className="related-products-section">
-        <h2>Sản phẩm liên quan</h2>
+        <h2>{t('accessoryDetail.relatedProducts')}</h2>
         <div className="related-products-grid">
           {relatedProducts.map(relatedProduct => (
             <ProductCard 

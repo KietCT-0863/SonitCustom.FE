@@ -2,6 +2,79 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './styles.css';
 import { ProductCard } from '../../components/ProductsPage/ProductCard';
+import { useLanguage, t } from '../../contexts/LanguageContext';
+
+// Bản dịch cho component CaseDetail
+const caseDetailTranslations = {
+  en: {
+    loading: 'Loading...',
+    backButton: 'Back',
+    color: 'Color:',
+    quantity: 'Quantity:',
+    addToCart: 'ADD TO CART',
+    buyNow: 'BUY NOW',
+    description: 'Description',
+    features: 'Features',
+    specifications: 'Specifications',
+    relatedProducts: 'Related Products',
+    product: {
+      name: 'EXCEED HARD CASE',
+      shortDescription: 'Premium hard case for maximum protection',
+      description: `EXCEED Hard Case is a premium protection product designed to provide maximum protection for your cue. 
+      Made from high-grade aluminum alloy with inner EVA padding, this product ensures your cue is always 
+      protected from external impacts. With a luxurious and sturdy design, the EXCEED Hard Case is not just 
+      a protective product but also a classy accessory for billiards players.`,
+      features: [
+        'High-impact aluminum alloy shell',
+        'Premium EVA padding for maximum protection',
+        'Anti-theft safety locks',
+        'Ergonomic handle for convenience',
+        'Customizable interior for cue and accessories'
+      ],
+      specs: {
+        weight: '3.5kg',
+        length: '140cm',
+        width: '15cm',
+        height: '12cm',
+        capacity: 'Fits 1 cue with 2 shafts'
+      }
+    }
+  },
+  vi: {
+    loading: 'Đang tải...',
+    backButton: 'Quay lại',
+    color: 'Màu sắc:',
+    quantity: 'Số lượng:',
+    addToCart: 'THÊM VÀO GIỎ HÀNG',
+    buyNow: 'MUA NGAY',
+    description: 'Mô tả',
+    features: 'Đặc điểm',
+    specifications: 'Thông số kỹ thuật',
+    relatedProducts: 'Sản phẩm liên quan',
+    product: {
+      name: 'TÚI CỨNG EXCEED',
+      shortDescription: 'Túi cứng cao cấp bảo vệ tối đa',
+      description: `EXCEED Hard Case là sản phẩm bảo vệ cao cấp được thiết kế để bảo vệ cây cơ của bạn một cách tối đa. 
+      Được làm từ vật liệu hợp kim nhôm cao cấp với lớp đệm EVA bên trong, sản phẩm này đảm bảo cây cơ của bạn luôn 
+      được bảo vệ khỏi các tác động bên ngoài. Với thiết kế sang trọng và chắc chắn, EXCEED Hard Case không chỉ là một 
+      sản phẩm bảo vệ mà còn là món phụ kiện đẳng cấp cho người chơi billiards.`,
+      features: [
+        'Vỏ hợp kim nhôm chống va đập cao',
+        'Lớp đệm EVA cao cấp bảo vệ tối đa',
+        'Khóa an toàn chống trộm',
+        'Tay cầm ergonomic tiện lợi',
+        'Thiết kế nội thất tùy chỉnh cho cơ và phụ kiện'
+      ],
+      specs: {
+        weight: '3.5kg',
+        length: '140cm',
+        width: '15cm',
+        height: '12cm',
+        capacity: 'Chứa 1 cơ với 2 thân'
+      }
+    }
+  }
+};
 
 const CaseDetail = () => {
   const { category, id } = useParams();
@@ -10,11 +83,17 @@ const CaseDetail = () => {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
+  const { language, registerTranslations } = useLanguage();
+  
+  // Đăng ký bản dịch
+  useEffect(() => {
+    registerTranslations('caseDetail', caseDetailTranslations);
+  }, [registerTranslations]);
   
   // Mock data - trong thực tế sẽ fetch từ API
   const caseData = {
     id: id,
-    name: 'EXCEED HARD CASE',
+    name: t('caseDetail.product.name'),
     category: category,
     images: [
       '/images/cases/hard-case-1-detail.jpg',
@@ -24,26 +103,11 @@ const CaseDetail = () => {
     colors: ['#000000', '#8B4513'],
     price: 159.99,
     discount: 0,
-    shortDescription: 'Premium hard case for maximum protection',
-    description: `EXCEED Hard Case là sản phẩm bảo vệ cao cấp được thiết kế để bảo vệ cây cơ của bạn một cách tối đa. 
-    Được làm từ vật liệu hợp kim nhôm cao cấp với lớp đệm EVA bên trong, sản phẩm này đảm bảo cây cơ của bạn luôn 
-    được bảo vệ khỏi các tác động bên ngoài. Với thiết kế sang trọng và chắc chắn, EXCEED Hard Case không chỉ là một 
-    sản phẩm bảo vệ mà còn là món phụ kiện đẳng cấp cho người chơi billiards.`,
-    features: [
-      'Vỏ hợp kim nhôm chống va đập cao',
-      'Lớp đệm EVA cao cấp bảo vệ tối đa',
-      'Khóa an toàn chống trộm',
-      'Tay cầm ergonomic tiện lợi',
-      'Thiết kế nội thất tùy chỉnh cho cơ và phụ kiện'
-    ],
-    specs: {
-      weight: '3.5kg',
-      length: '140cm',
-      width: '15cm',
-      height: '12cm',
-      capacity: 'Fits 1 cue with 2 shafts'
-    },
-    status: 'In Stock'
+    shortDescription: t('caseDetail.product.shortDescription'),
+    description: t('caseDetail.product.description'),
+    features: caseDetailTranslations[language].product.features,
+    specs: caseDetailTranslations[language].product.specs,
+    status: t('common.status.inStock', 'In Stock')
   };
   
   const mockRelatedProducts = [
@@ -54,7 +118,7 @@ const CaseDetail = () => {
       image: '/images/cases/hard-case-2.jpg',
       price: 199.99,
       path: '/products/cases/hard-cases/hard-2',
-      status: 'In Stock',
+      status: t('common.status.inStock', 'In Stock'),
       colors: ['#8B4513', '#000000'],
       discount: 0,
       isNew: false
@@ -66,7 +130,7 @@ const CaseDetail = () => {
       image: '/images/cases/soft-case-1.jpg',
       price: 89.99,
       path: '/products/cases/soft-cases/soft-1',
-      status: 'In Stock',
+      status: t('common.status.inStock', 'In Stock'),
       colors: ['#000000', '#0000FF'],
       discount: 10,
       isNew: false
@@ -98,7 +162,7 @@ const CaseDetail = () => {
   };
   
   if (!product) {
-    return <div className="loading">Đang tải...</div>;
+    return <div className="loading">{t('caseDetail.loading')}</div>;
   }
   
   // Tính giá sau giảm giá nếu có
@@ -110,7 +174,7 @@ const CaseDetail = () => {
     <div className="product-detail-page">
       <div className="back-button-container">
         <button className="back-button" onClick={handleBack}>
-          <i className="fas fa-arrow-left"></i> Quay lại
+          <i className="fas fa-arrow-left"></i> {t('caseDetail.backButton')}
         </button>
       </div>
       
@@ -150,7 +214,7 @@ const CaseDetail = () => {
           <p className="product-short-description">{product.shortDescription}</p>
           
           <div className="color-selection">
-            <h3>Màu sắc:</h3>
+            <h3>{t('caseDetail.color')}</h3>
             <div className="color-options">
               {product.colors.map((color, index) => (
                 <div 
@@ -164,7 +228,7 @@ const CaseDetail = () => {
           </div>
           
           <div className="quantity-selector">
-            <h3>Số lượng:</h3>
+            <h3>{t('caseDetail.quantity')}</h3>
             <div className="quantity-control">
               <button className="qty-btn dec">-</button>
               <input type="number" min="1" value="1" readOnly />
@@ -173,17 +237,17 @@ const CaseDetail = () => {
           </div>
           
           <div className="product-actions">
-            <button className="add-to-cart-button">THÊM VÀO GIỎ HÀNG</button>
-            <button className="buy-now-button">MUA NGAY</button>
+            <button className="add-to-cart-button">{t('caseDetail.addToCart')}</button>
+            <button className="buy-now-button">{t('caseDetail.buyNow')}</button>
           </div>
         </div>
       </div>
       
       <div className="product-details-tabs">
         <div className="tabs-header">
-          <div className="tab active">Mô tả</div>
-          <div className="tab">Đặc điểm</div>
-          <div className="tab">Thông số kỹ thuật</div>
+          <div className="tab active">{t('caseDetail.description')}</div>
+          <div className="tab">{t('caseDetail.features')}</div>
+          <div className="tab">{t('caseDetail.specifications')}</div>
         </div>
         
         <div className="tab-content">
@@ -194,7 +258,7 @@ const CaseDetail = () => {
       </div>
       
       <div className="related-products-section">
-        <h2>Sản phẩm liên quan</h2>
+        <h2>{t('caseDetail.relatedProducts')}</h2>
         <div className="related-products-grid">
           {relatedProducts.map(relatedProduct => (
             <ProductCard 

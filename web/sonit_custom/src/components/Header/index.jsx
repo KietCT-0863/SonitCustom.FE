@@ -1,164 +1,143 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './styles.css';
+import { useLanguage, t } from '../../contexts/LanguageContext';
+
+// Đăng ký bản dịch riêng cho menu phức tạp
+const headerTranslations = {
+  en: {
+    menu: {
+      CUES: {
+        desc: 'Precision engineered cues crafted for ultimate performance',
+        submenu: [
+          { title: 'MIYABI', desc: 'Japanese edition with premium craftsmanship' },
+          { title: 'KOUKAI', desc: 'Professional series with enhanced control' },
+          { title: 'SANTA FE', desc: 'Stylish designs with southwest inspiration' },
+          { title: 'EXICS', desc: 'Tournament grade performance cues' }
+        ]
+      },
+      SHAFTS: {
+        desc: 'Advanced technology shafts for precision play',
+        submenu: [
+          { title: 'EX PRO', desc: 'High-end professional grade shafts' },
+          { title: 'S3', desc: 'Three-piece innovative shaft design' },
+          { title: 'G-CORE', desc: 'Graphite core for ultimate stability' }
+        ]
+      },
+      ACCESSORIES: {
+        desc: 'Essential accessories to enhance your game',
+        submenu: [
+          { title: 'CHALKS', desc: 'Premium chalks for optimal tip friction' },
+          { title: 'TIPS', desc: 'Professional grade performance tips' },
+          { title: 'GLOVES', desc: 'Comfortable gloves for smooth strokes' }
+        ]
+      },
+      CASES: {
+        desc: 'Stylish and durable cases to protect your equipment',
+        submenu: [
+          { title: 'SOFT CASES', desc: 'Lightweight and flexible travel cases' },
+          { title: 'HARD CASES', desc: 'Maximum protection for valuable cues' }
+        ]
+      },
+      TECHNOLOGY: {
+        desc: 'Innovative technologies that set our products apart',
+        submenu: [
+          { title: 'SHAFT TECHNOLOGY', desc: 'Advanced engineering for optimal performance' },
+          { title: 'BUTT TECHNOLOGY', desc: 'Innovative designs for better handling' }
+        ]
+      },
+      DEALER: {
+        desc: 'Locate authorized dealers worldwide',
+        submenu: [
+          { title: 'USA DEALERS', desc: 'Find dealers across the United States' },
+          { title: 'INTERNATIONAL', desc: 'Global network of authorized retailers' }
+        ]
+      }
+    },
+    JAPANESE: 'Japanese',
+    ENGLISH: 'English',
+    VIETNAMESE: 'Vietnamese',
+  },
+  vi: {
+    menu: {
+      CUES: {
+        desc: 'Cơ Exceed chuẩn xác cho hiệu suất tối ưu',
+        submenu: [
+          { title: 'MIYABI', desc: 'Phiên bản Nhật Bản, thủ công cao cấp' },
+          { title: 'KOUKAI', desc: 'Dòng chuyên nghiệp, kiểm soát tối ưu' },
+          { title: 'SANTA FE', desc: 'Thiết kế cảm hứng Tây Nam Mỹ' },
+          { title: 'EXICS', desc: 'Cơ thi đấu chuẩn quốc tế' }
+        ]
+      },
+      SHAFTS: {
+        desc: 'Thân cơ công nghệ cao cho cú đánh chính xác',
+        submenu: [
+          { title: 'EX PRO', desc: 'Thân cơ chuyên nghiệp cao cấp' },
+          { title: 'S3', desc: 'Thiết kế 3 khúc sáng tạo' },
+          { title: 'G-CORE', desc: 'Lõi graphite siêu ổn định' }
+        ]
+      },
+      ACCESSORIES: {
+        desc: 'Phụ kiện thiết yếu nâng tầm trận đấu',
+        submenu: [
+          { title: 'CHALKS', desc: 'Phấn cao cấp cho đầu cơ' },
+          { title: 'TIPS', desc: 'Đầu cơ chuyên nghiệp' },
+          { title: 'GLOVES', desc: 'Găng tay êm ái, mượt mà' }
+        ]
+      },
+      CASES: {
+        desc: 'Túi đựng bền đẹp, bảo vệ tối đa',
+        submenu: [
+          { title: 'SOFT CASES', desc: 'Túi mềm nhẹ, tiện di chuyển' },
+          { title: 'HARD CASES', desc: 'Túi cứng bảo vệ tối đa' }
+        ]
+      },
+      TECHNOLOGY: {
+        desc: 'Công nghệ đột phá tạo nên khác biệt',
+        submenu: [
+          { title: 'SHAFT TECHNOLOGY', desc: 'Kỹ thuật thân cơ tối ưu' },
+          { title: 'BUTT TECHNOLOGY', desc: 'Thiết kế đuôi cơ sáng tạo' }
+        ]
+      },
+      DEALER: {
+        desc: 'Tìm đại lý ủy quyền toàn quốc',
+        submenu: [
+          { title: 'USA DEALERS', desc: 'Đại lý tại Hoa Kỳ' },
+          { title: 'INTERNATIONAL', desc: 'Hệ thống đại lý toàn cầu' }
+        ]
+      }
+    },
+    JAPANESE: 'Tiếng Nhật',
+    ENGLISH: 'Tiếng Anh',
+    VIETNAMESE: 'Tiếng Việt',
+  }
+};
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [expandedItems, setExpandedItems] = useState({});
+  const { language, setLanguage, registerTranslations } = useLanguage();
   
-  const menuItems = [
-    {
-      title: 'CUES',
-      path: '/cues',
-      icon: '🎱',
-      description: 'Precision engineered cues crafted for ultimate performance',
-      image: '/assets/cues-menu-bg.jpg',
-      submenu: [
-        { 
-          title: 'MIYABI', 
-          path: '/cues/miyabi',
-          image: '/assets/miyabi-small.jpg',
-          description: 'Japanese edition with premium craftsmanship'
-        },
-        { 
-          title: 'KOUKAI', 
-          path: '/cues/koukai',
-          image: '/assets/koukai-small.jpg',
-          description: 'Professional series with enhanced control'
-        },
-        { 
-          title: 'SANTA FE', 
-          path: '/cues/santa-fe',
-          image: '/assets/santa-fe-small.jpg',
-          description: 'Stylish designs with southwest inspiration'
-        },
-        { 
-          title: 'EXICS', 
-          path: '/cues/exics',
-          image: '/assets/exics-small.jpg',
-          description: 'Tournament grade performance cues'
-        }
-      ]
-    },
-    {
-      title: 'SHAFTS',
-      path: '/shafts',
-      icon: '🔧',
-      description: 'Advanced technology shafts for precision play',
-      image: '/assets/shafts-menu-bg.jpg',
-      submenu: [
-        { 
-          title: 'EX PRO', 
-          path: '/shafts/ex-pro',
-          image: '/assets/ex-pro-small.jpg',
-          description: 'High-end professional grade shafts'
-        },
-        { 
-          title: 'S3', 
-          path: '/shafts/s3',
-          image: '/assets/s3-small.jpg',
-          description: 'Three-piece innovative shaft design'
-        },
-        { 
-          title: 'G-CORE', 
-          path: '/shafts/g-core',
-          image: '/assets/g-core-small.jpg',
-          description: 'Graphite core for ultimate stability'
-        }
-      ]
-    },
-    {
-      title: 'ACCESSORIES',
-      path: '/accessories',
-      icon: '🧩',
-      description: 'Essential accessories to enhance your game',
-      image: '/assets/accessories-menu-bg.jpg',
-      submenu: [
-        { 
-          title: 'CHALKS', 
-          path: '/accessories/chalks',
-          image: '/assets/chalks-small.jpg',
-          description: 'Premium chalks for optimal tip friction'
-        },
-        { 
-          title: 'TIPS', 
-          path: '/accessories/tips',
-          image: '/assets/tips-small.jpg',
-          description: 'Professional grade performance tips'
-        },
-        { 
-          title: 'GLOVES', 
-          path: '/accessories/gloves',
-          image: '/assets/gloves-small.jpg',
-          description: 'Comfortable gloves for smooth strokes'
-        }
-      ]
-    },
-    {
-      title: 'CASES',
-      path: '/cases',
-      icon: '💼',
-      description: 'Stylish and durable cases to protect your equipment',
-      image: '/assets/cases-menu-bg.jpg',
-      submenu: [
-        { 
-          title: 'SOFT CASES', 
-          path: '/cases/soft',
-          image: '/assets/soft-case-small.jpg',
-          description: 'Lightweight and flexible travel cases'
-        },
-        { 
-          title: 'HARD CASES', 
-          path: '/cases/hard',
-          image: '/assets/hard-case-small.jpg',
-          description: 'Maximum protection for valuable cues'
-        }
-      ]
-    },
-    {
-      title: 'TECHNOLOGY',
-      path: '/technology',
-      icon: '⚙️',
-      description: 'Innovative technologies that set our products apart',
-      image: '/assets/technology-menu-bg.jpg',
-      submenu: [
-        { 
-          title: 'SHAFT TECHNOLOGY', 
-          path: '/technology/shaft',
-          image: '/assets/shaft-tech-small.jpg',
-          description: 'Advanced engineering for optimal performance'
-        },
-        { 
-          title: 'BUTT TECHNOLOGY', 
-          path: '/technology/butt',
-          image: '/assets/butt-tech-small.jpg',
-          description: 'Innovative designs for better handling'
-        }
-      ]
-    },
-    {
-      title: 'FIND A DEALER',
-      path: '/dealers',
-      icon: '🔍',
-      description: 'Locate authorized dealers worldwide',
-      image: '/assets/dealers-menu-bg.jpg',
-      submenu: [
-        { 
-          title: 'USA DEALERS', 
-          path: '/dealers/usa',
-          image: '/assets/usa-dealers-small.jpg',
-          description: 'Find dealers across the United States'
-        },
-        { 
-          title: 'INTERNATIONAL', 
-          path: '/dealers/international',
-          image: '/assets/international-dealers-small.jpg',
-          description: 'Global network of authorized retailers'
-        }
-      ]
-    }
-  ];
+  // Đăng ký bản dịch cho header
+  useEffect(() => {
+    registerTranslations('header', headerTranslations);
+  }, [registerTranslations]);
+
+  const menuKeys = ['CUES', 'SHAFTS', 'ACCESSORIES', 'CASES', 'TECHNOLOGY', 'DEALER'];
+  const menuItems = menuKeys.map((key, idx) => ({
+    title: t(`layout.header.${key}`),
+    path: `/${key.toLowerCase()}`,
+    icon: ['🎱','🔧','🧩','💼','⚙️','🔍'][idx],
+    description: t(`header.menu.${key}.desc`),
+    image: `/assets/${key.toLowerCase()}-menu-bg.jpg`,
+    submenu: headerTranslations[language].menu[key].submenu.map((sub, subIdx) => ({
+      title: sub.title,
+      path: `/${key.toLowerCase()}/${sub.title.toLowerCase().replace(/\s+/g, '-')}`,
+      image: `/assets/${sub.title.toLowerCase().replace(/\s+/g, '-')}-small.jpg`,
+      description: sub.desc
+    }))
+  }));
 
   useEffect(() => {
     const handleScroll = () => {
@@ -201,8 +180,8 @@ const Header = () => {
   return (
     <>
       <header className={`header ${scrolled ? 'scrolled' : ''}`}>
-        <Link to="/" className="logo-link">
-          <img src="/logo.png" alt="Exceed Logo" className="logo" />
+        <Link to="/" className="logo-link" aria-label="Đến trang chủ">
+          <img src="/public/assets/logo.jpg" alt="Sonit Custom" className="logo-animated" />
         </Link>
         
         {/* Desktop Navigation */}
@@ -248,13 +227,19 @@ const Header = () => {
         </nav>
         
         <div className="language-social">
-          <a href="/japanese">Japanese</a>
-          <a href="/english">English</a>
-          <div className="social-icons">
-            <span>FB</span>
-            <span>IG</span>
-            <span>YT</span>
-          </div>
+          <button
+            className={`lang-btn${language === 'vi' ? ' active' : ''}`}
+            onClick={() => setLanguage('vi')}
+          >
+            {t('header.VIETNAMESE', 'Tiếng Việt')}
+          </button>
+          <button
+            className={`lang-btn${language === 'en' ? ' active' : ''}`}
+            onClick={() => setLanguage('en')}
+          >
+            {t('header.ENGLISH', 'English')}
+          </button>
+
         </div>
         
         {/* Mobile Menu Button */}
@@ -326,14 +311,20 @@ const Header = () => {
           
           <div className="mobile-language-social">
             <div className="language-links">
-              <a href="/japanese">Japanese</a>
-              <a href="/english">English</a>
+              <button
+                className={`lang-btn${language === 'vi' ? ' active' : ''}`}
+                onClick={() => setLanguage('vi')}
+              >
+                {t('header.VIETNAMESE', 'Tiếng Việt')}
+              </button>
+              <button
+                className={`lang-btn${language === 'en' ? ' active' : ''}`}
+                onClick={() => setLanguage('en')}
+              >
+                {t('header.ENGLISH', 'English')}
+              </button>
             </div>
-            <div className="mobile-social-icons">
-              <span>FB</span>
-              <span>IG</span>
-              <span>YT</span>
-            </div>
+
           </div>
         </div>
       </div>
