@@ -1,10 +1,77 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles.css';
 import { ProductsGrid } from '../../components/ProductsPage/ProductsGrid';
 import { ProductFilter } from '../../components/ProductsPage/ProductFilter';
 import { SearchBar } from '../../components/ProductsPage/SearchBar';
 import { Pagination } from '../../components/ProductsPage/Pagination';
+import { useLanguage, t } from '../../contexts/LanguageContext';
+
+// Bản dịch cho trang Accessories
+const accessoriesTranslations = {
+  en: {
+    bannerTitle: 'EXCEED ACCESSORIES',
+    bannerDesc: 'Essential accessories for your perfect game',
+    categories: [
+      { id: 'all', name: 'ALL' },
+      { id: 'chalks', name: 'CHALKS' },
+      { id: 'tips', name: 'TIPS' },
+      { id: 'gloves', name: 'GLOVES' },
+      { id: 'tools', name: 'TOOLS' }
+    ],
+    filter: {
+      priceRanges: [
+        { id: 'all', name: 'All prices' },
+        { id: 'under-15', name: 'Under $15' },
+        { id: '15-25', name: '$15 - $25' },
+        { id: '25-35', name: '$25 - $35' },
+        { id: 'over-35', name: 'Over $35' }
+      ],
+      colors: [
+        { id: 'black', name: 'Black', hex: '#000000' },
+        { id: 'blue', name: 'Blue', hex: '#3366FF' },
+        { id: 'red', name: 'Red', hex: '#FF3366' }
+      ],
+      status: [
+        { id: 'all', name: 'All' },
+        { id: 'in-stock', name: 'In Stock' },
+        { id: 'out-of-stock', name: 'Out of Stock' },
+        { id: 'pre-order', name: 'Pre-order' }
+      ]
+    }
+  },
+  vi: {
+    bannerTitle: 'PHỤ KIỆN EXCEED',
+    bannerDesc: 'Phụ kiện thiết yếu cho trận đấu hoàn hảo',
+    categories: [
+      { id: 'all', name: 'TẤT CẢ' },
+      { id: 'chalks', name: 'PHẤN' },
+      { id: 'tips', name: 'ĐẦU CƠ' },
+      { id: 'gloves', name: 'GĂNG TAY' },
+      { id: 'tools', name: 'DỤNG CỤ' }
+    ],
+    filter: {
+      priceRanges: [
+        { id: 'all', name: 'Tất cả mức giá' },
+        { id: 'under-15', name: 'Dưới 350k' },
+        { id: '15-25', name: '350k - 600k' },
+        { id: '25-35', name: '600k - 800k' },
+        { id: 'over-35', name: 'Trên 800k' }
+      ],
+      colors: [
+        { id: 'black', name: 'Đen', hex: '#000000' },
+        { id: 'blue', name: 'Xanh', hex: '#3366FF' },
+        { id: 'red', name: 'Đỏ', hex: '#FF3366' }
+      ],
+      status: [
+        { id: 'all', name: 'Tất cả' },
+        { id: 'in-stock', name: 'Còn hàng' },
+        { id: 'out-of-stock', name: 'Hết hàng' },
+        { id: 'pre-order', name: 'Đặt trước' }
+      ]
+    }
+  }
+};
 
 const AccessoriesPage = () => {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -13,35 +80,15 @@ const AccessoriesPage = () => {
   const [sortOption, setSortOption] = useState('newest');
   const [viewMode, setViewMode] = useState('grid');
   const navigate = useNavigate();
+  const { language, registerTranslations } = useLanguage();
   
-  const accessoryCategories = [
-    { id: 'all', name: 'TẤT CẢ' },
-    { id: 'chalks', name: 'CHALKS' },
-    { id: 'tips', name: 'TIPS' },
-    { id: 'gloves', name: 'GLOVES' },
-    { id: 'tools', name: 'TOOLS' }
-  ];
+  // Đăng ký bản dịch
+  useEffect(() => {
+    registerTranslations('accessories', accessoriesTranslations);
+  }, [registerTranslations]);
   
-  const filterOptions = {
-    priceRanges: [
-      { id: 'all', name: 'Tất cả mức giá' },
-      { id: 'under-15', name: 'Dưới $15' },
-      { id: '15-25', name: '$15 - $25' },
-      { id: '25-35', name: '$25 - $35' },
-      { id: 'over-35', name: 'Trên $35' }
-    ],
-    colors: [
-      { id: 'black', name: 'Đen', hex: '#000000' },
-      { id: 'blue', name: 'Xanh', hex: '#3366FF' },
-      { id: 'red', name: 'Đỏ', hex: '#FF3366' }
-    ],
-    status: [
-      { id: 'all', name: 'Tất cả' },
-      { id: 'in-stock', name: 'Còn hàng' },
-      { id: 'out-of-stock', name: 'Hết hàng' },
-      { id: 'pre-order', name: 'Đặt trước' }
-    ]
-  };
+  const accessoryCategories = accessoriesTranslations[language].categories;
+  const filterOptions = accessoriesTranslations[language].filter;
   
   const accessoryProducts = [
     {
@@ -51,7 +98,7 @@ const AccessoriesPage = () => {
       image: '/images/accessories/premium-chalk.jpg',
       price: 12.99,
       path: '/products/accessories/chalks/premium',
-      status: 'In Stock',
+      status: t('common.status.inStock', 'In Stock'),
       colors: ['#3366FF', '#FFFFFF', '#00CC66'],
       discount: 0,
       isNew: false
@@ -64,7 +111,7 @@ const AccessoriesPage = () => {
       secondaryImageUrl: '/images/accessories/pro-tip-set-2.jpg',
       price: 24.99,
       path: '/products/accessories/tips/pro-set',
-      status: 'In Stock',
+      status: t('common.status.inStock', 'In Stock'),
       colors: [],
       discount: 0,
       isNew: true
@@ -76,7 +123,7 @@ const AccessoriesPage = () => {
       image: '/images/accessories/performance-glove.jpg',
       price: 18.50,
       path: '/products/accessories/gloves/performance',
-      status: 'In Stock',
+      status: t('common.status.inStock', 'In Stock'),
       colors: ['#000000', '#3366CC'],
       discount: 10,
       isNew: false
@@ -88,7 +135,7 @@ const AccessoriesPage = () => {
       image: '/images/accessories/tip-shaper.jpg',
       price: 32.99,
       path: '/products/accessories/tools/tip-shaper',
-      status: 'Limited Edition',
+      status: t('common.status.limitedEdition', 'Limited Edition'),
       colors: [],
       discount: 0,
       isNew: false
@@ -100,7 +147,7 @@ const AccessoriesPage = () => {
       image: '/images/accessories/tournament-chalk.jpg',
       price: 15.99,
       path: '/products/accessories/chalks/tournament',
-      status: 'In Stock',
+      status: t('common.status.inStock', 'In Stock'),
       colors: ['#3366FF', '#FF3366'],
       discount: 15,
       isNew: true
@@ -112,7 +159,7 @@ const AccessoriesPage = () => {
       image: '/images/accessories/premium-glove.jpg',
       price: 22.99,
       path: '/products/accessories/gloves/premium',
-      status: 'Pre-order',
+      status: t('common.status.preOrder', 'Pre-order'),
       colors: ['#000000'],
       discount: 0,
       isNew: true
@@ -191,8 +238,8 @@ const AccessoriesPage = () => {
   return (
     <div className="products-page">
       <div className="products-banner accessories-banner">
-        <h1>EXCEED ACCESSORIES</h1>
-        <p>Essential accessories for your perfect game</p>
+        <h1>{t('accessories.bannerTitle')}</h1>
+        <p>{t('accessories.bannerDesc')}</p>
       </div>
       
       <div className="products-content">

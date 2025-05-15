@@ -1,10 +1,79 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles.css';
 import { ProductsGrid } from '../../components/ProductsPage/ProductsGrid';
 import { ProductFilter } from '../../components/ProductsPage/ProductFilter';
 import { SearchBar } from '../../components/ProductsPage/SearchBar';
 import { Pagination } from '../../components/ProductsPage/Pagination';
+import { useLanguage, t } from '../../contexts/LanguageContext';
+
+// Bản dịch cho trang Cases
+const casesTranslations = {
+  en: {
+    bannerTitle: 'EXCEED CASES',
+    bannerDesc: 'Protect your equipment with our premium cases',
+    categories: [
+      { id: 'all', name: 'ALL' },
+      { id: 'hard-cases', name: 'HARD CASES' },
+      { id: 'soft-cases', name: 'SOFT CASES' },
+      { id: 'multi-cue', name: 'MULTI-CUE' },
+      { id: 'travel', name: 'TRAVEL' }
+    ],
+    filter: {
+      priceRanges: [
+        { id: 'all', name: 'All prices' },
+        { id: 'under-100', name: 'Under $100' },
+        { id: '100-200', name: '$100 - $200' },
+        { id: '200-300', name: '$200 - $300' },
+        { id: 'over-300', name: 'Over $300' }
+      ],
+      colors: [
+        { id: 'black', name: 'Black', hex: '#000000' },
+        { id: 'brown', name: 'Brown', hex: '#8B4513' },
+        { id: 'blue', name: 'Blue', hex: '#0000FF' },
+        { id: 'red', name: 'Red', hex: '#FF0000' }
+      ],
+      status: [
+        { id: 'all', name: 'All' },
+        { id: 'in-stock', name: 'In Stock' },
+        { id: 'out-of-stock', name: 'Out of Stock' },
+        { id: 'pre-order', name: 'Pre-order' }
+      ]
+    }
+  },
+  vi: {
+    bannerTitle: 'TÚI ĐỰNG EXCEED',
+    bannerDesc: 'Bảo vệ thiết bị của bạn với túi đựng cao cấp',
+    categories: [
+      { id: 'all', name: 'TẤT CẢ' },
+      { id: 'hard-cases', name: 'TÚI CỨNG' },
+      { id: 'soft-cases', name: 'TÚI MỀM' },
+      { id: 'multi-cue', name: 'NHIỀU CÂY CƠ' },
+      { id: 'travel', name: 'DU LỊCH' }
+    ],
+    filter: {
+      priceRanges: [
+        { id: 'all', name: 'Tất cả mức giá' },
+        { id: 'under-100', name: 'Dưới 2.3 triệu' },
+        { id: '100-200', name: '2.3 - 4.6 triệu' },
+        { id: '200-300', name: '4.6 - 7 triệu' },
+        { id: 'over-300', name: 'Trên 7 triệu' }
+      ],
+      colors: [
+        { id: 'black', name: 'Đen', hex: '#000000' },
+        { id: 'brown', name: 'Nâu', hex: '#8B4513' },
+        { id: 'blue', name: 'Xanh', hex: '#0000FF' },
+        { id: 'red', name: 'Đỏ', hex: '#FF0000' }
+      ],
+      status: [
+        { id: 'all', name: 'Tất cả' },
+        { id: 'in-stock', name: 'Còn hàng' },
+        { id: 'out-of-stock', name: 'Hết hàng' },
+        { id: 'pre-order', name: 'Đặt trước' }
+      ]
+    }
+  }
+};
 
 const CasesPage = () => {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -13,36 +82,15 @@ const CasesPage = () => {
   const [sortOption, setSortOption] = useState('newest');
   const [viewMode, setViewMode] = useState('grid');
   const navigate = useNavigate();
+  const { language, registerTranslations } = useLanguage();
   
-  const casesCategories = [
-    { id: 'all', name: 'TẤT CẢ' },
-    { id: 'hard-cases', name: 'HARD CASES' },
-    { id: 'soft-cases', name: 'SOFT CASES' },
-    { id: 'multi-cue', name: 'MULTI-CUE' },
-    { id: 'travel', name: 'TRAVEL' }
-  ];
+  // Đăng ký bản dịch
+  useEffect(() => {
+    registerTranslations('cases', casesTranslations);
+  }, [registerTranslations]);
   
-  const filterOptions = {
-    priceRanges: [
-      { id: 'all', name: 'Tất cả mức giá' },
-      { id: 'under-100', name: 'Dưới $100' },
-      { id: '100-200', name: '$100 - $200' },
-      { id: '200-300', name: '$200 - $300' },
-      { id: 'over-300', name: 'Trên $300' }
-    ],
-    colors: [
-      { id: 'black', name: 'Đen', hex: '#000000' },
-      { id: 'brown', name: 'Nâu', hex: '#8B4513' },
-      { id: 'blue', name: 'Xanh', hex: '#0000FF' },
-      { id: 'red', name: 'Đỏ', hex: '#FF0000' }
-    ],
-    status: [
-      { id: 'all', name: 'Tất cả' },
-      { id: 'in-stock', name: 'Còn hàng' },
-      { id: 'out-of-stock', name: 'Hết hàng' },
-      { id: 'pre-order', name: 'Đặt trước' }
-    ]
-  };
+  const casesCategories = casesTranslations[language].categories;
+  const filterOptions = casesTranslations[language].filter;
   
   const casesProducts = [
     {
@@ -53,7 +101,7 @@ const CasesPage = () => {
       secondaryImageUrl: '/images/cases/hard-case-1-2.jpg',
       price: 159.99,
       path: '/products/cases/hard-cases/hard-1',
-      status: 'In Stock',
+      status: t('common.status.inStock', 'In Stock'),
       colors: ['#000000', '#8B4513'],
       discount: 0,
       isNew: true
@@ -65,7 +113,7 @@ const CasesPage = () => {
       image: '/images/cases/soft-case-1.jpg',
       price: 89.99,
       path: '/products/cases/soft-cases/soft-1',
-      status: 'In Stock',
+      status: t('common.status.inStock', 'In Stock'),
       colors: ['#000000', '#0000FF'],
       discount: 10,
       isNew: false
@@ -77,7 +125,7 @@ const CasesPage = () => {
       image: '/images/cases/travel-case-1.jpg',
       price: 229.99,
       path: '/products/cases/travel/travel-1',
-      status: 'Pre-order',
+      status: t('common.status.preOrder', 'Pre-order'),
       colors: ['#000000'],
       discount: 0,
       isNew: true
@@ -89,7 +137,7 @@ const CasesPage = () => {
       image: '/images/cases/multi-case-1.jpg',
       price: 349.99,
       path: '/products/cases/multi-cue/multi-1',
-      status: 'In Stock',
+      status: t('common.status.inStock', 'In Stock'),
       colors: ['#000000', '#8B4513'],
       discount: 15,
       isNew: false
@@ -101,7 +149,7 @@ const CasesPage = () => {
       image: '/images/cases/hard-case-2.jpg',
       price: 199.99,
       path: '/products/cases/hard-cases/hard-2',
-      status: 'In Stock',
+      status: t('common.status.inStock', 'In Stock'),
       colors: ['#8B4513', '#000000'],
       discount: 0,
       isNew: false
@@ -113,7 +161,7 @@ const CasesPage = () => {
       image: '/images/cases/multi-case-2.jpg',
       price: 259.99,
       path: '/products/cases/multi-cue/multi-2',
-      status: 'Out of Stock',
+      status: t('common.status.outOfStock', 'Out of Stock'),
       colors: ['#000000', '#FF0000'],
       discount: 0,
       isNew: false
@@ -192,8 +240,8 @@ const CasesPage = () => {
   return (
     <div className="products-page">
       <div className="products-banner cases-banner">
-        <h1>EXCEED CASES</h1>
-        <p>Protect your equipment with our premium cases</p>
+        <h1>{t('cases.bannerTitle')}</h1>
+        <p>{t('cases.bannerDesc')}</p>
       </div>
       
       <div className="products-content">
