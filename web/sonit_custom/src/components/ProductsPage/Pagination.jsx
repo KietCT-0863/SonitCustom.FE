@@ -1,7 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './styles.css';
+import { useLanguage, t } from '../../contexts/LanguageContext';
+
+// Bản dịch cho component Pagination
+const paginationTranslations = {
+  en: {
+    prev: 'Previous',
+    next: 'Next',
+    page: 'Page',
+    of: 'of'
+  },
+  vi: {
+    prev: 'Trước',
+    next: 'Sau',
+    page: 'Trang',
+    of: 'của'
+  }
+};
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+  const { registerTranslations } = useLanguage();
+  
+  // Đăng ký bản dịch
+  useEffect(() => {
+    registerTranslations('pagination', paginationTranslations);
+  }, [registerTranslations]);
+  
   const getPageNumbers = () => {
     const pages = [];
     const maxPagesToShow = 5;
@@ -43,6 +67,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         className="pagination-button"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
+        title={t('pagination.prev', 'Previous')}
       >
         &lt;
       </button>
@@ -65,6 +90,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         className="pagination-button"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
+        title={t('pagination.next', 'Next')}
       >
         &gt;
       </button>

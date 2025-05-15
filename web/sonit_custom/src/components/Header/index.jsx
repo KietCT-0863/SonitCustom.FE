@@ -179,7 +179,7 @@ const Header = () => {
 
   return (
     <>
-      <header className={`header ${scrolled ? 'scrolled' : ''}`}>
+    <header className={`header ${scrolled ? 'scrolled' : ''}`}>
         <Link to="/" className="logo-link" aria-label="Đến trang chủ">
           <img src="/public/assets/logo.jpg" alt="Sonit Custom" className="logo-animated" />
         </Link>
@@ -224,9 +224,9 @@ const Header = () => {
               )}
             </div>
           ))}
-        </nav>
+      </nav>
         
-        <div className="language-social">
+      <div className="language-social">
           <button
             className={`lang-btn${language === 'vi' ? ' active' : ''}`}
             onClick={() => setLanguage('vi')}
