@@ -12,6 +12,8 @@ import CueDetail from './pages/Cues/CueDetail'
 import ShaftDetail from './pages/Shafts/ShaftDetail'
 import AccessoryDetail from './pages/Accessories/AccessoryDetail'
 import CaseDetail from './pages/Cases/CaseDetail'
+import TechnologyPage from './pages/Technology'
+import BlogDetail from './pages/Technology/BlogDetail'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -45,6 +47,11 @@ createRoot(document.getElementById('root')).render(
           <Route path="cases">
             <Route index element={<CasesPage />} />
             <Route path=":category" element={<CasesPage />} />
+          </Route>
+          
+          <Route path="technology">
+            <Route index element={<TechnologyPage />} />
+            <Route path="blog/:id" element={<BlogDetail />} />
           </Route>
         </Route>
       </Routes>

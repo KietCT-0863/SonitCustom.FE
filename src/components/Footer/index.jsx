@@ -6,7 +6,7 @@ import { useLanguage, t } from '../../contexts/LanguageContext';
 const footerTranslations = {
   en: {
     slogan: 'BORN TO PERFORM',
-    copyright: 'Copyright EXCEED CO., LTD. All rights reserved.',
+    copyright: 'Copyright © Sonit CO., LTD. All rights reserved.',
     social: {
       FB: 'Facebook', 
       IG: 'Instagram', 
@@ -17,7 +17,7 @@ const footerTranslations = {
   },
   vi: {
     slogan: 'SINH RA ĐỂ CHIẾN THẮNG',
-    copyright: 'Bản quyền © EXCEED CO., LTD. Đã đăng ký mọi quyền.',
+    copyright: 'Bản quyền © Sonit CO., LTD. Đã đăng ký mọi quyền.',
     social: {
       FB: 'Facebook', 
       IG: 'Instagram', 
