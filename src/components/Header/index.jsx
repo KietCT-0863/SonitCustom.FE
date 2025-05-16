@@ -145,11 +145,7 @@ const Header = () => {
           ))}
       </nav>
         
-      <div className="language-social">
-          <button className="lang-btn active">
-            English
-          </button>
-        </div>
+  
         
         {/* Mobile Menu Button */}
         <div className="mobile-menu-button" onClick={toggleMobileMenu}>

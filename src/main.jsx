@@ -18,6 +18,11 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
+        {/* Authentication routes (không sử dụng MainLayout) */}
+        <Route path="login" element={<LoginPage />} />
+        <Route path="register" element={<RegisterPage />} />
+        
+        {/* Main routes với MainLayout */}
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
           
@@ -37,8 +42,6 @@ createRoot(document.getElementById('root')).render(
           <Route path="catalogue" element={<CataloguePage />} />
           <Route path="about-us" element={<AboutUsPage />} />
           <Route path="support" element={<SupportPage />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="register" element={<RegisterPage />} />
           
           {/* Compatibility routes */}
           <Route path="products/:type/:category/:id" element={<StoreDetail />} />
