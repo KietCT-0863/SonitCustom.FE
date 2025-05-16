@@ -7,9 +7,23 @@ import './styles.css';
 const HomePage = () => {
   return (
     <div className="home-page">
-      <Hero />
-      <ProductGrid />
-      <TechnologySection />
+      <div className="hero-container">
+        <Hero />
+      </div>
+      
+      <div className="container">
+        <div className="section-title">
+          <h2>FEATURED PRODUCTS</h2>
+        </div>
+        <ProductGrid />
+      </div>
+      
+      <div className="container">
+        <div className="section-title">
+          <h2>OUR TECHNOLOGY</h2>
+        </div>
+        <TechnologySection />
+      </div>
     </div>
   );
 };
