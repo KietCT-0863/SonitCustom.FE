@@ -135,10 +135,12 @@ const CueDetail = () => {
   
   return (
     <div className="product-detail-page">
-      <div className="back-button-container">
-        <button className="back-button" onClick={handleBack}>
-          <i className="fas fa-arrow-left"></i> Back
-        </button>
+      <div className="container">
+        <div className="back-button-container">
+          <button className="back-button" onClick={handleBack}>
+            <i className="fas fa-arrow-left"></i> Back
+          </button>
+        </div>
       </div>
       
       <div className="product-detail-container">
@@ -263,15 +265,17 @@ const CueDetail = () => {
       </div>
       
       <div className="related-products-section">
-        <h2>Related Products</h2>
-        <div className="related-products-grid">
-          {relatedProducts.map(product => (
-            <ProductCard 
-              key={product.id}
-              product={product}
-              onClick={() => handleRelatedProductClick(product.path)}
-            />
-          ))}
+        <div className="container">
+          <h2>Related Products</h2>
+          <div className="related-products-grid">
+            {relatedProducts.map(product => (
+              <ProductCard 
+                key={product.id}
+                product={product}
+                onClick={() => handleRelatedProductClick(product.path)}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>

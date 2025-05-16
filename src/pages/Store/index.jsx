@@ -176,51 +176,55 @@ const CuesPage = () => {
   
   return (
     <div className="products-page">
-      <div className="products-banner cues-banner">
-        <h1>CUSTOM CUES</h1>
-        <p>Explore our collection of handcrafted premium cues</p>
+      <div className="products-banner">
+        <div className="container">
+          <h1>CUSTOM CUES</h1>
+          <p>Explore our collection of handcrafted premium cues</p>
+        </div>
       </div>
       
       <div className="products-content">
-        <div className="products-search-bar">
-          <SearchBar onSearch={handleSearch} placeholder="Search cues..." />
-        </div>
-        
-        <div className="products-filter">
-          {cueCategories.map(category => (
-            <button 
-              key={category.id} 
-              className={`category-button ${activeCategory === category.id ? 'active' : ''}`}
-              onClick={() => handleCategoryChange(category.id)}
-            >
-              {category.name}
-            </button>
-          ))}
-        </div>
-        
-        <div className="products-filter-sort">
-          <ProductFilter 
-            options={filterOptions}
-            onSortChange={handleSortChange}
-            onViewModeChange={handleViewModeChange}
+        <div className="container">
+          <div className="products-search-bar">
+            <SearchBar onSearch={handleSearch} placeholder="Search cues..." />
+          </div>
+          
+          <div className="products-filter">
+            {cueCategories.map(category => (
+              <button 
+                key={category.id} 
+                className={`category-button ${activeCategory === category.id ? 'active' : ''}`}
+                onClick={() => handleCategoryChange(category.id)}
+              >
+                {category.name}
+              </button>
+            ))}
+          </div>
+          
+          <div className="products-filter-sort">
+            <ProductFilter 
+              options={filterOptions}
+              onSortChange={handleSortChange}
+              onViewModeChange={handleViewModeChange}
+              viewMode={viewMode}
+              currentSort={sortOption}
+            />
+          </div>
+          
+          <ProductsGrid
+            products={currentProducts}
+            onProductClick={handleProductClick}
             viewMode={viewMode}
-            currentSort={sortOption}
           />
+          
+          {totalPages > 1 && (
+            <Pagination 
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
         </div>
-        
-        <ProductsGrid
-          products={currentProducts}
-          onProductClick={handleProductClick}
-          viewMode={viewMode}
-        />
-        
-        {totalPages > 1 && (
-          <Pagination 
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-          />
-        )}
       </div>
     </div>
   );
