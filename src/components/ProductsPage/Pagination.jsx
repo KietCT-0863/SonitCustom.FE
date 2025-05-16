@@ -1,30 +1,9 @@
 import React, { useEffect } from 'react';
 import './styles.css';
-import { useLanguage, t } from '../../contexts/LanguageContext';
 
-// Bản dịch cho component Pagination
-const paginationTranslations = {
-  en: {
-    prev: 'Previous',
-    next: 'Next',
-    page: 'Page',
-    of: 'of'
-  },
-  vi: {
-    prev: 'Trước',
-    next: 'Sau',
-    page: 'Trang',
-    of: 'của'
-  }
-};
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-  const { registerTranslations } = useLanguage();
-  
-  // Đăng ký bản dịch
-  useEffect(() => {
-    registerTranslations('pagination', paginationTranslations);
-  }, [registerTranslations]);
+
   
   const getPageNumbers = () => {
     const pages = [];

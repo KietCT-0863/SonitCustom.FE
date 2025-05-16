@@ -7,15 +7,10 @@ function App() {
       <header className="header">
         <img src="/sonit new.jpg" alt="Exceed Logo" className="logo" />
         <nav className="nav-links">
-          <a href="/">CUES</a>
-          <a href="/shafts">SHAFTS</a>
-          <a href="/accessories">ACCESSORIES</a>
-          <a href="/cases">CASES</a>
-          <a href="/technology">TECHNOLOGY</a>
-          <a href="/dealers">FIND A DEALER</a>
+          <a href="/store">STORE</a>
+          <a href="/blog">BLOG</a>
         </nav>
         <div className="language-social">
-          <a href="/japanese">Japanese</a>
           <a href="/english">English</a>
           <div className="social-icons">
             <span>FB</span>

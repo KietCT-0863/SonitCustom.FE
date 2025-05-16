@@ -1,34 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './styles.css';
-import { useLanguage, t } from '../../contexts/LanguageContext';
-
-// Bản dịch cho component ProductCard
-const productCardTranslations = {
-  en: {
-    quickView: 'Quick view',
-    addToCart: 'Add to cart',
-    colorOption: 'Color option',
-    alternatView: 'alternate view',
-    new: 'NEW'
-  },
-  vi: {
-    quickView: 'Xem nhanh',
-    addToCart: 'Thêm vào giỏ',
-    colorOption: 'Lựa chọn màu',
-    alternatView: 'góc nhìn khác',
-    new: 'MỚI'
-  }
-};
 
 const ProductCard = ({ product, onClick }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const { registerTranslations } = useLanguage();
-  
-  // Đăng ký bản dịch
-  useEffect(() => {
-    registerTranslations('productCard', productCardTranslations);
-  }, [registerTranslations]);
-  
+ 
   const getStatusClass = (status) => {
     if (!status) return '';
     
@@ -73,14 +48,14 @@ const ProductCard = ({ product, onClick }) => {
         {product.secondaryImageUrl && (
           <img 
             src={product.secondaryImageUrl}
-            alt={`${product.name} ${t('productCard.alternatView', 'alternate view')}`}
+            alt={`${product.name} alternate view`}
             className={`product-secondary-image ${isHovered ? 'show' : ''}`}
           />
         )}
         
         {isHovered && (
           <div className="quick-actions">
-            <button className="quick-view-btn">{t('productCard.quickView', 'Quick view')}</button>
+            <button className="quick-view-btn">Quick view</button>
           </div>
         )}
       </div>
@@ -107,7 +82,7 @@ const ProductCard = ({ product, onClick }) => {
                 key={index} 
                 className="product-color-dot" 
                 style={{ backgroundColor: color }}
-                title={`${t('productCard.colorOption', 'Color option')} ${index + 1}`}
+                title={`Color option ${index + 1}`}
               />
             ))}
           </div>
@@ -116,13 +91,13 @@ const ProductCard = ({ product, onClick }) => {
       
       {isHovered && (
         <div className="product-actions">
-          <button className="add-to-cart-btn">{t('productCard.addToCart', 'Add to cart')}</button>
+          <button className="add-to-cart-btn">Add to cart</button>
           <button className="wishlist-btn">♡</button>
         </div>
       )}
       
       {product.isNew && (
-        <div className="product-badge new-badge">{t('productCard.new', 'NEW')}</div>
+        <div className="product-badge new-badge">NEW</div>
       )}
       
       {product.discount > 0 && (

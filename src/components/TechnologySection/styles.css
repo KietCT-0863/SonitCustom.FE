@@ -26,7 +26,7 @@
   cursor: pointer;
   overflow: hidden;
   border-radius: 12px;
-  background: #000;
+  background: #123458;
   box-shadow: 0 4px 16px rgba(0,0,0,0.15);
 }
 
@@ -52,7 +52,7 @@
   font-weight: 300;
   margin: 1rem 0;
   text-transform: uppercase;
-  color: var(--primary-color);
+  color:  #98826c;
   transition: color 0.3s;
 }
 
@@ -63,7 +63,7 @@
 .tech-description {
   font-family: var(--primary-font);
   font-size: 0.9rem;
-  color: #aaa;
+  color: #98826c;
 }
 
 @media (max-width: 768px) {

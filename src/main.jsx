@@ -4,16 +4,15 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
 import MainLayout from './layouts/MainLayout'
 import HomePage from './pages/Home'
-import CuesPage from './pages/Cues'
-import ShaftsPage from './pages/Shafts'
-import AccessoriesPage from './pages/Accessories'
-import CasesPage from './pages/Cases'
-import CueDetail from './pages/Cues/CueDetail'
-import ShaftDetail from './pages/Shafts/ShaftDetail'
-import AccessoryDetail from './pages/Accessories/AccessoryDetail'
-import CaseDetail from './pages/Cases/CaseDetail'
+import StorePage from './pages/Store'
+import StoreDetail from './pages/Store/StoreDetail'
 import TechnologyPage from './pages/Technology'
 import BlogDetail from './pages/Technology/BlogDetail'
+import CataloguePage from './pages/Catalogue'
+import AboutUsPage from './pages/AboutUs'
+import SupportPage from './pages/Support'
+import LoginPage from './pages/Login'
+import RegisterPage from './pages/Register'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -22,37 +21,27 @@ createRoot(document.getElementById('root')).render(
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
           
-          <Route path="cues">
-            <Route index element={<CuesPage />} />
-            <Route path=":category" element={<CuesPage />} />
+          {/* Store routes */}
+          <Route path="store">
+            <Route index element={<StorePage />} />
+            <Route path=":category/:id" element={<StoreDetail />} />
           </Route>
           
-          <Route path="shafts">
-            <Route index element={<ShaftsPage />} />
-            <Route path=":category" element={<ShaftsPage />} />
-          </Route>
-          
-          <Route path="products">
-            <Route path="cues/:category/:id" element={<CueDetail />} />
-            <Route path="shafts/:category/:id" element={<ShaftDetail />} />
-            <Route path="accessories/:category/:id" element={<AccessoryDetail />} />
-            <Route path="cases/:category/:id" element={<CaseDetail />} />
-          </Route>
-          
-          <Route path="accessories">
-            <Route index element={<AccessoriesPage />} />
-            <Route path=":category" element={<AccessoriesPage />} />
-          </Route>
-          
-          <Route path="cases">
-            <Route index element={<CasesPage />} />
-            <Route path=":category" element={<CasesPage />} />
-          </Route>
-          
-          <Route path="technology">
+          {/* Blog routes */}
+          <Route path="blog">
             <Route index element={<TechnologyPage />} />
-            <Route path="blog/:id" element={<BlogDetail />} />
+            <Route path=":id" element={<BlogDetail />} />
           </Route>
+
+          {/* Additional pages */}
+          <Route path="catalogue" element={<CataloguePage />} />
+          <Route path="about-us" element={<AboutUsPage />} />
+          <Route path="support" element={<SupportPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
+          
+          {/* Compatibility routes */}
+          <Route path="products/:type/:category/:id" element={<StoreDetail />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,143 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './styles.css';
-import { useLanguage, t } from '../../contexts/LanguageContext';
 
-// Đăng ký bản dịch riêng cho menu phức tạp
+// Dummy translation data (English only)
 const headerTranslations = {
-  en: {
-    menu: {
-      CUES: {
-        desc: 'Precision engineered cues crafted for ultimate performance',
-        submenu: [
-          { title: 'MIYABI', desc: 'Japanese edition with premium craftsmanship' },
-          { title: 'KOUKAI', desc: 'Professional series with enhanced control' },
-          { title: 'SANTA FE', desc: 'Stylish designs with southwest inspiration' },
-          { title: 'EXICS', desc: 'Tournament grade performance cues' }
-        ]
-      },
-      SHAFTS: {
-        desc: 'Advanced technology shafts for precision play',
-        submenu: [
-          { title: 'EX PRO', desc: 'High-end professional grade shafts' },
-          { title: 'S3', desc: 'Three-piece innovative shaft design' },
-          { title: 'G-CORE', desc: 'Graphite core for ultimate stability' }
-        ]
-      },
-      ACCESSORIES: {
-        desc: 'Essential accessories to enhance your game',
-        submenu: [
-          { title: 'CHALKS', desc: 'Premium chalks for optimal tip friction' },
-          { title: 'TIPS', desc: 'Professional grade performance tips' },
-          { title: 'GLOVES', desc: 'Comfortable gloves for smooth strokes' }
-        ]
-      },
-      CASES: {
-        desc: 'Stylish and durable cases to protect your equipment',
-        submenu: [
-          { title: 'SOFT CASES', desc: 'Lightweight and flexible travel cases' },
-          { title: 'HARD CASES', desc: 'Maximum protection for valuable cues' }
-        ]
-      },
-      TECHNOLOGY: {
-        desc: 'Innovative technologies that set our products apart',
-        submenu: [
-          { title: 'SHAFT TECHNOLOGY', desc: 'Advanced engineering for optimal performance' },
-          { title: 'BUTT TECHNOLOGY', desc: 'Innovative designs for better handling' }
-        ]
-      },
-      DEALER: {
-        desc: 'Locate authorized dealers worldwide',
-        submenu: [
-          { title: 'USA DEALERS', desc: 'Find dealers across the United States' },
-          { title: 'INTERNATIONAL', desc: 'Global network of authorized retailers' }
-        ]
-      }
+  menu: {
+    STORE: {
+      submenu: [
+        { title: 'Cues', desc: 'Explore our premium cues collection' },
+        { title: 'Shafts', desc: 'Advanced technology shafts' },
+        { title: 'Accessories', desc: 'Premium accessories' },
+        { title: 'Cases', desc: 'Protective cases for your equipment' }
+      ]
     },
-    JAPANESE: 'Japanese',
-    ENGLISH: 'English',
-    VIETNAMESE: 'Vietnamese',
-  },
-  vi: {
-    menu: {
-      CUES: {
-        desc: 'Cơ Exceed chuẩn xác cho hiệu suất tối ưu',
-        submenu: [
-          { title: 'MIYABI', desc: 'Phiên bản Nhật Bản, thủ công cao cấp' },
-          { title: 'KOUKAI', desc: 'Dòng chuyên nghiệp, kiểm soát tối ưu' },
-          { title: 'SANTA FE', desc: 'Thiết kế cảm hứng Tây Nam Mỹ' },
-          { title: 'EXICS', desc: 'Cơ thi đấu chuẩn quốc tế' }
-        ]
-      },
-      SHAFTS: {
-        desc: 'Thân cơ công nghệ cao cho cú đánh chính xác',
-        submenu: [
-          { title: 'EX PRO', desc: 'Thân cơ chuyên nghiệp cao cấp' },
-          { title: 'S3', desc: 'Thiết kế 3 khúc sáng tạo' },
-          { title: 'G-CORE', desc: 'Lõi graphite siêu ổn định' }
-        ]
-      },
-      ACCESSORIES: {
-        desc: 'Phụ kiện thiết yếu nâng tầm trận đấu',
-        submenu: [
-          { title: 'CHALKS', desc: 'Phấn cao cấp cho đầu cơ' },
-          { title: 'TIPS', desc: 'Đầu cơ chuyên nghiệp' },
-          { title: 'GLOVES', desc: 'Găng tay êm ái, mượt mà' }
-        ]
-      },
-      CASES: {
-        desc: 'Túi đựng bền đẹp, bảo vệ tối đa',
-        submenu: [
-          { title: 'SOFT CASES', desc: 'Túi mềm nhẹ, tiện di chuyển' },
-          { title: 'HARD CASES', desc: 'Túi cứng bảo vệ tối đa' }
-        ]
-      },
-      TECHNOLOGY: {
-        desc: 'Công nghệ đột phá tạo nên khác biệt',
-        submenu: [
-          { title: 'SHAFT TECHNOLOGY', desc: 'Kỹ thuật thân cơ tối ưu' },
-          { title: 'BUTT TECHNOLOGY', desc: 'Thiết kế đuôi cơ sáng tạo' }
-        ]
-      },
-      DEALER: {
-        desc: 'Tìm đại lý ủy quyền toàn quốc',
-        submenu: [
-          { title: 'USA DEALERS', desc: 'Đại lý tại Hoa Kỳ' },
-          { title: 'INTERNATIONAL', desc: 'Hệ thống đại lý toàn cầu' }
-        ]
-      }
+    CATALOGUE: {
+      submenu: []
     },
-    JAPANESE: 'Tiếng Nhật',
-    ENGLISH: 'Tiếng Anh',
-    VIETNAMESE: 'Tiếng Việt',
+    'ABOUT US': {
+      submenu: []
+    },
+    BLOG: {
+      submenu: []
+    },
+    SUPPORT: {
+      submenu: []
+    },
+    LOGIN: {
+      submenu: []
+    },
+    REGISTER: {
+      submenu: []
+    }
   }
 };
+
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [expandedItems, setExpandedItems] = useState({});
-  const { language, setLanguage, registerTranslations } = useLanguage();
   
-  // Đăng ký bản dịch cho header
-  useEffect(() => {
-    registerTranslations('header', headerTranslations);
-  }, [registerTranslations]);
-
-  const menuKeys = ['CUES', 'SHAFTS', 'ACCESSORIES', 'CASES', 'TECHNOLOGY', 'DEALER'];
-  const menuItems = menuKeys.map((key, idx) => ({
-    title: t(`layout.header.${key}`),
-    path: `/${key.toLowerCase()}`,
-    icon: ['🎱','🔧','🧩','💼','⚙️','🔍'][idx],
-    description: t(`header.menu.${key}.desc`),
-    image: `/assets/${key.toLowerCase()}-menu-bg.jpg`,
-    submenu: headerTranslations[language].menu[key].submenu.map((sub, subIdx) => ({
-      title: sub.title,
-      path: `/${key.toLowerCase()}/${sub.title.toLowerCase().replace(/\s+/g, '-')}`,
-      image: `/assets/${sub.title.toLowerCase().replace(/\s+/g, '-')}-small.jpg`,
-      description: sub.desc
-    }))
-  }));
+  const menuKeys = ['STORE', 'CATALOGUE', 'ABOUT US', 'BLOG', 'SUPPORT', 'LOGIN', 'REGISTER'];
+  const menuItems = menuKeys.map((key, idx) => {
+    const path = key === 'ABOUT US' ? '/about-us' : `/${key.toLowerCase()}`;
+    
+    return {
+      title: key,
+      path: path,
+      description: `${key} section`,
+      image: `/assets/${key.toLowerCase().replace(/\s+/g, '-')}-menu-bg.jpg`,
+      submenu: headerTranslations.menu[key].submenu.map((sub, subIdx) => ({
+        title: sub.title,
+        path: `${path}/${sub.title.toLowerCase().replace(/\s+/g, '-')}`,
+        image: `/assets/${sub.title.toLowerCase().replace(/\s+/g, '-')}-small.jpg`,
+        description: sub.desc
+      }))
+    };
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -192,7 +111,7 @@ const Header = () => {
                 <span className="menu-icon">{item.icon}</span>
                 {item.title}
               </Link>
-              {item.submenu && (
+              {item.submenu && item.submenu.length > 0 && item.title === 'STORE' && (
                 <div className="dropdown-menu">
                   <div className="dropdown-header">
                     <h3>{item.title}</h3>
@@ -227,19 +146,9 @@ const Header = () => {
       </nav>
         
       <div className="language-social">
-          <button
-            className={`lang-btn${language === 'vi' ? ' active' : ''}`}
-            onClick={() => setLanguage('vi')}
-          >
-            {t('header.VIETNAMESE', 'Tiếng Việt')}
+          <button className="lang-btn active">
+            English
           </button>
-          <button
-            className={`lang-btn${language === 'en' ? ' active' : ''}`}
-            onClick={() => setLanguage('en')}
-          >
-            {t('header.ENGLISH', 'English')}
-          </button>
-
         </div>
         
         {/* Mobile Menu Button */}
@@ -260,9 +169,9 @@ const Header = () => {
               <div className="mobile-nav-item" key={index}>
                 <div 
                   className="mobile-nav-header"
-                  onClick={() => item.submenu && toggleSubmenu(index)}
+                  onClick={() => item.submenu && item.submenu.length > 0 && item.title === 'STORE' && toggleSubmenu(index)}
                 >
-                  {!item.submenu ? (
+                  {!(item.submenu && item.submenu.length > 0 && item.title === 'STORE') ? (
                     <Link to={item.path} onClick={toggleMobileMenu}>
                       <span className="mobile-menu-icon">{item.icon}</span>
                       {item.title}
@@ -270,7 +179,7 @@ const Header = () => {
                   ) : (
                     <>
                       <Link to={item.path} onClick={(e) => {
-                        if (item.submenu) {
+                        if (item.submenu && item.submenu.length > 0 && item.title === 'STORE') {
                           e.preventDefault();
                           toggleSubmenu(index);
                         }
@@ -285,7 +194,7 @@ const Header = () => {
                   )}
                 </div>
                 
-                {item.submenu && (
+                {item.submenu && item.submenu.length > 0 && item.title === 'STORE' && (
                   <div className={`mobile-submenu ${expandedItems[index] ? 'expanded' : ''}`}>
                     {item.submenu.map((subItem, subIndex) => (
                       <Link 
@@ -311,20 +220,10 @@ const Header = () => {
           
           <div className="mobile-language-social">
             <div className="language-links">
-              <button
-                className={`lang-btn${language === 'vi' ? ' active' : ''}`}
-                onClick={() => setLanguage('vi')}
-              >
-                {t('header.VIETNAMESE', 'Tiếng Việt')}
-              </button>
-              <button
-                className={`lang-btn${language === 'en' ? ' active' : ''}`}
-                onClick={() => setLanguage('en')}
-              >
-                {t('header.ENGLISH', 'English')}
+              <button className="lang-btn active">
+                English
               </button>
             </div>
-
           </div>
         </div>
       </div>

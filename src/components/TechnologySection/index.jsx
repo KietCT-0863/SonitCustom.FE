@@ -1,50 +1,18 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import './styles.css';
-import { useLanguage, t } from '../../contexts/LanguageContext';
 
-// Bản dịch cho component TechnologySection
-const techSectionTranslations = {
-  en: {
-    techs: [
-      {
-        title: 'AVAILABLE CUE AT FACTORY',
-      },
-      {
-        title: 'EX PRO SHAFT TECHNOLOGY',
-      },
-      {
-        title: 'EXCEED BUTT TECHNOLOGY',
-      },
-      {
-        title: 'FIND A DEALER',
-      },
-    ],
-    sectionTitle: 'Our Technology'
-  },
-  vi: {
-    techs: [
-      {
-        title: 'CƠ CÓ SẴN TẠI XƯỞNG',
-      },
-      {
-        title: 'CÔNG NGHỆ THÂN CƠ EX PRO',
-      },
-      {
-        title: 'CÔNG NGHỆ ĐẦU CƠ EXCEED',
-      },
-      {
-        title: 'TÌM ĐẠI LÝ',
-      },
-    ],
-    sectionTitle: 'Công Nghệ Của Chúng Tôi'
-  }
-};
+// Technology data in English
+const techs = [
+  { title: "MANUFACTURING EXCELLENCE" },
+  { title: "SHAFT TECHNOLOGY" },
+  { title: "BUTT DESIGN INNOVATION" },
+  { title: "DEALER NETWORK" }
+];
 
-// Thông tin hình ảnh
 const techImages = [
   '/assets/cue-factory.jpg',
   '/assets/shaft-tech.jpg',
@@ -53,13 +21,6 @@ const techImages = [
 ];
 
 const TechnologySection = () => {
-  const { registerTranslations, language } = useLanguage();
-  
-  // Đăng ký bản dịch
-  useEffect(() => {
-    registerTranslations('techSection', techSectionTranslations);
-  }, [registerTranslations]);
-
   return (
     <section className="technology-section-slider">
       <Swiper
@@ -75,7 +36,7 @@ const TechnologySection = () => {
         }}
         className="tech-swiper"
       >
-        {techSectionTranslations[language].techs.map((tech, idx) => (
+        {techs.map((tech, idx) => (
           <SwiperSlide key={idx}>
             <div className="tech-item">
               <img src={techImages[idx]} alt={tech.title} />

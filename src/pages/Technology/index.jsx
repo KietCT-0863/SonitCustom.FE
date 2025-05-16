@@ -1,152 +1,82 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useLanguage, t } from '../../contexts/LanguageContext';
 import { SearchBar } from '../../components/ProductsPage/SearchBar';
 import { Pagination } from '../../components/ProductsPage/Pagination';
 import './styles.css';
 
-// Bản dịch cho trang Technology
-const technologyTranslations = {
-  en: {
-    bannerTitle: 'OUR TECHNOLOGY',
-    bannerDesc: 'Explore the innovations and advanced techniques behind Sonit Custom products',
-    searchPlaceholder: 'Search articles...',
-    categories: [
-      { id: 'all', name: 'ALL ARTICLES' },
-      { id: 'shaft', name: 'SHAFT TECHNOLOGY' },
-      { id: 'butt', name: 'BUTT TECHNOLOGY' },
-      { id: 'manufacturing', name: 'MANUFACTURING' },
-      { id: 'materials', name: 'MATERIALS' },
-      { id: 'joints', name: 'JOINT SYSTEMS' }
-    ],
-    readMore: 'Read more',
-    minRead: 'min read'
-  },
-  vi: {
-    bannerTitle: 'CÔNG NGHỆ CỦA CHÚNG TÔI',
-    bannerDesc: 'Khám phá những đổi mới và kỹ thuật tiên tiến đằng sau sản phẩm của Sonit Custom',
-    searchPlaceholder: 'Tìm kiếm bài viết...',
-    categories: [
-      { id: 'all', name: 'TẤT CẢ BÀI VIẾT' },
-      { id: 'shaft', name: 'CÔNG NGHỆ THÂN CƠ' },
-      { id: 'butt', name: 'CÔNG NGHỆ ĐUÔI CƠ' },
-      { id: 'manufacturing', name: 'SẢN XUẤT' },
-      { id: 'materials', name: 'VẬT LIỆU' },
-      { id: 'joints', name: 'HỆ THỐNG KHỚP NỐI' }
-    ],
-    readMore: 'Đọc tiếp',
-    minRead: 'phút đọc'
-  }
-};
-
 const TechnologyPage = () => {
-  const { language, registerTranslations } = useLanguage();
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOption, setSortOption] = useState('newest');
   const navigate = useNavigate();
-
-  // Đăng ký bản dịch
-  useEffect(() => {
-    registerTranslations('technology', technologyTranslations);
-  }, [registerTranslations]);
+  
+  const categories = [
+    { id: 'all', name: 'ALL ARTICLES' },
+    { id: 'shaft', name: 'SHAFT TECHNOLOGY' },
+    { id: 'butt', name: 'BUTT TECHNOLOGY' },
+    { id: 'manufacturing', name: 'MANUFACTURING' },
+    { id: 'materials', name: 'MATERIALS' },
+    { id: 'joints', name: 'JOINT SYSTEMS' }
+  ];
   
   // Dữ liệu mẫu cho các bài viết blog
   const blogPosts = [
     {
       id: 1,
-      title: {
-        en: 'Advanced EX Pro Shaft Technology',
-        vi: 'Công nghệ tiên tiến của thân cơ EX Pro'
-      },
+      title: 'Advanced EX Pro Shaft Technology',
       category: 'shaft',
       date: '2023-12-15',
       image: '/assets/shaft-tech.jpg',
-      excerpt: {
-        en: 'Discover the cutting-edge technology behind our EX Pro shafts that revolutionizes your gameplay...',
-        vi: 'Khám phá công nghệ tiên tiến đằng sau thân cơ EX Pro giúp cách chơi của bạn đột phá...'
-      },
+      excerpt: 'Discover the cutting-edge technology behind our EX Pro shafts that revolutionizes your gameplay...',
       readTime: 5
     },
     {
       id: 2,
-      title: {
-        en: 'G-Core System: Perfect Balance and Control',
-        vi: 'Hệ thống G-Core: Cân bằng và kiểm soát hoàn hảo'
-      },
+      title: 'G-Core System: Perfect Balance and Control',
       category: 'shaft',
       date: '2023-11-20',
       image: '/assets/g-core.jpg',
-      excerpt: {
-        en: 'Our G-Core system integrates graphite core technology for unmatched stability and precision...',
-        vi: 'Hệ thống G-Core của chúng tôi tích hợp công nghệ lõi graphite cho độ ổn định và độ chính xác vô song...'
-      },
+      excerpt: 'Our G-Core system integrates graphite core technology for unmatched stability and precision...',
       readTime: 7
     },
     {
       id: 3,
-      title: {
-        en: 'Exceed Butt Technology Innovation',
-        vi: 'Đổi mới công nghệ đuôi cơ Exceed'
-      },
+      title: 'Exceed Butt Technology Innovation',
       category: 'butt',
       date: '2023-10-05',
       image: '/assets/butt-tech.jpg',
-      excerpt: {
-        en: 'Explore how our proprietary butt designs enhance feel, reduce vibration, and improve your stroke...',
-        vi: 'Khám phá cách thiết kế đuôi cơ độc quyền của chúng tôi nâng cao cảm giác, giảm rung và cải thiện cú đánh của bạn...'
-      },
+      excerpt: 'Explore how our proprietary butt designs enhance feel, reduce vibration, and improve your stroke...',
       readTime: 6
     },
     {
       id: 4,
-      title: {
-        en: 'Manufacturing Excellence: Inside Our Factory',
-        vi: 'Sự xuất sắc trong sản xuất: Bên trong nhà máy của chúng tôi'
-      },
+      title: 'Manufacturing Excellence: Inside Our Factory',
       category: 'manufacturing',
       date: '2023-09-12',
       image: '/assets/cue-factory.jpg',
-      excerpt: {
-        en: 'Take a virtual tour through our state-of-the-art production facility where precision meets craftsmanship...',
-        vi: 'Tham quan ảo qua cơ sở sản xuất hiện đại của chúng tôi, nơi độ chính xác gặp gỡ tay nghề thủ công...'
-      },
+      excerpt: 'Take a virtual tour through our state-of-the-art production facility where precision meets craftsmanship...',
       readTime: 8
     },
     {
       id: 5,
-      title: {
-        en: 'Material Science: Wood Selection Secrets',
-        vi: 'Khoa học vật liệu: Bí mật lựa chọn gỗ'
-      },
+      title: 'Material Science: Wood Selection Secrets',
       category: 'materials',
       date: '2023-08-28',
       image: '/assets/wood-selection.jpg',
-      excerpt: {
-        en: 'Learn about our rigorous wood selection process and how it affects performance and durability...',
-        vi: 'Tìm hiểu về quy trình lựa chọn gỗ nghiêm ngặt của chúng tôi và cách nó ảnh hưởng đến hiệu suất và độ bền...'
-      },
+      excerpt: 'Learn about our rigorous wood selection process and how it affects performance and durability...',
       readTime: 6
     },
     {
       id: 6,
-      title: {
-        en: 'Innovation in Joint Systems',
-        vi: 'Đổi mới trong hệ thống khớp nối'
-      },
+      title: 'Innovation in Joint Systems',
       category: 'joints',
       date: '2023-07-15',
       image: '/assets/joint-systems.jpg',
-      excerpt: {
-        en: 'Discover our proprietary joint technologies that ensure perfect alignment and energy transfer...',
-        vi: 'Khám phá công nghệ khớp nối độc quyền đảm bảo sự căn chỉnh hoàn hảo và truyền năng lượng hiệu quả...'
-      },
+      excerpt: 'Discover our proprietary joint technologies that ensure perfect alignment and energy transfer...',
       readTime: 5
     }
   ];
-
-  const categories = technologyTranslations[language].categories;
   
   // Xử lý thay đổi danh mục
   const handleCategoryChange = (categoryId) => {
@@ -174,7 +104,7 @@ const TechnologyPage = () => {
   // Format date
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString(language === 'vi' ? 'vi-VN' : 'en-US', {
+    return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
@@ -192,8 +122,8 @@ const TechnologyPage = () => {
   if (searchTerm) {
     const term = searchTerm.toLowerCase();
     filteredPosts = filteredPosts.filter(post => 
-      post.title[language].toLowerCase().includes(term) ||
-      post.excerpt[language].toLowerCase().includes(term)
+      post.title.toLowerCase().includes(term) ||
+      post.excerpt.toLowerCase().includes(term)
     );
   }
   
@@ -219,13 +149,13 @@ const TechnologyPage = () => {
   return (
     <div className="products-page technology-blog-page">
       <div className="products-banner tech-hero">
-        <h1>{t('technology.bannerTitle')}</h1>
-        <p>{t('technology.bannerDesc')}</p>
+        <h1>OUR TECHNOLOGY</h1>
+        <p>Explore the innovations and advanced techniques behind Sonit Custom products</p>
       </div>
 
       <div className="products-content">
         <div className="products-search-bar">
-          <SearchBar onSearch={handleSearch} placeholder={t('technology.searchPlaceholder')} />
+          <SearchBar onSearch={handleSearch} placeholder="Search articles..." />
         </div>
         
         <div className="products-filter">
@@ -244,19 +174,19 @@ const TechnologyPage = () => {
           {currentPosts.map(post => (
             <div className="blog-card" key={post.id} onClick={() => handleBlogClick(post.id)}>
               <div className="blog-image">
-                <img src={post.image} alt={post.title[language]} />
+                <img src={post.image} alt={post.title} />
               </div>
               <div className="blog-content">
                 <div className="blog-meta">
                   <span className="blog-date">{formatDate(post.date)}</span>
                   <span className="blog-read-time">
-                    {post.readTime} {t('technology.minRead')}
+                    {post.readTime} min read
                   </span>
                 </div>
-                <h2 className="blog-title">{post.title[language]}</h2>
-                <p className="blog-excerpt">{post.excerpt[language]}</p>
+                <h2 className="blog-title">{post.title}</h2>
+                <p className="blog-excerpt">{post.excerpt}</p>
                 <span className="read-more">
-                  {t('technology.readMore')} →
+                  Read more →
                 </span>
               </div>
             </div>
