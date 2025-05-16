@@ -3,8 +3,8 @@
   width: 100%;
   min-height: 100vh;
   background-color: #0d0d0d;
-  color: #fff;
-  padding-bottom: 60px;
+  color: #D4C9BE;
+  padding-bottom: 60px; 
   padding-top: 100px;
   position: relative;
 }
@@ -41,7 +41,7 @@
 
 .catalogue-nav {
   font-size: 0.9rem;
-  color: #999;
+  color:#D4C9BE ; 
   display: flex;
   align-items: center;
 }
@@ -56,7 +56,7 @@
 }
 
 .catalogue-nav .active {
-  color: #e9c46a;
+    color:#D4C9BE ;
   font-weight: 500;
 }
 
@@ -94,7 +94,7 @@
 }
 
 .timeline-item.active .timeline-year {
-  color: #fff;
+  color: #D4C9BE;
   transform: translateX(5px);
 }
 
@@ -109,7 +109,7 @@
 
 .timeline-year-wrapper:hover .timeline-year {
   transform: translateX(5px);
-  color: #fff;
+  color: #D4C9BE;
 }
 
 .timeline-dot {
@@ -132,7 +132,7 @@
 .timeline-year {
   font-size: 1.4rem;
   font-weight: 700;
-  color: #e9c46a;
+  color:#D4C9BE ;
   transition: all 0.3s ease;
 }
 
@@ -212,7 +212,7 @@
 .year-label {
   font-size: 2.2rem;
   font-weight: 800;
-  color: #e9c46a;
+  color:#D4C9BE ;
   text-shadow: 0 2px 10px rgba(233, 196, 106, 0.3);
 }
 
@@ -303,18 +303,18 @@
   font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 5px;
-  color: #fff;
+    color: #D4C9BE;
   text-transform: uppercase;
   transition: all 0.3s ease;
 }
 
 .product-card:hover .product-info h3 {
-  color: #e9c46a;
+  color: #D4C9BE;
 }
 
 .product-category {
   font-size: 0.85rem;
-  color: #999;
+  color: #D4C9BE;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -457,14 +457,14 @@
   font-size: 2.5rem;
   font-weight: 800;
   margin-bottom: 15px;
-  color: #e9c46a;
+  color:#D4C9BE ;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .modal-category {
   font-size: 1rem;
-  color: #999;
+  color: #D4C9BE;
   text-transform: uppercase;
   letter-spacing: 2px;
   margin-bottom: 30px;
@@ -473,7 +473,7 @@
 .modal-description {
   font-size: 1.1rem;
   line-height: 1.8;
-  color: #ddd;
+    color:#D4C9BE;
   margin-bottom: 40px;
 }
 
@@ -598,7 +598,7 @@
   }
   
   .product-card {
-    height: 300px;
+      height: 300px;
   }
   
   .product-image {

@@ -12,7 +12,7 @@
   background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/assets/tech-hero-bg.jpg');
   background-size: cover;
   background-position: center;
-  color: #fff;
+  color: #D4C9BE;
   border-radius: 8px;
 }
 
@@ -65,7 +65,7 @@
 
 .category-buttons button.active {
   background-color: #000;
-  color: #fff;
+  color: #D4C9BE;
   border-color: #000;
 }
 

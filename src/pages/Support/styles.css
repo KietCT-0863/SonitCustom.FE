@@ -16,12 +16,12 @@
 .page-banner h1 {
   font-size: 2.5rem;
   margin-bottom: 10px;
-  color: #333;
+  color: #D4C9BE;
 }
 
 .page-banner p {
   font-size: 1.2rem;
-  color: #666;
+    color: #D4C9BE;
 }
 
 .support-content {
@@ -62,17 +62,17 @@
 .info-card h3 {
   font-size: 1.4rem;
   margin-bottom: 10px;
-  color: #333;
+  color: #D4C9BE;
 }
 
 .info-card p {
   margin-bottom: 15px;
-  color: #666;
+  color: #D4C9BE;
 }
 
 .contact-link {
   display: inline-block;
-  color: #4a90e2;
+  color: #D4C9BE;
   font-weight: 500;
   text-decoration: none;
   font-size: 1.1rem;
@@ -84,7 +84,7 @@
 
 .chat-button {
   background-color: #4a90e2;
-  color: white;
+  color: #D4C9BE;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -104,7 +104,7 @@
 .support-faq h2 {
   font-size: 2rem;
   margin-bottom: 30px;
-  color: #333;
+  color: #D4C9BE;
   text-align: center;
 }
 
@@ -119,11 +119,11 @@
 .faq-item h3 {
   font-size: 1.3rem;
   margin-bottom: 10px;
-  color: #333;
+  color: #D4C9BE;
 }
 
 .faq-item p {
-  color: #555;
+  color: #D4C9BE;
   line-height: 1.6;
 }
 
@@ -138,14 +138,14 @@
 .contact-form-container h2 {
   font-size: 2rem;
   margin-bottom: 10px;
-  color: #333;
+  color: #D4C9BE;
   text-align: center;
 }
 
 .contact-form-container > p {
   text-align: center;
   margin-bottom: 30px;
-  color: #666;
+  color: #D4C9BE;
 }
 
 .contact-form {
@@ -171,7 +171,7 @@
   display: block;
   margin-bottom: 8px;
   font-weight: 500;
-  color: #444;
+  color: #D4C9BE;
 }
 
 .form-group input,
@@ -198,7 +198,7 @@
   width: 100%;
   padding: 14px;
   background-color: #4a90e2;
-  color: white;
+  color: #D4C9BE;
   border: none;
   border-radius: 5px;
   font-size: 16px;
@@ -227,8 +227,8 @@
 
 .success-message p {
   font-size: 1.2rem;
-  color: #2c3e50;
-}
+    color:#D4C9BE ;
+} 
 
 @media (max-width: 768px) {
   .support-info {

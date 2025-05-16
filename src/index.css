@@ -1,7 +1,7 @@
 :root {
   --primary-font: 'Montserrat', sans-serif;
   --heading-font: 'Oswald', sans-serif;
-  --primary-color: #ffffff;
+  --primary-color: #D4C9BE;
   --secondary-color: #cccccc;
   --accent-color: #ffffff;
   --background-color: #000000;
@@ -69,7 +69,7 @@ button {
   font-weight: 300;
   font-family: var(--primary-font);
   background-color: transparent;
-  color: white;
+  color: #D4C9BE;
   cursor: pointer;
   transition: background-color 0.25s, transform 0.2s;
 }
@@ -102,7 +102,7 @@ a:hover {
 
 .neon-text {
   text-shadow: none;
-  color: #fff;
+  color: #D4C9BE;
 }
 
 .transition-all {
