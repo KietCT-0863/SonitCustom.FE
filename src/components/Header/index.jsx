@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo/Logo';
 import './styles.css';
@@ -39,6 +39,8 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [expandedItems, setExpandedItems] = useState({});
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const headerRef = useRef(null);
   
   const menuKeys = ['STORE',  'CATALOGUE', 'ABOUT US', 'BLOG', 'SUPPORT'];
   const menuItems = menuKeys.map((key, idx) => {
@@ -84,6 +86,20 @@ const Header = () => {
       document.body.style.overflow = 'auto';
     };
   }, [mobileMenuOpen]);
+
+  // Handle outside click to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (headerRef.current && !headerRef.current.contains(event.target)) {
+        setActiveDropdown(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
   
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -96,9 +112,42 @@ const Header = () => {
     }));
   };
 
+  const handleMenuItemHover = (index) => {
+    setActiveDropdown(index);
+  };
+
+  const handleMenuItemLeave = () => {
+    // Using a slight delay before closing dropdown for better UX
+    setTimeout(() => {
+      setActiveDropdown(null);
+    }, 200);
+  };
+
+  // Close mobile menu when window is resized to desktop size
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 992 && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [mobileMenuOpen]);
+
+  // Handle keyboard navigation for accessibility
+  const handleKeyDown = (event, index) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      setActiveDropdown(activeDropdown === index ? null : index);
+      event.preventDefault();
+    }
+  };
+
   return (
     <>
-      <header className={`header ${scrolled ? 'scrolled' : ''}`}>
+      <header ref={headerRef} className={`header ${scrolled ? 'scrolled' : ''}`}>
         {/* Left Section - Logo */}
         <div className="header-left">
           <Logo size="medium" animated={false} linkTo="/" />
@@ -106,9 +155,16 @@ const Header = () => {
         
         {/* Middle Section - Navigation */}
         <div className="header-middle">
-          <nav className="nav-links desktop-nav">
+          <nav className="nav-links desktop-nav" aria-label="Main Navigation">
             {menuItems.map((item, index) => (
-              <div className="nav-item" key={index}>
+              <div 
+                className={`nav-item ${activeDropdown === index ? 'active' : ''}`} 
+                key={index}
+                onMouseEnter={() => handleMenuItemHover(index)}
+                onMouseLeave={handleMenuItemLeave}
+                onKeyDown={(e) => handleKeyDown(e, index)}
+                tabIndex={0}
+              >
                 <Link to={item.path} className="nav-link">
                   {item.title}
                   {item.submenu && item.submenu.length > 0 && (
@@ -116,7 +172,7 @@ const Header = () => {
                   )}
                 </Link>
                 {item.submenu && item.submenu.length > 0 && (
-                  <div className="dropdown-menu">
+                  <div className={`dropdown-menu ${activeDropdown === index ? 'active' : ''}`}>
                     <div className="dropdown-header">
                       <h3>{item.title}</h3>
                       <p>{item.description}</p>
@@ -159,12 +215,11 @@ const Header = () => {
             <Link to="/register" className="auth-link register-btn">
               REGISTER
             </Link>
-
           </div>
         </div>
   
         {/* Mobile Menu Button */}
-        <div className="mobile-menu-button" onClick={toggleMobileMenu}>
+        <div className="mobile-menu-button" onClick={toggleMobileMenu} aria-label="Menu" aria-expanded={mobileMenuOpen}>
           <div className={`hamburger ${mobileMenuOpen ? 'active' : ''}`}>
             <span></span>
             <span></span>
@@ -176,31 +231,28 @@ const Header = () => {
       {/* Mobile Navigation Overlay */}
       <div className={`mobile-nav-overlay ${mobileMenuOpen ? 'active' : ''}`}>
         <div className="mobile-nav-content">
-          <nav className="mobile-nav">
+          <nav className="mobile-nav" aria-label="Mobile Navigation">
             {menuItems.map((item, index) => (
               <div className="mobile-nav-item" key={index}>
-                <div 
-                  className="mobile-nav-header"
-                  onClick={() => item.submenu && item.submenu.length > 0 && toggleSubmenu(index)}
-                >
-                  {!(item.submenu && item.submenu.length > 0) ? (
-                    <Link to={item.path} onClick={toggleMobileMenu}>
-                      {item.title}
-                    </Link>
-                  ) : (
-                    <>
-                      <Link to={item.path} onClick={(e) => {
-                        if (item.submenu && item.submenu.length > 0) {
-                          e.preventDefault();
-                          toggleSubmenu(index);
-                        }
-                      }}>
-                        {item.title}
-                      </Link>
-                      <span className={`mobile-dropdown-arrow ${expandedItems[index] ? 'expanded' : ''}`}>
-                        ▼
-                      </span>
-                    </>
+                <div className="mobile-nav-header">
+                  <Link to={item.path} onClick={(e) => {
+                    // Luôn cho phép điều hướng đến trang chính
+                    toggleMobileMenu();
+                  }}>
+                    {item.title}
+                  </Link>
+                  
+                  {/* Nếu có submenu thì hiển thị nút mở/đóng riêng */}
+                  {item.submenu && item.submenu.length > 0 && (
+                    <span 
+                      className={`mobile-dropdown-arrow ${expandedItems[index] ? 'expanded' : ''}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleSubmenu(index);
+                      }}
+                    >
+                      ▼
+                    </span>
                   )}
                 </div>
                 
