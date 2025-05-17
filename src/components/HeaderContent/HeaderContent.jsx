@@ -86,7 +86,7 @@ const HeaderContent = ({ isDarkMode }) => {
           >
             <div className="image-container">
               <img 
-                src="/assets/products/billiard/premium-cue.jpg" 
+                src="/assets/images/logo.jpg" 
                 alt="Premium Billiard Cue" 
                 className="main-featured-image" 
               />
