@@ -14,6 +14,7 @@ import AboutUsPage from './pages/AboutUs'
 import SupportPage from './pages/Support'
 import LoginPage from './pages/Login'
 import RegisterPage from './pages/Register'
+import NotFoundPage from './pages/NotFound'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -22,6 +23,9 @@ createRoot(document.getElementById('root')).render(
         {/* Authentication routes (không sử dụng MainLayout) */}
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
+        
+        {/* 404 Not Found route - Không dùng MainLayout */}
+        <Route path="*" element={<NotFoundPage />} />
         
         {/* Main routes với MainLayout */}
         <Route path="/" element={<MainLayout />}>
