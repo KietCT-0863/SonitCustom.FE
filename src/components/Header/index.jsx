@@ -13,6 +13,7 @@ const headerTranslations = {
         { title: 'Cases', desc: 'Protective cases for your equipment' }
       ]
     },
+    
     CATALOGUE: {
       submenu: []
     },
@@ -23,24 +24,22 @@ const headerTranslations = {
       submenu: []
     },
     SUPPORT: {
-      submenu: []
-    },
-    LOGIN: {
-      submenu: []
-    },
-    REGISTER: {
-      submenu: []
+      submenu: [
+        { title: 'Help', desc: 'Get help with your orders' },
+        { title: 'FAQs', desc: 'Frequently asked questions' },
+        { title: 'Contact', desc: 'Reach out to us directly' },
+        { title: 'Returns', desc: 'Return policy information' }
+      ]
     }
   }
 };
-
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [expandedItems, setExpandedItems] = useState({});
   
-  const menuKeys = ['STORE', 'CATALOGUE', 'ABOUT US', 'BLOG', 'SUPPORT', 'LOGIN', 'REGISTER'];
+  const menuKeys = ['STORE',  'CATALOGUE', 'ABOUT US', 'BLOG', 'SUPPORT'];
   const menuItems = menuKeys.map((key, idx) => {
     const path = key === 'ABOUT US' ? '/about-us' : `/${key.toLowerCase()}`;
     
@@ -49,12 +48,12 @@ const Header = () => {
       path: path,
       description: `${key} section`,
       image: `/assets/${key.toLowerCase().replace(/\s+/g, '-')}-menu-bg.jpg`,
-      submenu: headerTranslations.menu[key].submenu.map((sub, subIdx) => ({
+      submenu: headerTranslations.menu[key]?.submenu.map((sub, subIdx) => ({
         title: sub.title,
         path: `${path}/${sub.title.toLowerCase().replace(/\s+/g, '-')}`,
         image: `/assets/${sub.title.toLowerCase().replace(/\s+/g, '-')}-small.jpg`,
         description: sub.desc
-      }))
+      })) || []
     };
   });
 
@@ -98,55 +97,79 @@ const Header = () => {
 
   return (
     <>
-    <header className={`header ${scrolled ? 'scrolled' : ''}`}>
-        <Link to="/" className="logo-link" aria-label="Đến trang chủ">
-          <img src="/logo.jpg" alt="Sonit Custom" className="logo-animated" />
-        </Link>
+      <header className={`header ${scrolled ? 'scrolled' : ''}`}>
+        {/* Left Section - Logo */}
+        <div className="header-left">
+          <Link to="/" className="logo-link" aria-label="Đến trang chủ">
+            <img src="/logo.jpg" alt="Sonit Custom" className="logo-animated" />
+          </Link>
+        </div>
         
-        {/* Desktop Navigation */}
-        <nav className="nav-links desktop-nav">
-          {menuItems.map((item, index) => (
-            <div className="nav-item" key={index}>
-              <Link to={item.path} className="nav-link">
-                <span className="menu-icon">{item.icon}</span>
-                {item.title}
-              </Link>
-              {item.submenu && item.submenu.length > 0 && item.title === 'STORE' && (
-                <div className="dropdown-menu">
-                  <div className="dropdown-header">
-                    <h3>{item.title}</h3>
-                    <p>{item.description}</p>
-                  </div>
-                  <div className="dropdown-content">
-                    <div className="dropdown-image-container">
-                      <img src={item.image} alt={item.title} className="dropdown-main-image" />
+        {/* Middle Section - Navigation */}
+        <div className="header-middle">
+          <nav className="nav-links desktop-nav">
+            {menuItems.map((item, index) => (
+              <div className="nav-item" key={index}>
+                <Link to={item.path} className="nav-link">
+                  {item.title}
+                  {item.submenu && item.submenu.length > 0 && (
+                    <span className="dropdown-arrow">▼</span>
+                  )}
+                </Link>
+                {item.submenu && item.submenu.length > 0 && (
+                  <div className="dropdown-menu">
+                    <div className="dropdown-header">
+                      <h3>{item.title}</h3>
+                      <p>{item.description}</p>
                     </div>
-                    <div className="dropdown-links">
-                      {item.submenu.map((subItem, subIndex) => (
-                        <Link 
-                          key={subIndex} 
-                          to={subItem.path} 
-                          className="submenu-item"
-                        >
-                          <div className="submenu-image">
-                            <img src={subItem.image} alt={subItem.title} />
-                          </div>
-                          <div className="submenu-info">
-                            <span className="submenu-title">{subItem.title}</span>
-                            <span className="submenu-description">{subItem.description}</span>
-                          </div>
-                        </Link>
-                      ))}
+                    <div className="dropdown-content">
+                      <div className="dropdown-image-container">
+                        <img src={item.image} alt={item.title} className="dropdown-main-image" />
+                      </div>
+                      <div className="dropdown-links">
+                        {item.submenu.map((subItem, subIndex) => (
+                          <Link 
+                            key={subIndex} 
+                            to={subItem.path} 
+                            className="submenu-item"
+                          >
+                            <div className="submenu-image">
+                              <img src={subItem.image} alt={subItem.title} />
+                            </div>
+                            <div className="submenu-info">
+                              <span className="submenu-title">{subItem.title}</span>
+                              <span className="submenu-description">{subItem.description}</span>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
-            </div>
-          ))}
-      </nav>
+                )}
+              </div>
+            ))}
+          </nav>
+        </div>
         
+        {/* Right Section - Authentication & Cart */}
+        <div className="header-right">
+          <div className="user-actions">
+
+            <Link to="/login" className="user-icon">
+
+            </Link>
+            <Link to="/login" className="auth-link login-btn">
+              LOGIN
+            </Link>
+            <Link to="/register" className="auth-link register-btn">
+              REGISTER
+            </Link>
+            <Link to="/cart" className="cart-icon">
+             
+            </Link>
+          </div>
+        </div>
   
-        
         {/* Mobile Menu Button */}
         <div className="mobile-menu-button" onClick={toggleMobileMenu}>
           <div className={`hamburger ${mobileMenuOpen ? 'active' : ''}`}>
@@ -165,22 +188,20 @@ const Header = () => {
               <div className="mobile-nav-item" key={index}>
                 <div 
                   className="mobile-nav-header"
-                  onClick={() => item.submenu && item.submenu.length > 0 && item.title === 'STORE' && toggleSubmenu(index)}
+                  onClick={() => item.submenu && item.submenu.length > 0 && toggleSubmenu(index)}
                 >
-                  {!(item.submenu && item.submenu.length > 0 && item.title === 'STORE') ? (
+                  {!(item.submenu && item.submenu.length > 0) ? (
                     <Link to={item.path} onClick={toggleMobileMenu}>
-                      <span className="mobile-menu-icon">{item.icon}</span>
                       {item.title}
                     </Link>
                   ) : (
                     <>
                       <Link to={item.path} onClick={(e) => {
-                        if (item.submenu && item.submenu.length > 0 && item.title === 'STORE') {
+                        if (item.submenu && item.submenu.length > 0) {
                           e.preventDefault();
                           toggleSubmenu(index);
                         }
                       }}>
-                        <span className="mobile-menu-icon">{item.icon}</span>
                         {item.title}
                       </Link>
                       <span className={`mobile-dropdown-arrow ${expandedItems[index] ? 'expanded' : ''}`}>
@@ -190,7 +211,7 @@ const Header = () => {
                   )}
                 </div>
                 
-                {item.submenu && item.submenu.length > 0 && item.title === 'STORE' && (
+                {item.submenu && item.submenu.length > 0 && (
                   <div className={`mobile-submenu ${expandedItems[index] ? 'expanded' : ''}`}>
                     {item.submenu.map((subItem, subIndex) => (
                       <Link 
@@ -212,15 +233,24 @@ const Header = () => {
                 )}
               </div>
             ))}
+
+            <div className="mobile-nav-item">
+              <div className="mobile-nav-header">
+                <Link to="/login" onClick={toggleMobileMenu}>
+                  LOGIN
+                </Link>
+              </div>
+            </div>
+            <div className="mobile-nav-item">
+              <div className="mobile-nav-header">
+                <Link to="/register" onClick={toggleMobileMenu}>
+                  REGISTER
+                </Link>
+              </div>
+            </div>
           </nav>
           
-          <div className="mobile-language-social">
-            <div className="language-links">
-              <button className="lang-btn active">
-                English
-              </button>
-            </div>
-          </div>
+
         </div>
       </div>
     </>

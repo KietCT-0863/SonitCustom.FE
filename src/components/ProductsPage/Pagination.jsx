@@ -46,7 +46,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         className="pagination-button"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        title={t('pagination.prev', 'Previous')}
+        title="Previous"
       >
         &lt;
       </button>
@@ -69,7 +69,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         className="pagination-button"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        title={t('pagination.next', 'Next')}
+        title="Next"
       >
         &gt;
       </button>

@@ -9,6 +9,7 @@ import StoreDetail from './pages/Store/StoreDetail'
 import TechnologyPage from './pages/Technology'
 import BlogDetail from './pages/Technology/BlogDetail'
 import CataloguePage from './pages/Catalogue'
+import CatalogueDetail from './pages/Catalogue/CatalogueDetail'
 import AboutUsPage from './pages/AboutUs'
 import SupportPage from './pages/Support'
 import LoginPage from './pages/Login'
@@ -29,6 +30,8 @@ createRoot(document.getElementById('root')).render(
           {/* Store routes */}
           <Route path="store">
             <Route index element={<StorePage />} />
+            <Route path=":id" element={<StoreDetail />} />
+            <Route path="billiard/:id" element={<StoreDetail />} />
             <Route path=":category/:id" element={<StoreDetail />} />
           </Route>
           
@@ -38,8 +41,13 @@ createRoot(document.getElementById('root')).render(
             <Route path=":id" element={<BlogDetail />} />
           </Route>
 
+          {/* Catalogue routes */}
+          <Route path="catalogue">
+            <Route index element={<CataloguePage />} />
+            <Route path=":id" element={<CatalogueDetail />} />
+          </Route>
+          
           {/* Additional pages */}
-          <Route path="catalogue" element={<CataloguePage />} />
           <Route path="about-us" element={<AboutUsPage />} />
           <Route path="support" element={<SupportPage />} />
           

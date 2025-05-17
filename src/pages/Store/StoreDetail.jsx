@@ -1,285 +1,421 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import './styles.css';
-import { ProductCard } from '../../components/ProductsPage/ProductCard';
 
-const CueDetail = () => {
-  // 1. State hooks first
-  const { id } = useParams();
+const StoreDetail = () => {
+  const { id, category } = useParams();
   const navigate = useNavigate();
 
-  const [cue, setCue] = useState(null);
+  const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  const [selectedColor, setSelectedColor] = useState(null);
-  const [selectedTab, setSelectedTab] = useState('description');
   const [relatedProducts, setRelatedProducts] = useState([]);
+  const [suggestedProducts, setSuggestedProducts] = useState([]);
   
-  // Mock data - in reality would be fetched from API
-  const cueData = {
-    id: id,
-    name: 'EXCEED PRO CUE',
-    category: 'professional',
+  // Mock product data
+  const productData = {
+    id: 'lotus-prince',
+    name: 'Lotus Prince',
+    category: 'artisan-keycap',
+    brand: 'Sirius',
+    version: 'Prima v1.5',
+    maker: 'Evolay',
     images: [
-      '/images/cues/exceed-pro-1.jpg',
-      '/images/cues/exceed-pro-2.jpg',
-      '/images/cues/exceed-pro-3.jpg'
+      '/assets/products/lotus-prince/main.jpg',
+      '/assets/products/lotus-prince/angle1.jpg',
+      '/assets/products/lotus-prince/angle2.jpg',
+      '/assets/products/lotus-prince/angle3.jpg',
+      '/assets/products/lotus-prince/angle4.jpg',
     ],
-    colors: ['#223344', '#664422', '#FFFFFF'],
-    price: 1299.99,
-    discount: 10,
-    shortDescription: 'Professional tournament-grade cue with precision engineering',
-    description: 'The EXCEED PRO CUE represents the pinnacle of cue craftsmanship. Designed for professional players who demand ultimate performance and consistency. Features our proprietary carbon fiber core and advanced joint system for perfect energy transfer.',
-    features: [
-      'Carbon fiber reinforced shaft for ultimate performance',
-      'Premium North American maple construction',
-      'Advanced joint system for perfect energy transfer',
-      'CNC precision manufacturing for consistent play',
-      'Custom weight adjustment system'
-    ],
-    specs: {
-      Material: 'North American Maple & Carbon Fiber',
-      Length: '58 inches',
-      Weight: '19-21 oz (adjustable)',
-      Tip: 'Exceed Pro Soft Medium (12.5mm)',
-      Warranty: 'Lifetime'
+    price: 180.00,
+    status: 'RAFFLE ENDED',
+    raffleInfo: {
+      cart: 'CART BY CARTING',
+      form: 'FORM STAYS UP 24 HOURS',
+      check: 'CHECK YOUR JUNK TO NEVER MISS A RAFFLE WIN!',
+      expected: 'Expected Shipping Date: Jul 28, 2023'
     },
-    status: 'In Stock'
+    colors: [
+      { name: 'Red', hex: '#FF5252' },
+      { name: 'Pink', hex: '#FF80AB' },
+      { name: 'Orange', hex: '#FFAB40' },
+      { name: 'Yellow', hex: '#FFD740' },
+      { name: 'Green', hex: '#69F0AE' },
+    ],
+    raffleRules: [
+      {
+        title: 'Raffle Entries open for 24 hours',
+        description: 'Link, form, rules, sale and giveaway posts will be shared.'
+      },
+      {
+        title: 'One Entry, One Household',
+        description: 'Users found with multiple entries will be disqualified. Please use your real address.'
+      },
+      {
+        title: 'A payment invoice will be sent to your email',
+        description: '24 hours after the raffle ends. Please check your spam folder too and reply asap.'
+      },
+      {
+        title: 'If you win, you will receive a payment invoice through a staff member',
+        description: 'If you decide to sell your raffle later, your entry will be blacklisted for "Raffle Flips".'
+      },
+      {
+        title: 'Artkey invoices must be paid with Credit Card, PayPal',
+        description: 'Within 24 hours, unpaid orders will be cancelled and offered to another winner.'
+      },
+      {
+        title: 'If you win and decide to sell your raffle',
+        description: 'Please refrain from profits, this will be your last win at Artkey Raffle ever.'
+      },
+    ],
+    specifications: {
+      material: 'Resin',
+      profile: 'GMK R1 / Cherry R1',
+      stem: 'Cherry MX',
+      colorway: 'Lotus Prince',
+      concept: 'Folklore & Myths: Nature',
+      package: 'An artisan keycap, ID card, sticker, envelope and our beautiful sticker.'
+    }
   };
   
+  // Mock related products
   const mockRelatedProducts = [
     {
-      id: 'pro-1',
-      name: 'EXCEED ELITE CUE',
-      category: 'professional',
-      image: '/images/cues/exceed-elite.jpg',
-      price: 899.99,
-      path: '/products/cues/professional/pro-1',
-      status: 'In Stock',
-      colors: ['#223344', '#664422'],
-      discount: 0,
-      isNew: true
+      id: 'akr-keyboard',
+      name: 'AKR Keyboard',
+      maker: 'Artkey Universe',
+      image: '/assets/products/akr-keyboard.jpg',
+      price: 340,
+      status: 'VENDORS ONLY'
     },
     {
-      id: 'pro-2',
-      name: 'EXCEED CARBON CUE',
-      category: 'professional',
-      image: '/images/cues/exceed-carbon.jpg',
-      price: 1099.99,
-      path: '/products/cues/professional/pro-2',
-      status: 'In Stock',
-      colors: ['#000000', '#3366CC'],
-      discount: 5,
-      isNew: false
+      id: 'giants-uprize',
+      name: 'Giants Uprize',
+      maker: 'Artkey Universe',
+      image: '/assets/products/giants-uprize.jpg',
+      price: 195,
+      status: 'FULFILLMENT ENDED'
+    },
+    {
+      id: 'dreamwalker-space-ticket',
+      name: 'Dreamwalker Space Ticket',
+      maker: 'Artkey Universe',
+      image: '/assets/products/dreamwalker-space-ticket.jpg',
+      price: 180,
+      status: 'OUT OF STOCK'
+    },
+    {
+      id: 'fourth-of-july-evolay',
+      name: 'Fourth Of July Evolay',
+      maker: 'Artkey Universe',
+      image: '/assets/products/fourth-of-july-evolay.jpg',
+      price: 222,
+      status: 'OUT OF STOCK'
     }
   ];
   
+  // Mock billiard data
+  const billiardData = {
+    id: 'predator-ikon-4-1',
+    name: 'Predator Ikon 4-1',
+    category: 'billiard',
+    subcategory: 'cues',
+    description: 'Cơ Predator Ikon 4-1 với công nghệ Carbon Fiber, trục Carbon X kết hợp với đầu cơ Z3 cho độ chính xác và điều khiển hoàn hảo.',
+    price: 990,
+    stock: 5,
+    images: [
+      '/assets/products/billiard/predator-ikon-4-1/1.jpg',
+      '/assets/products/billiard/predator-ikon-4-1/2.jpg',
+      '/assets/products/billiard/predator-ikon-4-1/3.jpg',
+      '/assets/products/billiard/predator-ikon-4-1/4.jpg',
+    ],
+    specs: [
+      { name: 'Thương hiệu', value: 'Predator' },
+      { name: 'Dòng sản phẩm', value: 'Ikon 4-1' },
+      { name: 'Chất liệu trục', value: 'Carbon X' },
+      { name: 'Đầu cơ', value: 'Z3 Technology' },
+      { name: 'Khối lượng', value: '18.5oz' },
+      { name: 'Đường kính tip', value: '12.75mm' },
+    ],
+    features: [
+      'Công nghệ Carbon X cho trục cơ siêu nhẹ và cứng cáp',
+      'Đầu cơ Z3 giảm hiện tượng deflection đến 31%',
+      'Hệ thống nối UniLoc tiên tiến',
+      'Grip chống trượt đặc biệt',
+      'Cân bằng hoàn hảo cho cảm giác tự nhiên',
+    ],
+  };
+  
+  // Dữ liệu mẫu sản phẩm liên quan
+  const relatedProductsData = [
+    {
+      id: '2',
+      name: 'Sirius T-shirt',
+      price: 27,
+      image: '/assets/products/sirius-tshirt.jpg',
+      category: 'accessories',
+      subcategory: 't-shirt',
+    },
+    {
+      id: '3',
+      name: 'Sirius Keychain',
+      price: 25,
+      image: '/assets/products/sirius-keychain.jpg',
+      category: 'accessories',
+      subcategory: 'keychain',
+    },
+    {
+      id: '4',
+      name: 'Sirius & Goodoo Deskpad',
+      price: 30,
+      image: '/assets/products/sirius-goodoo-deskpad.jpg',
+      category: 'accessories',
+      subcategory: 'deskpad',
+    },
+  ];
+  
+  // Dữ liệu mẫu sản phẩm billiard liên quan
+  const relatedBilliardProductsData = [
+    {
+      id: 'mezz-ec7-kl',
+      name: 'Mezz EC7-KL',
+      price: 750,
+      image: '/assets/products/billiard/mezz-ec7-kl.jpg',
+      category: 'billiard',
+      subcategory: 'cues',
+    },
+    {
+      id: 'brunswick-gold-crown',
+      name: 'Brunswick Gold Crown VI',
+      price: 12500,
+      image: '/assets/products/billiard/brunswick-gold-crown.jpg',
+      category: 'billiard',
+      subcategory: 'tables',
+    },
+    {
+      id: 'kamui-black-chalk',
+      name: 'Kamui Black Chalk',
+      price: 25,
+      image: '/assets/products/billiard/kamui-black-chalk.jpg',
+      category: 'billiard',
+      subcategory: 'accessories',
+    },
+  ];
+  
+  // Sản phẩm gợi ý cho artisan keycap
+  
+  
   useEffect(() => {
-    // Simulate API call to get product details
     setLoading(true);
+    // Mô phỏng API call
     setTimeout(() => {
-      setCue(cueData);
-      setSelectedImage(cueData.images[0]);
-      setSelectedColor(cueData.colors[0]);
-      setRelatedProducts(mockRelatedProducts);
+      // Kiểm tra nếu là trang billiard
+      if (category === 'billiard') {
+        setProduct(billiardData);
+        setRelatedProducts(relatedBilliardProductsData);
+        setSuggestedProducts(suggestedBilliardProductsData);
+      } else {
+        setProduct(productData);
+        setRelatedProducts(mockRelatedProducts);
+        setSuggestedProducts(suggestedKeycapProductsData);
+      }
       setLoading(false);
-    }, 500);
-  }, [id]);
+    }, 800);
+  }, [id, category]);
   
-  // 3. Handler functions
-  const handleBack = () => {
-    navigate(-1);
+  const handleThumbnailClick = (index) => {
+    setSelectedImage(index);
   };
   
-  const handleImageClick = (image) => {
-    setSelectedImage(image);
+  const handleQuantityChange = (e) => {
+    const value = parseInt(e.target.value);
+    if (value > 0 && value <= product.stock) {
+      setQuantity(value);
+    }
   };
   
-  const handleColorSelect = (color) => {
-    setSelectedColor(color);
+  const increaseQuantity = () => {
+    if (quantity < product.stock) {
+      setQuantity(quantity + 1);
+    }
   };
   
-  const handleTabClick = (tab) => {
-    setSelectedTab(tab);
+  const decreaseQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
   };
   
-  const handleRelatedProductClick = (path) => {
-    navigate(path);
+  const addToCart = () => {
+    // Logic thêm vào giỏ hàng ở đây
+    alert(`Đã thêm ${quantity} ${product.name} vào giỏ hàng`);
+  };
+
+  const buyNow = () => {
+    // Logic mua ngay ở đây
+    alert(`Đang tiến hành thanh toán cho ${quantity} ${product.name}`);
   };
   
-  // 4. Return JSX
   if (loading) {
     return (
-      <div className="loading-container">
+      <div className="store-detail-loading">
         <div className="loading-spinner"></div>
       </div>
     );
   }
   
-  if (!cue) {
+  if (!product) {
     return (
       <div className="not-found">
         <h2>Product Not Found</h2>
-        <a href="/products/cues" className="back-link">
-          Back to Cues
-        </a>
+        <Link to="/store" className="back-link">
+          Back to Store
+        </Link>
       </div>
     );
   }
   
-  // Calculate final price after discount if any
-  const finalPrice = cue.discount 
-    ? cue.price * (1 - cue.discount / 100) 
-    : cue.price;
-  
   return (
-    <div className="product-detail-page">
-      <div className="container">
-        <div className="back-button-container">
-          <button className="back-button" onClick={handleBack}>
-            <i className="fas fa-arrow-left"></i> Back
-          </button>
-        </div>
+    <div className="store-detail-page">
+      {/* Breadcrumb */}
+      <div className="breadcrumb">
+        <Link to="/">HOME</Link> &gt; <Link to="/store">STORE</Link> &gt; <span>{product.name.toUpperCase()}</span>
       </div>
       
+      {/* Product Detail Section */}
       <div className="product-detail-container">
+        {/* Left side - Main Image */}
         <div className="product-detail-left">
           <div className="product-main-image">
-            <img src={selectedImage} alt={cue.name} />
+            <img src={product.images[selectedImage]} alt={product.name} />
+            <div className="product-brand-watermark"></div>
           </div>
-          <div className="product-thumbnails">
-            {cue.images.map((image, index) => (
+        </div>
+        
+        {/* Right side - Thumbnails and Product Info */}
+        <div className="product-detail-right">
+          {/* Thumbnails */}
+          <div className="product-thumbnails-vertical">
+            {product.images.map((image, index) => (
               <div 
                 key={index} 
-                className={`thumbnail ${selectedImage === image ? 'active' : ''}`}
-                onClick={() => handleImageClick(image)}
+                className={`thumbnail ${selectedImage === index ? 'active' : ''}`}
+                onClick={() => handleThumbnailClick(index)}
               >
-                <img src={image} alt={`${cue.name} ${index+1}`} />
+                <img src={image} alt={`${product.name} ${index+1}`} />
               </div>
             ))}
           </div>
-        </div>
-        
-        <div className="product-detail-right">
-          <h1 className="product-title">{cue.name}</h1>
           
-          <div className="product-price-container">
-            {cue.discount > 0 && (
-              <span className="original-price">${cue.price.toFixed(2)}</span>
-            )}
-            <span className="final-price">${finalPrice.toFixed(2)}</span>
-            {cue.discount > 0 && (
-              <span className="discount-tag">-{cue.discount}%</span>
-            )}
-          </div>
-          
-          <div className="product-status">{cue.status}</div>
-          
-          <p className="product-short-description">{cue.shortDescription}</p>
-          
-          <div className="color-selection">
-            <h3>Color</h3>
-            <div className="color-options">
-              {cue.colors.map((color, index) => (
-                <div 
-                  key={index} 
-                  className={`color-option ${selectedColor === color ? 'active' : ''}`}
-                  style={{ backgroundColor: color }}
-                  onClick={() => handleColorSelect(color)}
-                ></div>
-              ))}
-            </div>
-          </div>
-          
-          <div className="quantity-selector">
-            <h3>Quantity</h3>
-            <div className="quantity-control">
-              <button className="qty-btn dec" onClick={() => quantity > 1 && setQuantity(quantity - 1)}>-</button>
-              <input type="number" min="1" value={quantity} readOnly />
-              <button className="qty-btn inc" onClick={() => setQuantity(quantity + 1)}>+</button>
-            </div>
-          </div>
-          
-          <div className="product-actions">
-            <button className="add-to-cart-btn">Add to Cart</button>
-            <button className="wishlist-btn">Add to Wishlist</button>
-          </div>
-        </div>
-      </div>
-      
-      <div className="product-details-tabs">
-        <div className="tabs-header">
-          <div 
-            className={`tab ${selectedTab === 'description' ? 'active' : ''}`}
-            onClick={() => handleTabClick('description')}
-          >
-            Description
-          </div>
-          <div 
-            className={`tab ${selectedTab === 'features' ? 'active' : ''}`}
-            onClick={() => handleTabClick('features')}
-          >
-            Features
-          </div>
-          <div 
-            className={`tab ${selectedTab === 'specifications' ? 'active' : ''}`}
-            onClick={() => handleTabClick('specifications')}
-          >
-            Specifications
-          </div>
-        </div>
-        
-        <div className="tab-content">
-          {selectedTab === 'description' && (
-            <div className="description-tab">
-              <p>{cue.description}</p>
-            </div>
-          )}
-          
-          {selectedTab === 'features' && (
-            <div className="features-tab">
-              <ul className="features-list">
-                {cue.features.map((feature, index) => (
-                  <li key={index}>{feature}</li>
-                ))}
+          {/* Product Info */}
+          <div className="product-info-panel">
+            <h1 className="product-title">{product.name}</h1>
+            <p className="product-brand">{product.brand} | {product.version} | {product.maker}</p>
+            <p className="product-price">${product.price.toFixed(2)}</p>
+            
+            {/* Raffle Information */}
+            <div className="raffle-info">
+              <ul>
+                <li>{product.raffleInfo.cart}</li>
+                <li>{product.raffleInfo.form}</li>
+                <li>{product.raffleInfo.check}</li>
               </ul>
+              <p className="shipping-date">{product.raffleInfo.expected}</p>
             </div>
-          )}
-          
-          {selectedTab === 'specifications' && (
-            <div className="specifications-tab">
-              <table className="specs-table">
-                <tbody>
-                  {Object.entries(cue.specs).map(([key, value], index) => (
-                    <tr key={index}>
-                      <th>{key}</th>
-                      <td>{value}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            
+            {/* Available Colors */}
+            <div className="available-colors">
+              <h3>AVAILABLE COLORS</h3>
+              <div className="color-swatches">
+                {product.colors.map((color, index) => (
+                  <div 
+                    key={index} 
+                    className="color-swatch"
+                    style={{ backgroundColor: color.hex }}
+                    title={color.name}
+                  ></div>
+                ))}
+              </div>
             </div>
-          )}
-        </div>
-      </div>
-      
-      <div className="related-products-section">
-        <div className="container">
-          <h2>Related Products</h2>
-          <div className="related-products-grid">
-            {relatedProducts.map(product => (
-              <ProductCard 
-                key={product.id}
-                product={product}
-                onClick={() => handleRelatedProductClick(product.path)}
-              />
-            ))}
+            
+            {/* Product Status Button */}
+            <div className="product-status-button">
+              <button className="raffle-status">{product.status}</button>
+            </div>
           </div>
         </div>
       </div>
+      
+      {/* Raffle Rules Section */}
+      <div className="raffle-rules-section">
+        <h2 className="section-title">RAFFLE RULE</h2>
+        <div className="rules-divider"></div>
+        
+        <div className="raffle-rules-grid">
+          {product.raffleRules.map((rule, index) => (
+            <div key={index} className="raffle-rule-item">
+              <div className="rule-icon">
+                <div className="rule-icon-inner"></div>
+              </div>
+              <div className="rule-content">
+                <h3>{rule.title}</h3>
+                <p>{rule.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      {/* Sculpt Information Section */}
+      <div className="product-specs-section">
+        <h2 className="section-title">SCULPT INFORMATION</h2>
+        <div className="specs-divider"></div>
+        
+        <div className="product-specs-table">
+          {Object.entries(product.specifications).map(([key, value], index) => (
+            <div key={index} className="specs-row">
+              <div className="specs-key">{key.toUpperCase()}</div>
+              <div className="specs-value">{value}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      {/* Related Products Section */}
+      <div className="related-products-section">
+        <h2 className="section-title">YOU MAY ALSO LIKE</h2>
+        
+        <div className="related-products-grid">
+          {relatedProducts.map((product) => (
+            <Link 
+              key={product.id}
+              to={`/store/${product.category}/${product.id}`}
+              className="related-product-card"
+            >
+              <div className="related-product-image">
+                <img src={product.image} alt={product.name} />
+                <button className="bookmark-btn">
+                  <span className="bookmark-icon">★</span>
+                </button>
+              </div>
+              <div className="related-product-info">
+                <h3 className="related-product-name">{product.name}</h3>
+                <p className="related-product-maker">{product.maker || product.category}</p>
+                <div className="related-product-price-row">
+                  <span className="related-product-price">${product.price}</span>
+                  <span className="related-product-status">{product.status || 'IN STOCK'}</span>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+      
+     
+    
     </div>
   );
 };
 
-export default CueDetail; 
+export default StoreDetail; 

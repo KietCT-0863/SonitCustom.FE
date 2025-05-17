@@ -2,20 +2,44 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: rgba(0, 0, 0, 0.8);
-  border-bottom: 1px solid var(--border-color);
+  padding: 0.5rem 2rem;
+  background-color: #000000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
   transition: background-color 0.3s;
+  height: 80px;
 }
 
 .header.scrolled {
   background-color: rgba(0, 0, 0, 0.95);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Header sections */
+.header-left,
+.header-middle,
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-left {
+  flex: 0 0 auto;
+  margin-right: 20px;
+}
+
+.header-middle {
+  flex: 1 1 auto;
+  justify-content: center;
+}
+
+.header-right {
+  flex: 0 0 auto;
+  justify-content: flex-end;
 }
 
 /* Thêm keyframes cho hiệu ứng xoay logo */
@@ -59,8 +83,8 @@
 
 /* Thêm class cho logo animation */
 .logo-animated {
-  height: 70px;
-  width: 70px;
+  height: 50px;
+  width: 50px;
   object-fit: cover;
   transition: transform 0.3s;
   border-radius: 50%;
@@ -122,7 +146,6 @@
 /* Style cho các link chính trong menu */
 .nav-links a {
   color: #D4C9BE;
-
   text-decoration: none;
   font-family: var(--heading-font);
   font-size: 0.85rem;
@@ -541,7 +564,8 @@
   margin-bottom: 20px;
 }
 
-.language-links a {
+.language-links a,
+.lang-btn {
   color: #D4C9BE;
   text-decoration: none;
   font-family: var(--primary-font);
@@ -550,9 +574,13 @@
   border: 1px solid var(--border-color);
   border-radius: 20px;
   transition: all 0.3s;
+  background: none;
+  cursor: pointer;
 }
 
-.language-links a:hover {
+.language-links a:hover,
+.lang-btn:hover,
+.lang-btn.active {
   background-color: rgba(255, 255, 255, 0.1);
   color: #D4C9BE;
 }
@@ -579,8 +607,8 @@
     gap: 1.5rem;
   }
   
-  .language-social {
-    gap: 0.7rem;
+  .header-right {
+    flex: 0 0 auto;
   }
 }
 
@@ -605,14 +633,23 @@
   .dropdown-main-image {
     height: 250px;
   }
-}
-
-@media (max-width: 768px) {
-  .desktop-nav {
+  
+  .login-text {
     display: none;
   }
   
-  .language-social {
+  .auth-link {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-middle {
+    display: none;
+  }
+  
+  .auth-link {
     display: none;
   }
   
@@ -625,8 +662,12 @@
   }
   
   .logo-animated {
-    height: 50px;
-    width: 50px;
+    height: 45px;
+    width: 45px;
+  }
+  
+  .header-right {
+    margin-left: auto;
   }
 }
 
@@ -636,20 +677,25 @@
   }
   
   .logo-animated {
-    height: 45px;
-    width: 45px;
+    height: 40px;
+    width: 40px;
   }
   
   .mobile-nav-header a {
     font-size: 1rem;
   }
   
-  .mobile-menu-icon {
-    font-size: 1.3rem;
-  }
-  
   .mobile-nav-content {
     padding: 80px 15px 30px;
+  }
+  
+  .nav-icon {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .user-actions {
+    gap: 12px;
   }
 }
 
@@ -665,9 +711,8 @@
     height: 30px;
   }
   
-  .language-links a {
-    font-size: 0.8rem;
-    padding: 4px 12px;
+  .user-actions {
+    gap: 10px;
   }
 }
 
@@ -675,4 +720,79 @@
 .nav-item:nth-last-child(-n+2) .dropdown-menu {
   left: auto;
   right: -20px;
+}
+
+/* Dropdown arrow */
+.dropdown-arrow {
+  font-size: 0.7rem;
+  margin-left: 4px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* User Actions in right section */
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.auth-link {
+  color: #D4C9BE;
+  text-decoration: none;
+  font-family: var(--heading-font);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 500;
+  position: relative;
+}
+
+.auth-link::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--accent-color);
+  transition: width 0.3s;
+}
+
+.auth-link:hover::after {
+  width: 100%;
+}
+
+.login-btn, .register-btn {
+  padding: 0 10px;
+}
+
+.login-btn {
+  border-right: 1px solid rgba(212, 201, 190, 0.3);
+}
+
+.user-icon, .cart-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #D4C9BE;
+  text-decoration: none;
+}
+
+.nav-icon {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s;
+}
+
+.user-icon:hover .nav-icon,
+.cart-icon:hover .nav-icon {
+  transform: scale(1.1);
+}
+
+.login-text {
+  color: #D4C9BE;
+  font-family: var(--heading-font);
+  font-size: 0.85rem;
+  margin-right: 15px;
 } 

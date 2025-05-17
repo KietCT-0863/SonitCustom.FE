@@ -8,13 +8,17 @@ const productsByYear = {
     { id: 'p101', name: 'APEX', imageUrl: '/assets/products/apex.jpg', category: 'RING', description: 'Chiếc nhẫn với thiết kế tối giản nhưng đầy mạnh mẽ, được chế tác từ titanium cao cấp với đường nét sắc sảo và bề mặt được xử lý đặc biệt.' },
     { id: 'p102', name: 'ARTEMIS', imageUrl: '/assets/products/artemis.jpg', category: 'RING', description: 'Lấy cảm hứng từ nữ thần săn bắn, thiết kế mang đường nét mạnh mẽ nhưng vẫn giữ được sự tinh tế với các chi tiết chạm khắc tinh xảo.' },
     { id: 'p103', name: 'JAWS', imageUrl: '/assets/products/jaws.jpg', category: 'RING', description: 'Đậm chất hoang dã với hình ảnh răng nanh sắc nhọn, được chế tác từ bạc cao cấp với độ hoàn thiện xuất sắc.' },
-    { id: 'p104', name: 'PHANTOM', imageUrl: '/assets/products/phantom.jpg', category: 'RING', description: 'Thiết kế bí ẩn, huyền bí với gam màu đen chủ đạo, kết hợp điểm nhấn kim loại sáng tạo cảm giác tương phản mạnh mẽ.' }
+    { id: 'p104', name: 'PHANTOM', imageUrl: '/assets/products/phantom.jpg', category: 'RING', description: 'Thiết kế bí ẩn, huyền bí với gam màu đen chủ đạo, kết hợp điểm nhấn kim loại sáng tạo cảm giác tương phản mạnh mẽ.' },
+    { id: 'b101', name: 'PREDATOR IKON 4-1', imageUrl: '/assets/products/billiard/predator-ikon-4-1.jpg', category: 'BILLIARD', description: 'Cơ Predator Ikon 4-1 với công nghệ Carbon Fiber, trục Carbon X kết hợp với đầu cơ Z3 cho độ chính xác và điều khiển hoàn hảo.' },
+    { id: 'b102', name: 'MEZZ EC7-KL', imageUrl: '/assets/products/billiard/mezz-ec7-kl.jpg', category: 'BILLIARD', description: 'Sở hữu trục Hybrid Pro II, kết hợp với đầu cơ United giúp tạo ra cú đánh ổn định và cảm giác chuyển cơ mượt mà tuyệt đối.' }
   ],
   2022: [
     { id: 'p201', name: 'PROWLER', imageUrl: '/assets/products/prowler.jpg', category: 'RING', description: 'Thiết kế mô phỏng dáng vẻ của loài báo săn mồi, mang đến vẻ đẹp nguy hiểm và quyến rũ.' },
     { id: 'p202', name: 'CHALLENGER', imageUrl: '/assets/products/challenger.jpg', category: 'RING', description: 'Biểu tượng của sự thách thức và vượt qua giới hạn, với thiết kế hiện đại và đường nét táo bạo.' },
     { id: 'p203', name: 'VIPER', imageUrl: '/assets/products/viper.jpg', category: 'RING', description: 'Lấy cảm hứng từ loài rắn độc, mang đến vẻ đẹp nguy hiểm với đường nét uốn lượn tinh tế.' },
-    { id: 'p204', name: 'SHADOW', imageUrl: '/assets/products/shadow.jpg', category: 'RING', description: 'Thiết kế tối giản nhưng đầy bí ẩn, với chất liệu carbon đen tuyền và bề mặt xử lý đặc biệt tạo hiệu ứng bóng mờ.' }
+    { id: 'p204', name: 'SHADOW', imageUrl: '/assets/products/shadow.jpg', category: 'RING', description: 'Thiết kế tối giản nhưng đầy bí ẩn, với chất liệu carbon đen tuyền và bề mặt xử lý đặc biệt tạo hiệu ứng bóng mờ.' },
+    { id: 'b201', name: 'BRUNSWICK GOLD CROWN VI', imageUrl: '/assets/products/billiard/brunswick-gold-crown.jpg', category: 'BILLIARD', description: 'Bàn billiard chuyên nghiệp được thiết kế với công nghệ Super Speed Rail cho độ nảy bóng hoàn hảo và độ bền vượt trội.' },
+    { id: 'b202', name: 'KAMUI BLACK CHALK', imageUrl: '/assets/products/billiard/kamui-black-chalk.jpg', category: 'BILLIARD', description: 'Phấn đánh cơ cao cấp với công thức đặc biệt giúp tăng độ bám, giảm thiểu miscue và tạo spin hiệu quả.' }
   ],
   2021: [
     { id: 'p301', name: 'FURY', imageUrl: '/assets/products/fury.jpg', category: 'RING', description: 'Biểu tượng của sức mạnh và sự phẫn nộ, với thiết kế góc cạnh và mạnh mẽ, được chế tác từ hợp kim titanium cao cấp.' },
@@ -154,7 +158,7 @@ const CataloguePage = () => {
               <p className="modal-description">
                 {selectedProduct.description || 'Sản phẩm độc đáo từ Sonit Custom, được chế tác thủ công với chất liệu cao cấp. Thiết kế đột phá với đường nét tinh tế, phù hợp cho người yêu thích phong cách mạnh mẽ.'}
               </p>
-              <Link to={`/store/rings/${selectedProduct.id}`} className="view-details-btn">
+              <Link to={`/catalogue/${selectedProduct.id}`} className="view-details-btn">
                 Xem chi tiết sản phẩm
               </Link>
             </div>
