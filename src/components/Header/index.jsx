@@ -101,7 +101,7 @@ const Header = () => {
       <header className={`header ${scrolled ? 'scrolled' : ''}`}>
         {/* Left Section - Logo */}
         <div className="header-left">
-          <Logo size="medium" animated={true} linkTo="/" />
+          <Logo size="medium" animated={false} linkTo="/" />
         </div>
         
         {/* Middle Section - Navigation */}

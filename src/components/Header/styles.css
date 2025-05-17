@@ -764,4 +764,31 @@
   font-family: 'Cabin', sans-serif;
   font-size: 0.85rem;
   margin-right: 15px;
+}
+
+/* Loại bỏ outline khi click vào các phần tử */
+.header a,
+.header button,
+.logo-link,
+.nav-link,
+.auth-link,
+.dropdown-menu,
+.mobile-menu-button,
+.hamburger,
+.mobile-nav a {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.header a:focus,
+.header button:focus,
+.logo-link:focus,
+.nav-link:focus,
+.auth-link:focus,
+.dropdown-menu:focus,
+.mobile-menu-button:focus,
+.hamburger:focus,
+.mobile-nav a:focus {
+  outline: none;
+  box-shadow: none;
 } 
