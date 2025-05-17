@@ -11,28 +11,28 @@ const HomePage = () => {
       id: 1,
       name: 'Extender',
       categories: ['Premium', 'Custom'],
-      image: '/public/noi.png',
+      image: '/assets/products/noi.png',
       description: 'Add power to your cue with the Custom Extender'
     },
     {
       id: 2,
       name: 'Bumper',
       categories: ['Custom', 'Accessories'],
-      image: '/public/bvc4.png',
+      image: '/assets/products/bvc4.png',
       description: 'The custom bumper for cues which attaches to Pro Telescopic Extension'
     },
     {
       id: 3,
       name: 'Joint Protector',
       categories: ['Custom', 'Protection'],
-      image: '/public/bvr.jpg',
+      image: '/assets/products/bvr.jpg',
       description: 'Custom Joint protectors provide the best protection for your favorite Cues'
     },
     {
       id: 4,
       name: 'Billiard cue repair and refinishing',
       categories: ['Service', 'Maintenance'],
-      image: '/public/scc.jpg',
+      image: '/assets/products/scc.jpg',
       description: 'Professional service that repairs and renews billiard cues'
     }
   ];
