@@ -37,7 +37,7 @@
   font-size: 5rem;
   font-weight: 300;
   margin-bottom: 1rem;
-  color: #98826c;
+    color: #D4C9BE  ;
   text-transform: uppercase;
   letter-spacing: 3px;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
@@ -48,7 +48,7 @@
   font-family: var(--primary-font);
   font-size: 1.5rem;
   margin-bottom: 2rem;
-  color: #98826c;
+  color: #D4C9BE;
   letter-spacing: 2px;
 }
 

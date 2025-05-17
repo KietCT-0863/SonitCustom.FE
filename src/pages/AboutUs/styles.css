@@ -16,12 +16,12 @@
 .page-banner h1 {
   font-size: 2.5rem;
   margin-bottom: 10px;
-  color: #333;
+  color: #D4C9BE;
 }
 
 .page-banner p {
   font-size: 1.2rem;
-  color: #666;
+  color: #D4C9BE;
 }
 
 .about-content {
@@ -37,7 +37,7 @@
 .about-section h2 {
   font-size: 2rem;
   margin-bottom: 20px;
-  color: #333;
+  color: #D4C9BE;
   border-bottom: 2px solid #ddd;
   padding-bottom: 10px;
 }
@@ -45,7 +45,7 @@
 .about-section p {
   font-size: 1.1rem;
   line-height: 1.7;
-  color: #444;
+  color: #D4C9BE;
   margin-bottom: 20px;
 }
 
@@ -81,13 +81,13 @@
 .mission h3, .vision h3 {
   font-size: 1.5rem;
   margin-bottom: 15px;
-  color: #333;
+  color: #D4C9BE;
 }
 
 .mission p, .vision p {
   font-size: 1.1rem;
   line-height: 1.6;
-  color: #555;
+    color: #D4C9BE;
 }
 
 .team-section {
@@ -97,7 +97,7 @@
 .team-section h2 {
   font-size: 2rem;
   margin-bottom: 20px;
-  color: #333;
+  color: #D4C9BE;
   border-bottom: 2px solid #ddd;
   padding-bottom: 10px;
 }
@@ -105,7 +105,7 @@
 .team-section p {
   font-size: 1.1rem;
   line-height: 1.7;
-  color: #444;
+  color: #D4C9BE;
   margin-bottom: 30px;
 }
 
@@ -142,12 +142,12 @@
 .team-member h4 {
   font-size: 1.3rem;
   margin-bottom: 5px;
-  color: #333;
+  color: #D4C9BE;
 }
 
 .team-member p {
   font-size: 1rem;
-  color: #666;
+  color: #D4C9BE;
   margin-bottom: 0;
 }
 

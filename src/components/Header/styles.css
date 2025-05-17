@@ -372,7 +372,7 @@
 }
 
 .social-icons span:hover {
-  color: var(--accent-color);
+  color: #D4C9BE;
 }
 
 /* Mobile Menu Button */
@@ -402,7 +402,7 @@
 .hamburger.active span:nth-child(1) {
   transform: translateY(11px) rotate(45deg);
 }
-
+  
 .hamburger.active span:nth-child(2) {
   opacity: 0;
 }
@@ -475,13 +475,13 @@
 
 .mobile-dropdown-arrow {
   font-size: 0.8rem;
-  color: var(--primary-color);
+  color: #D4C9BE;
   transition: transform 0.3s ease;
 }
 
 .mobile-dropdown-arrow.expanded {
   transform: rotate(180deg);
-  color: var(--accent-color);
+  color: #D4C9BE;
 }
 
 .mobile-submenu {
@@ -502,7 +502,7 @@
   align-items: center;
   gap: 15px;
   padding: 12px 20px;
-  color: var(--primary-color);
+  color: #D4C9BE;
   text-decoration: none;
   font-family: var(--primary-font);
   font-size: 0.95rem;
@@ -542,7 +542,7 @@
 }
 
 .language-links a {
-  color: var(--primary-color);
+  color: #D4C9BE;
   text-decoration: none;
   font-family: var(--primary-font);
   font-size: 0.9rem;
@@ -554,7 +554,7 @@
 
 .language-links a:hover {
   background-color: rgba(255, 255, 255, 0.1);
-  color: var(--accent-color);
+  color: #D4C9BE;
 }
 
 .mobile-social-icons {
@@ -570,7 +570,7 @@
 }
 
 .mobile-social-icons span:hover {
-  color: var(--accent-color);
+  color: #D4C9BE;
 }
 
 /* Media Queries for Responsive Design */
