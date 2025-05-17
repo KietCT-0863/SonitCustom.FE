@@ -18,43 +18,38 @@ const HeaderContent = ({ isDarkMode }) => {
 
   const features = [
     {
-      title: "PREMIUM CUES",
-      description: "Bộ sưu tập cue độc quyền từ các thương hiệu hàng đầu thế giới với công nghệ tiên tiến",
+      title: "EXTENDER",
+      description: "Add power to your cue with the Custom Extender",
       direction: "left",
       color: "rgba(212, 201, 190, 0.1)",
     },
     {
-      title: "BILLIARD ACCESSORIES",
-      description: "Phụ kiện chơi billiard cao cấp, đa dạng từ chalk, găng tay đến các phụ kiện chuyên nghiệp",
+      title: "BUMPER",
+      description: "The custom bumper for cues which is able to attach the Pro Telescopic Extension directly to the bumper",
       direction: "right",
       color: "rgba(212, 201, 190, 0.1)",
     },
     {
-      title: "PROFESSIONAL TABLES",
-      description: "Bàn billiard tiêu chuẩn quốc tế, chất lượng vượt trội, độ chính xác tuyệt đối",
+      title: "JOIN PROTECTOR",
+      description: "Custom Joint protectors provide the best protection and peace of mind for your favorite Cues when you’re on the go",
       direction: "left",
       color: "rgba(212, 201, 190, 0.1)",
     },
     {
-      title: "CUSTOM DESIGN",
-      description: "Dịch vụ thiết kế và tùy chỉnh cue theo yêu cầu với chất liệu và công nghệ độc quyền",
+      title: "BILLIARD CUE REPAIR AND RENEWAL",
+      description: "The billiard cue repair and renewal service is a professional service that repairs and renews billiard cues.",
       direction: "right",
       color: "rgba(212, 201, 190, 0.1)",
     },
-    {
-      title: "EXPERT CONSULTING",
-      description: "Tư vấn chuyên sâu từ các chuyên gia hàng đầu về billiard cho mọi cấp độ người chơi",
-      direction: "left",
-      color: "rgba(212, 201, 190, 0.1)",
-    },
+   
   ]
 
   const floatingItems = [
-    { src: "/assets/products/billiard/cue1.jpg", alt: "Billiard Cue 1", position: "left" },
-    { src: "/assets/products/billiard/cue2.jpg", alt: "Billiard Cue 2", position: "right" },
-    { src: "/assets/products/billiard/ball1.jpg", alt: "Billiard Ball Set", position: "left" },
-    { src: "/assets/products/billiard/table1.jpg", alt: "Billiard Table", position: "right" },
-    { src: "/assets/products/billiard/chalk.jpg", alt: "Billiard Chalk", position: "bottom" },
+    { src: "public/bvc4.png", alt: "Billiard Cue 1", position: "left" },
+    { src: "public/bvr.jpg", alt: "Billiard Cue 2", position: "right" },
+    { src: "public/bvr2.jpg", alt: "Billiard Ball Set", position: "left" },
+    { src: "public/noi.png", alt: "Billiard Table", position: "right" },
+    { src: "public/scc.jpg", alt: "Billiard Chalk", position: "bottom" },
     { src: "/assets/products/billiard/case.jpg", alt: "Cue Case", position: "bottom" },
     { src: "/assets/products/billiard/glove.jpg", alt: "Billiard Glove", position: "left" },
     { src: "/assets/products/billiard/bridge.jpg", alt: "Billiard Bridge", position: "right" },
@@ -87,51 +82,72 @@ const HeaderContent = ({ isDarkMode }) => {
       </AnimatePresence>
 
       <div className="hero-content">
-        <motion.div
-          className="hero-header"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <h1>SONIT CUSTOM</h1>
-          <p>Discover the best billiard collection with exclusive designs and superior quality</p>
+        <div className="hero-main-content">
+          <motion.div
+            className="hero-header"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1>SONIT CUSTOM</h1>
+            <p>Discover the best billiard collection with exclusive designs and superior quality</p>
 
-          <div className="current-time">{currentTime.toLocaleTimeString()}</div>
+            <div className="current-time">{currentTime.toLocaleTimeString()}</div>
 
-          <div className="hero-buttons">
-            <motion.button 
-              className="btn btn-primary" 
-              whileHover={{ scale: 1.05 }} 
-              whileTap={{ scale: 0.95 }} 
-              onClick={() => navigate("/store")}
-            >
-              SHOP NOW
-            </motion.button>
-            <motion.button 
-              className="btn btn-outline" 
-              whileHover={{ scale: 1.05 }} 
-              whileTap={{ scale: 0.95 }}
-              onClick={() => navigate("/catalogue")}
-            >
-              VIEW CATALOGUE
-            </motion.button>
-          </div>
+            <div className="hero-buttons">
+              <motion.button 
+                className="btn btn-primary" 
+                whileHover={{ scale: 1.05 }} 
+                whileTap={{ scale: 0.95 }} 
+                onClick={() => navigate("/store")}
+              >
+                SHOP NOW
+              </motion.button>
+              <motion.button 
+                className="btn btn-outline" 
+                whileHover={{ scale: 1.05 }} 
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate("/catalogue")}
+              >
+                VIEW CATALOGUE
+              </motion.button>
+            </div>
 
-          <div className="hero-stats">
-            <motion.div className="stat-item" whileHover={{ y: -10 }} transition={{ type: "spring", stiffness: 300 }}>
-              <span className="stat-number">100+</span>
-              <span className="stat-label">PREMIUM MODELS</span>
-            </motion.div>
-            <motion.div className="stat-item" whileHover={{ y: -10 }} transition={{ type: "spring", stiffness: 300 }}>
-              <span className="stat-number">50+</span>
-              <span className="stat-label">TOP BRANDS</span>
-            </motion.div>
-            <motion.div className="stat-item" whileHover={{ y: -10 }} transition={{ type: "spring", stiffness: 300 }}>
-              <span className="stat-number">1000+</span>
-              <span className="stat-label">SATISFIED CLIENTS</span>
-            </motion.div>
-          </div>
-        </motion.div>
+            <div className="hero-stats">
+              <motion.div className="stat-item" whileHover={{ y: -10 }} transition={{ type: "spring", stiffness: 300 }}>
+                <span className="stat-number">100+</span>
+                <span className="stat-label">PREMIUM MODELS</span>
+              </motion.div>
+              <motion.div className="stat-item" whileHover={{ y: -10 }} transition={{ type: "spring", stiffness: 300 }}>
+                <span className="stat-number">50+</span>
+                <span className="stat-label">TOP BRANDS</span>
+              </motion.div>
+              <motion.div className="stat-item" whileHover={{ y: -10 }} transition={{ type: "spring", stiffness: 300 }}>
+                <span className="stat-number">1000+</span>
+                <span className="stat-label">SATISFIED CLIENTS</span>
+              </motion.div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="hero-image-frame"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <div className="image-container">
+              <img 
+                src="/assets/products/billiard/premium-cue.jpg" 
+                alt="Premium Billiard Cue" 
+                className="main-featured-image" 
+              />
+              <div className="image-overlay">
+                <h3>PREMIUM COLLECTION</h3>
+                <p>Handcrafted with precision and elegance</p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
 
         <div className="features-waterfall">
           {features.map((feature, index) => (
