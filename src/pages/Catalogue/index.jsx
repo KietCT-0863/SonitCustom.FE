@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import ScrollToTop from '../../components/ScrollToTop';
 import './styles.css';
 
 // Dữ liệu mẫu sản phẩm theo năm
@@ -165,6 +166,8 @@ const CataloguePage = () => {
           </div>
         </div>
       )}
+      
+      <ScrollToTop />
     </div>
   );
 };

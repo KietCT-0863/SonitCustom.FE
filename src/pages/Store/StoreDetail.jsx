@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import ScrollToTop from '../../components/ScrollToTop';
 import './styles.css';
 
 const StoreDetail = () => {
@@ -412,8 +413,7 @@ const StoreDetail = () => {
         </div>
       </div>
       
-     
-    
+      <ScrollToTop />
     </div>
   );
 };

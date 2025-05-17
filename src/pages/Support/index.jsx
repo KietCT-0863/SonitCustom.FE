@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ScrollToTop from '../../components/ScrollToTop';
 import './styles.css';
 
 const SupportPage = () => {
@@ -187,6 +188,8 @@ const SupportPage = () => {
           )}
         </div>
       </div>
+      
+      <ScrollToTop />
     </div>
   );
 };

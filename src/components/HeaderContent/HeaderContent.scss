@@ -54,10 +54,10 @@ $dark-bg: #0a0a0a;
 
 .hero {
   background: $background-color;
-  min-height: 100vh;
+ 
   position: relative;
   overflow: hidden;
-  padding: 2rem;
+
   transition: all 0.3s ease;
   color: $text-color;
 

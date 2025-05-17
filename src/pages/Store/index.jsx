@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ScrollToTop from '../../components/ScrollToTop';
 import './styles.css';
 import { ProductsGrid } from '../../components/ProductsPage/ProductsGrid';
 import { SearchBar } from '../../components/ProductsPage/SearchBar';
@@ -744,6 +745,8 @@ const StorePage = () => {
           )}
         </div>
       </div>
+      
+      <ScrollToTop />
     </div>
   );
 };

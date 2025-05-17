@@ -1,6 +1,7 @@
 import React from 'react';
 import Hero from '../../components/Hero';
 import HeaderContent from '../../components/HeaderContent/HeaderContent';
+import ScrollToTop from '../../components/ScrollToTop';
 import './styles.css';
 
 const HomePage = () => {
@@ -165,6 +166,8 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+
+      <ScrollToTop />
     </div>
   );
 };

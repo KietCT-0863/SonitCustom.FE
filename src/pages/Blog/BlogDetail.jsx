@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import ScrollToTop from '../../components/ScrollToTop';
 
 import './blogDetail.css';
 
@@ -232,6 +234,11 @@ const BlogDetail = () => {
     }
   };
 
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
+
   if (loading) {
     return (
       <div className="loading-container">
@@ -252,26 +259,58 @@ const BlogDetail = () => {
   }
 
   return (
-    <div className="product-detail-page blog-detail-page">
+    <motion.div 
+      className="blog-detail-page"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="back-button-container">
-        <button className="back-button" onClick={handleBack}>
+        <motion.button 
+          className="back-button"
+          onClick={handleBack}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
           <i className="fas fa-arrow-left"></i> Back
-        </button>
+        </motion.button>
       </div>
-      
-      <div className="product-detail-container blog-detail-container">
-        <div className="product-detail-left blog-detail-left">
-          <div className="product-main-image blog-featured-image">
-            <img src={post.image} alt={post.title} />
-          </div>
+
+      <motion.div 
+        className="blog-detail-container"
+        variants={fadeInUp}
+        initial="hidden"
+        animate="visible"
+      >
+        <div className="blog-featured-image">
+          <motion.img 
+            src={post.image} 
+            alt={post.title}
+            initial={{ scale: 1.2 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5 }}
+          />
         </div>
-        
-        <div className="product-detail-right blog-detail-right">
-          <h1 className="product-title blog-title">{post.title}</h1>
-          
-          <div className="blog-meta">
+
+        <div className="blog-header">
+          <motion.h1 
+            className="blog-title"
+            variants={fadeInUp}
+          >
+            {post.title}
+          </motion.h1>
+
+          <motion.div 
+            className="blog-meta"
+            variants={fadeInUp}
+          >
             <div className="author-info">
-              <img src={post.author.avatar} alt={post.author.name} className="author-avatar" />
+              <motion.img 
+                src={post.author.avatar} 
+                alt={post.author.name} 
+                className="author-avatar"
+                whileHover={{ scale: 1.1 }}
+              />
               <div className="author-details">
                 <span className="author-name">{post.author.name}</span>
                 <span className="author-role">{post.author.role}</span>
@@ -279,91 +318,99 @@ const BlogDetail = () => {
             </div>
             <div className="post-info">
               <span className="post-date">{formatDate(post.date)}</span>
-              <span className="post-category">Category: {getCategoryName(post.category)}</span>
+              <span className="post-category">{getCategoryName(post.category)}</span>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </div>
-      
-      <div className="product-details-tabs blog-details-tabs">
-        <div className="tabs-header">
-          <div 
-            className={`tab ${selectedTab === 'description' ? 'active' : ''}`}
-            onClick={() => handleTabClick('description')}
+
+        <motion.div 
+          className="blog-details-tabs"
+          variants={fadeInUp}
+        >
+          <div className="tabs-header">
+            {['Description', 'Key Features', 'Specifications'].map((tab, index) => (
+              <motion.div 
+                key={index}
+                className={`tab ${selectedTab === tab.toLowerCase().replace(' ', '-') ? 'active' : ''}`}
+                onClick={() => handleTabClick(tab.toLowerCase().replace(' ', '-'))}
+                whileHover={{ backgroundColor: 'rgba(212, 201, 190, 0.1)' }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {tab}
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div 
+            className="tab-content"
+            variants={fadeInUp}
           >
-            Description
-          </div>
-          {post.keyTakeaways && (
-            <div 
-              className={`tab ${selectedTab === 'features' ? 'active' : ''}`}
-              onClick={() => handleTabClick('features')}
-            >
-              Key Features
-            </div>
-          )}
-          {post.specs && (
-            <div 
-              className={`tab ${selectedTab === 'specifications' ? 'active' : ''}`}
-              onClick={() => handleTabClick('specifications')}
-            >
-              Specifications
-            </div>
-          )}
-        </div>
-        
-        <div className="tab-content">
-          {selectedTab === 'description' && (
-            <div className="description-tab blog-content" dangerouslySetInnerHTML={{ __html: post.content }}></div>
-          )}
-          
-          {selectedTab === 'features' && post.keyTakeaways && (
-            <div className="features-tab">
-              <ul className="key-takeaways-list">
-                {post.keyTakeaways.map((item, index) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-          
-          {selectedTab === 'specifications' && post.specs && (
-            <div className="specifications-tab">
-              <table className="specs-table">
-                <tbody>
-                  {Object.entries(post.specs).map(([key, value], index) => (
-                    <tr key={index}>
-                      <th>{key.charAt(0).toUpperCase() + key.slice(1)}</th>
-                      <td>{value}</td>
-                    </tr>
+            {selectedTab === 'description' && (
+              <div className="blog-content" dangerouslySetInnerHTML={{ __html: post.content }}></div>
+            )}
+            {selectedTab === 'key-features' && post.keyTakeaways && (
+              <div className="features-tab">
+                <ul className="key-takeaways-list">
+                  {post.keyTakeaways.map((item, index) => (
+                    <li key={index}>{item}</li>
                   ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-      </div>
-      
-      <div className="related-products-section related-posts-section">
-        <h2>Related Articles</h2>
-        <div className="related-products-grid related-posts-grid">
+                </ul>
+              </div>
+            )}
+            {selectedTab === 'specifications' && post.specs && (
+              <div className="specifications-tab">
+                <table className="specs-table">
+                  <tbody>
+                    {Object.entries(post.specs).map(([key, value], index) => (
+                      <tr key={index}>
+                        <th>{key.charAt(0).toUpperCase() + key.slice(1)}</th>
+                        <td>{value}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </motion.div>
+        </motion.div>
+      </motion.div>
+
+      <motion.div 
+        className="related-posts-section"
+        variants={fadeInUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <motion.h2 variants={fadeInUp}>Related Articles</motion.h2>
+        <div className="related-posts-grid">
           {getRelatedPosts().map(relatedPost => (
-            <div 
+            <motion.div 
               key={relatedPost.id} 
               className="related-card"
+              variants={fadeInUp}
+              whileHover={{ y: -10 }}
               onClick={() => handleRelatedPostClick(relatedPost.id)}
             >
               <div className="related-image">
-                <img src={relatedPost.image} alt={relatedPost.title} />
+                <motion.img 
+                  src={relatedPost.image} 
+                  alt={relatedPost.title}
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.3 }}
+                />
               </div>
               <div className="related-content">
                 <h4>{relatedPost.title}</h4>
                 <span className="related-date">{formatDate(relatedPost.date)}</span>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
-      </div>
-    </div>
+      </motion.div>
+
+      <ScrollToTop />
+    </motion.div>
   );
 };
 

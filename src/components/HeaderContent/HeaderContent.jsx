@@ -16,16 +16,7 @@ const HeaderContent = ({ isDarkMode }) => {
     return () => clearInterval(timer)
   }, [])
 
-  const floatingItems = [
-    { src: "public/bvc4.png", alt: "Billiard Cue 1", position: "left" },
-    { src: "public/bvr.jpg", alt: "Billiard Cue 2", position: "right" },
-    { src: "public/bvr2.jpg", alt: "Billiard Ball Set", position: "left" },
-    { src: "public/noi.png", alt: "Billiard Table", position: "right" },
-    { src: "public/scc.jpg", alt: "Billiard Chalk", position: "bottom" },
-    { src: "/assets/products/billiard/case.jpg", alt: "Cue Case", position: "bottom" },
-    { src: "/assets/products/billiard/glove.jpg", alt: "Billiard Glove", position: "left" },
-    { src: "/assets/products/billiard/bridge.jpg", alt: "Billiard Bridge", position: "right" },
-  ]
+
 
   return (
     <section className={`hero ${isDarkMode ? "dark-mode" : ""}`}>
@@ -85,20 +76,6 @@ const HeaderContent = ({ isDarkMode }) => {
               </motion.button>
             </div>
 
-            <div className="hero-stats">
-              <motion.div className="stat-item" whileHover={{ y: -10 }} transition={{ type: "spring", stiffness: 300 }}>
-                <span className="stat-number">100+</span>
-                <span className="stat-label">PREMIUM MODELS</span>
-              </motion.div>
-              <motion.div className="stat-item" whileHover={{ y: -10 }} transition={{ type: "spring", stiffness: 300 }}>
-                <span className="stat-number">50+</span>
-                <span className="stat-label">TOP BRANDS</span>
-              </motion.div>
-              <motion.div className="stat-item" whileHover={{ y: -10 }} transition={{ type: "spring", stiffness: 300 }}>
-                <span className="stat-number">1000+</span>
-                <span className="stat-label">SATISFIED CLIENTS</span>
-              </motion.div>
-            </div>
           </motion.div>
 
           <motion.div
@@ -134,38 +111,7 @@ const HeaderContent = ({ isDarkMode }) => {
         </motion.div>
       </div>
 
-      <div className="floating-items-container">
-        {floatingItems.map((item, index) => (
-          <motion.img
-            key={index}
-            src={item.src}
-            alt={item.alt}
-            className={`floating-item floating-item-${index + 1}`}
-            initial={
-              item.position === "left"
-                ? { x: "-80%", opacity: 0 }
-                : item.position === "right"
-                  ? { x: "80%", opacity: 0 }
-                  : { y: "80%", opacity: 0 }
-            }
-            animate={{
-              x: 0,
-              y: 0,
-              opacity: 1,
-              transition: {
-                duration: 1.5,
-                delay: index * 0.15,
-                type: "spring",
-                stiffness: 50,
-              },
-            }}
-            whileHover={{
-              scale: 1.1,
-              transition: { duration: 0.3 },
-            }}
-          />
-        ))}
-      </div>
+
     </section>
   )
 }

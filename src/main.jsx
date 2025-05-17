@@ -6,8 +6,8 @@ import MainLayout from './layouts/MainLayout'
 import HomePage from './pages/Home'
 import StorePage from './pages/Store'
 import StoreDetail from './pages/Store/StoreDetail'
-import TechnologyPage from './pages/Technology'
-import BlogDetail from './pages/Technology/BlogDetail'
+import BlogPage from './pages/Blog'
+import BlogDetail from './pages/Blog/BlogDetail'
 import CataloguePage from './pages/Catalogue'
 import CatalogueDetail from './pages/Catalogue/CatalogueDetail'
 import AboutUsPage from './pages/AboutUs'
@@ -37,7 +37,7 @@ createRoot(document.getElementById('root')).render(
           
           {/* Blog routes */}
           <Route path="blog">
-            <Route index element={<TechnologyPage />} />
+            <Route index element={<BlogPage />} />
             <Route path=":id" element={<BlogDetail />} />
           </Route>
 
