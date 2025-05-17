@@ -101,6 +101,44 @@
   pointer-events: none;
 }
 
+/* Enhanced Featured Products Title Styling */
+.featured-products .section-title h2 {
+  color: #15449c; /* Gold color for better visibility */
+  font-size: 2.8rem;
+  text-shadow: 0 0 10px rgba(0, 127, 211, 0.5); /* Subtle glow effect */
+  letter-spacing: 5px;
+  transition: all 0.3s ease;
+}
+
+.featured-products .section-title h2::after {
+  background-color: #15449c; /* Gold underline */
+  height: 3px;
+  width: 80px;
+  box-shadow: 0 0 8px rgba(0, 127, 211, 0.5);
+}
+
+.featured-products .section-title p {
+  color: #E0D4C5; /* Lighter color for subtitle */
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  font-weight: 400;
+  margin-top: 1.5rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); /* Text shadow for better readability */
+  opacity: 1;
+  transition: all 0.3s ease;
+  padding: 0 15px;
+}
+
+.featured-products .section-title:hover h2 {
+  transform: scale(1.05);
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+}
+
+.featured-products .section-title:hover p {
+  color: #FFF;
+  text-shadow: 1px 1px 5px rgba(255, 215, 0, 0.4);
+}
+
 .products-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(200px, 270px));
@@ -118,14 +156,14 @@
   
   overflow: hidden;
   border-radius: 8px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.4s ease;
   height: 350px; /* Set fixed height for uniformity */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .product-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
 .product-image {
@@ -162,7 +200,24 @@
   color: #D4C9BE;
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-weight: 600;
+  font-weight: 700;
+  /* Black outline effect using text-shadow */
+  text-shadow: -1px -1px 0 #000, 
+               1px -1px 0 #000, 
+               -1px 1px 0 #000, 
+               1px 1px 0 #000,
+               0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.product-card:hover .product-info h3 {
+  color: #fff;
+  text-shadow: -1px -1px 0 #000, 
+               1px -1px 0 #000, 
+               -1px 1px 0 #000, 
+               1px 1px 0 #000,
+               0 3px 6px rgba(0, 0, 0, 0.7), 
+               0 0 10px rgba(212, 201, 190, 0.3);
 }
 
 .product-categories {
@@ -503,6 +558,11 @@
   font-size: 0.9rem;
   margin: 0.5rem 0 1rem;
   line-height: 1.4;
-  opacity: 0.8;
+  opacity: 0.9;
   font-family: 'Cabin', sans-serif;
+  font-weight: 500;
+  text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.8), 
+               1px -1px 0 rgba(0, 0, 0, 0.8), 
+               -1px 1px 0 rgba(0, 0, 0, 0.8), 
+               1px 1px 0 rgba(0, 0, 0, 0.8);
 } 

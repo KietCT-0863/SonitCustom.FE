@@ -30,7 +30,7 @@ const HomePage = () => {
     },
     {
       id: 4,
-      name: 'Billiard cue repair and refinishing',
+      name: 'Repair and Refinishing',
       categories: ['Service', 'Maintenance'],
       image: '/assets/products/scc.jpg',
       description: 'Professional service that repairs and renews billiard cues'
