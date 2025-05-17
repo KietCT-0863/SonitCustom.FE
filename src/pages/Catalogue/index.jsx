@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ScrollToTop from '../../components/ScrollToTop';
 import './styles.css';
 
@@ -44,7 +44,9 @@ const productsByYear = {
 const CataloguePage = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [activeYear, setActiveYear] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('ALL');
   const yearRefs = useRef({});
+  const navigate = useNavigate();
   
   const years = Object.keys(productsByYear).sort((a, b) => b - a); // Sắp xếp năm từ mới đến cũ
   
@@ -75,75 +77,110 @@ const CataloguePage = () => {
     }
   };
 
-  const renderTimeline = () => {
-    return (
-      <div className="timeline">
-        {years.map((year) => (
-          <div 
-            className={`timeline-item ${activeYear === year ? 'active' : ''}`} 
-            key={year}
-            onClick={() => scrollToYear(year)}
-          >
-            <div className="timeline-year-wrapper">
-              <div className="timeline-dot"></div>
-              <div className="timeline-year">{year}</div>
-            </div>
-            <div className="timeline-line"></div>
-          </div>
-        ))}
-      </div>
-    );
+  const handleViewDetails = (product) => {
+    // Chuyển hướng dựa trên loại sản phẩm
+    if (product.category === 'BILLIARD') {
+      navigate(`/catalogue/billiard/${product.id}`);
+    } else {
+      navigate(`/catalogue/ring/${product.id}`);
+    }
+  };
+  
+  // Lọc sản phẩm theo danh mục
+  const filterProductsByCategory = (products) => {
+    if (selectedCategory === 'ALL') return products;
+    return products.filter(product => product.category === selectedCategory);
   };
   
   return (
     <div className="catalogue-container">
       <div className="catalogue-header">
         <h1>CATALOGUE</h1>
-        <div className="catalogue-nav">
-          <span>Trang chủ </span>
-          <span>/</span>
-          <span className="active"> Catalogue</span>
+        <p className="catalogue-subtitle">Bộ sưu tập sản phẩm từ Sonit Custom</p>
+      </div>
+      
+      <div className="catalogue-filter">
+        <div className="filter-wrapper">
+          <div className="filter-categories">
+            <span 
+              className={`filter-category ${selectedCategory === 'ALL' ? 'active' : ''}`} 
+              onClick={() => setSelectedCategory('ALL')}
+            >
+              TẤT CẢ
+            </span>
+            <span 
+              className={`filter-category ${selectedCategory === 'RING' ? 'active' : ''}`} 
+              onClick={() => setSelectedCategory('RING')}
+            >
+              NHẪN
+            </span>
+            <span 
+              className={`filter-category ${selectedCategory === 'BILLIARD' ? 'active' : ''}`} 
+              onClick={() => setSelectedCategory('BILLIARD')}
+            >
+              BILLIARD
+            </span>
+          </div>
+          
+          <div className="years-navigation">
+            {years.map((year) => (
+              <span 
+                key={year} 
+                className={`year-nav-item ${activeYear === year ? 'active' : ''}`}
+                onClick={() => scrollToYear(year)}
+              >
+                {year}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
       
-      <div className="catalogue-content">
-        {renderTimeline()}
-        
-        <div className="products-container">
-          {years.map((year, index) => (
+      <div className="catalogue-grid-wrapper">
+        {years.map((year) => {
+          const filteredProducts = filterProductsByCategory(productsByYear[year]);
+          
+          if (filteredProducts.length === 0) return null;
+          
+          return (
             <div 
               className="year-section" 
               key={year} 
               ref={el => yearRefs.current[year] = el}
-              style={{ animationDelay: `${index * 0.15}s` }}
+              id={`year-${year}`}
             >
-              <div className="year-marker">
-                <div className="year-dot"></div>
-                <div className="year-label">{year}</div>
+              <div className="year-header">
+                <div className="year-marker">
+                  <div className="year-marker-line"></div>
+                  <div className="year-marker-dot"></div>
+                </div>
+                <h2 className="year-title">{year}</h2>
               </div>
               
               <div className="products-grid">
-                {productsByYear[year].map((product, prodIndex) => (
+                {filteredProducts.map((product) => (
                   <div 
                     className="product-card" 
                     key={product.id}
                     onClick={() => handleProductClick(product)}
-                    style={{ animationDelay: `${(index * 0.15) + (prodIndex * 0.05)}s` }}
                   >
-                    <div className="product-image">
-                      <img src={product.imageUrl} alt={product.name} />
+                    <div className="product-image-wrapper">
+                      <img src={product.imageUrl} alt={product.name} className="product-image" />
+                      <div className="product-overlay">
+                        <span className="view-product">XEM CHI TIẾT</span>
+                      </div>
                     </div>
+                    
                     <div className="product-info">
-                      <h3>{product.name}</h3>
-                      <span className="product-category">{product.category}</span>
+                      <h3 className="product-name">{product.name}</h3>
+                      <span className="product-category-tag">{product.category}</span>
                     </div>
-                    <div className="view-details">+</div>
                   </div>
                 ))}
               </div>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
       
       {selectedProduct && (
@@ -159,9 +196,15 @@ const CataloguePage = () => {
               <p className="modal-description">
                 {selectedProduct.description || 'Sản phẩm độc đáo từ Sonit Custom, được chế tác thủ công với chất liệu cao cấp. Thiết kế đột phá với đường nét tinh tế, phù hợp cho người yêu thích phong cách mạnh mẽ.'}
               </p>
-              <Link to={`/catalogue/${selectedProduct.id}`} className="view-details-btn">
-                Xem chi tiết sản phẩm
-              </Link>
+              <button 
+                className="view-details-btn"
+                onClick={() => {
+                  closeModal();
+                  handleViewDetails(selectedProduct);
+                }}
+              >
+                XEM CHI TIẾT SẢN PHẨM
+              </button>
             </div>
           </div>
         </div>

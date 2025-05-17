@@ -45,6 +45,8 @@ createRoot(document.getElementById('root')).render(
           <Route path="catalogue">
             <Route index element={<CataloguePage />} />
             <Route path=":id" element={<CatalogueDetail />} />
+            <Route path="ring/:id" element={<CatalogueDetail />} />
+            <Route path="billiard/:id" element={<CatalogueDetail />} />
           </Route>
           
           {/* Additional pages */}
