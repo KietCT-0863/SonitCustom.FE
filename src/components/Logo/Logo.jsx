@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Logo.scss';
 
@@ -8,18 +8,35 @@ const Logo = ({
   linkTo = '/',
   showText = true
 }) => {
+  const [imageError, setImageError] = useState(false);
   const sizeClass = `logo-${size}`;
   const animationClass = animated ? 'logo-animated' : '';
+  
+  const handleImageError = () => {
+    console.error('Lỗi tải hình ảnh logo');
+    setImageError(true);
+  };
   
   const LogoContent = () => (
     <div className={`logo-container ${sizeClass} ${animationClass}`}>
       <div className="logo-inner">
-        <div className="logo-circle"></div>
-        <span className="logo-text">SC</span>
+        {!imageError ? (
+          <img 
+            src="/assets/images/logo.jpg" 
+            alt="Logo" 
+            className="logo-image" 
+            onError={handleImageError}
+          />
+        ) : (
+          <>
+            <div className="logo-circle"></div>
+            <span className="logo-text">SC</span>
+          </>
+        )}
         <div className="logo-shine"></div>
         <div className="logo-pulse"></div>
       </div>
-      {showText && <div className="logo-name">SONIT CUSTOM</div>}
+      {showText && <div className="logo-name"></div>}
     </div>
   );
 

@@ -51,12 +51,23 @@
   border-color: var(--accent-color);
 }
 
+.footer-logo {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
+.footer-logo .logo-container {
+  transform: scale(1.2);
+}
+
 .slogan {
   font-family: var(--heading-font);
   font-size: 1.2rem;
   margin: 1rem 0;
   letter-spacing: 2px;
   text-transform: uppercase;
+  color: #D4C9BE;
 }
 
 .copyright {
@@ -64,4 +75,12 @@
   font-size: 0.8rem;
   color: #D4C9BE;
   margin-top: 1rem;
-} 
+}
+
+@media (max-width: 768px) {
+  .footer-logo .logo-container {
+    transform: scale(1);
+  }
+}
+
+

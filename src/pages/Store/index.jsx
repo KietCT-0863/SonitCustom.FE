@@ -46,8 +46,8 @@ const sortOptions = [
 ];
 
 const StoreProducts = [
-  {
-    id: 1,
+    {
+      id: 1,
     name: 'Keebstation Deskpad',
     category: 'accessories',
     subcategory: 'deskpad',
@@ -56,9 +56,9 @@ const StoreProducts = [
     status: 'IN STOCK',
     colors: ['black', 'white'],
     tags: ['bestseller', 'new'],
-  },
-  {
-    id: 2,
+    },
+    {
+      id: 2,
     name: 'Sirius T-shirt',
     category: 'accessories',
     subcategory: 't-shirt',
@@ -67,9 +67,9 @@ const StoreProducts = [
     status: 'IN STOCK',
     colors: ['black', 'white'],
     tags: ['limited'],
-  },
-  {
-    id: 3,
+    },
+    {
+      id: 3,
     name: 'Sirius Keychain',
     category: 'accessories',
     subcategory: 'keychain',
@@ -78,9 +78,9 @@ const StoreProducts = [
     status: 'IN STOCK',
     colors: ['black', 'orange', 'blue'],
     tags: ['new'],
-  },
-  {
-    id: 4,
+    },
+    {
+      id: 4,
     name: 'Sirius & Goodoo Deskpad',
     category: 'accessories',
     subcategory: 'deskpad',
@@ -89,9 +89,9 @@ const StoreProducts = [
     status: 'IN STOCK',
     colors: ['orange', 'blue'],
     tags: ['bestseller'],
-  },
-  {
-    id: 5,
+    },
+    {
+      id: 5,
     name: 'Bull v2 Keychain',
     category: 'accessories',
     subcategory: 'keychain',
@@ -100,9 +100,9 @@ const StoreProducts = [
     status: 'IN STOCK',
     colors: ['green', 'brown'],
     tags: ['limited'],
-  },
-  {
-    id: 6,
+    },
+    {
+      id: 6,
     name: 'Plantopia',
     category: 'artisan-keycap',
     subcategory: 'raffle',
@@ -457,7 +457,7 @@ const StorePage = () => {
     <div className="store-page">
       <div className="breadcrumb">
         <span>HOME</span> &gt; <span>STORE</span>
-      </div>
+        </div>
       
       {/* Mobile Filter Toggle Button */}
       <div className="mobile-filter-toggle">
@@ -735,11 +735,11 @@ const StorePage = () => {
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="pagination-container">
-              <Pagination 
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-              />
+            <Pagination 
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
             </div>
           )}
         </div>

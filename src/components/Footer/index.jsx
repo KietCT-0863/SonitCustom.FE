@@ -1,13 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Logo from '../Logo/Logo';
 import './styles.css';
 
-
-
-
 const Footer = () => {
-
-  
-
   return (
     <footer className="footer">
       <div className="social-links">
@@ -17,7 +13,9 @@ const Footer = () => {
         <a href="https://twitter.com"></a>
         <a href="https://tiktok.com"></a>
       </div>
-      <img src="/logo.jpg" alt="Sonit Custom" className="logo-animated" />
+      <div className="footer-logo">
+        <Logo size="large" animated={true} linkTo="/" />
+      </div>
       <p className="slogan font-effect-outline">BORN TO PERFORM</p>
       <p className="copyright">© 2025 Sonic Custom. All rights reserved.</p>
     </footer>

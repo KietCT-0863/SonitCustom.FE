@@ -234,4 +234,16 @@ $accent-color: rgba(212, 201, 190, 0.8);
       font-size: 16px;
     }
   }
+}
+
+/* Thêm quy tắc CSS cho hình ảnh logo */
+.logo-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 2;
+  border-radius: 50%;
 } 

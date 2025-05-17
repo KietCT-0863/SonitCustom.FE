@@ -18,11 +18,7 @@ const headerTranslations = {
     CATALOGUE: {
       submenu: []
     },
-
     'ABOUT US': {
-      submenu: []
-    },
-    AUTHENTICITY: {
       submenu: []
     },
     BLOG: {
@@ -44,7 +40,7 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [expandedItems, setExpandedItems] = useState({});
   
-  const menuKeys = ['STORE', 'CATALOGUE', 'ABOUT US', 'BLOG', 'SUPPORT'];
+  const menuKeys = ['STORE',  'CATALOGUE', 'ABOUT US', 'BLOG', 'SUPPORT'];
   const menuItems = menuKeys.map((key, idx) => {
     const path = key === 'ABOUT US' ? '/about-us' : `/${key.toLowerCase()}`;
     
@@ -105,9 +101,7 @@ const Header = () => {
       <header className={`header ${scrolled ? 'scrolled' : ''}`}>
         {/* Left Section - Logo */}
         <div className="header-left">
-          <Link to="/" className="logo-link" aria-label="Đến trang chủ">
-            <Logo size="medium" animated={true} />
-          </Link>
+          <Logo size="medium" animated={true} linkTo="/" />
         </div>
         
         {/* Middle Section - Navigation */}
@@ -159,7 +153,6 @@ const Header = () => {
         {/* Right Section - Authentication & Cart */}
         <div className="header-right">
           <div className="user-actions">
-
             <Link to="/login" className="auth-link login-btn">
               LOGIN
             </Link>
