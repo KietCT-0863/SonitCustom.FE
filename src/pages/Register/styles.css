@@ -19,7 +19,7 @@
   width: 60%;
   height: 60%;
   object-fit: cover;
-  margin-left: 20%;
+  margin-left: 8%;
 }
 .register-page {
   display: flex;
@@ -169,7 +169,7 @@
 /* Logo */
 .register-logo {
   text-align: center;
-  margin-bottom: 20px;
+
 }
 
 .logo-circle {

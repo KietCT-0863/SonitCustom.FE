@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './styles.css';
+import { FaGoogle, FaFacebook, FaApple } from 'react-icons/fa';
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -167,13 +168,13 @@ const LoginPage = () => {
             
             <div className="social-buttons">
               <button type="button" className="social-button google">
-                <span className="social-icon">G</span>
+                <FaGoogle />
               </button>
               <button type="button" className="social-button facebook">
-                <span className="social-icon">f</span>
+                <FaFacebook />
               </button>
               <button type="button" className="social-button apple">
-                <span className="social-icon">a</span>
+                <FaApple />
               </button>
             </div>
             
