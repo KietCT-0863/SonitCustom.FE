@@ -96,7 +96,7 @@ const CataloguePage = () => {
     <div className="catalogue-container">
       <div className="catalogue-header">
         <h1>CATALOGUE</h1>
-        <p className="catalogue-subtitle">Bộ sưu tập sản phẩm từ Sonit Custom</p>
+        <p className="catalogue-subtitle">CATALOGUE FROM SONIT CUSTOM</p>
       </div>
       
       <div className="catalogue-filter">

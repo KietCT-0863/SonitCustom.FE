@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
 
 .home-page {
   width: 100%;
@@ -28,7 +28,7 @@
 }
 
 .section-title h2 {
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   color: #D4C9BE;
   font-size: 2.5rem;
   letter-spacing: 4px;
@@ -36,6 +36,7 @@
   display: inline-block;
   padding-bottom: 1rem;
   text-transform: uppercase;
+  font-weight: 600;
 }
 
 .section-title h2::after {
@@ -51,7 +52,7 @@
 
 .section-title p {
   color: #D4C9BE;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   margin-top: 1rem;
   font-size: 1rem;
   opacity: 0.9;
@@ -149,12 +150,13 @@
 }
 
 .product-info h3 {
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
   color: #D4C9BE;
   text-transform: uppercase;
   letter-spacing: 1px;
+  font-weight: 600;
 }
 
 .product-categories {
@@ -167,7 +169,7 @@
   font-size: 0.8rem;
   color: #D4C9BE;
   opacity: 0.8;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 /* Social Media Section */
@@ -281,7 +283,7 @@
 .social-link span {
   color: #D4C9BE;
   font-size: 1.1rem;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -340,7 +342,7 @@
 }
 
 .blog-content h3 {
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   font-size: 1.3rem;
   margin-bottom: 0.5rem;
   color: #D4C9BE;
@@ -352,7 +354,7 @@
   font-size: 0.9rem;
   margin-bottom: 1rem;
   opacity: 0.8;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 .blog-content p {
@@ -361,7 +363,7 @@
   line-height: 1.6;
   margin-bottom: 1rem;
   flex: 1;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 .blog-tags {
@@ -376,7 +378,7 @@
   font-size: 0.8rem;
   margin-right: 0.5rem;
   opacity: 0.7;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 /* Responsive adjustments */
@@ -496,5 +498,5 @@
   margin: 0.5rem 0 1rem;
   line-height: 1.4;
   opacity: 0.8;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
 } 

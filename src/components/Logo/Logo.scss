@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap');
 
 /* Variables */
@@ -78,7 +78,7 @@ $accent-color: rgba(212, 201, 190, 0.8);
 
 .logo-text {
   color: $primary-color;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   font-weight: 600;
   letter-spacing: 1px;
   z-index: 3;
@@ -126,7 +126,7 @@ $accent-color: rgba(212, 201, 190, 0.8);
 
 .logo-name {
   color: $primary-color;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   font-weight: 500;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -247,4 +247,8 @@ $accent-color: rgba(212, 201, 190, 0.8);
   object-fit: contain;
   z-index: 2;
   border-radius: 50%;
+}
+
+.tagline {
+  font-family: 'Cabin', sans-serif;
 } 

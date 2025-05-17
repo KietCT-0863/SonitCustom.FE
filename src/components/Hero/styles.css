@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
 
 .hero-slider {
   width: 100%;
@@ -35,11 +35,11 @@
 }
 
 .hero-title {
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   font-size: 5rem;
-  font-weight: 300;
+  font-weight: 600;
   margin-bottom: 1rem;
-    color: #D4C9BE  ;
+  color: #D4C9BE;
   text-transform: uppercase;
   letter-spacing: 3px;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
@@ -47,7 +47,7 @@
 }
 
 .hero-subtitle {
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   font-size: 1.5rem;
   margin-bottom: 2rem;
   color: #D4C9BE;

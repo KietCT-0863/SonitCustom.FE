@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
 
 /* ProductCard Component */
 .product-card {
@@ -74,10 +74,10 @@
   padding: 8px 15px;
   border-radius: var(--button-border-radius);
   font-size: 0.9rem;
-  font-weight: 300;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.3s;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 .quick-view-btn:hover {
@@ -92,9 +92,9 @@
 }
 
 .product-name {
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   font-size: 1.1rem;
-  font-weight: 300;
+  font-weight: 500;
   margin-bottom: 5px;
   transition: color 0.3s;
 }
@@ -107,7 +107,7 @@
   font-size: 0.85rem;
   color: var(--secondary-color);
   margin-bottom: 10px;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 .product-details {
@@ -118,15 +118,15 @@
 }
 
 .product-price {
-  font-weight: 300;
+  font-weight: 500;
   color: var(--accent-color);
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 .product-status {
   font-size: 0.8rem;
-  font-weight: 300;
-  font-family: 'Bungee', sans-serif;
+  font-weight: 400;
+  font-family: 'Cabin', sans-serif;
 }
 
 .status-in-stock {
@@ -207,9 +207,9 @@
   padding: 5px 10px;
   border-radius: 4px;
   font-size: 0.8rem;
-  font-weight: 300;
+  font-weight: 400;
   z-index: 5;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 .new-badge {
@@ -277,7 +277,7 @@
   font-size: 1rem;
   font-weight: 300;
   transition: all 0.3s;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 .search-input:focus {
@@ -344,18 +344,18 @@
 .result-name {
   font-weight: bold;
   margin-bottom: 3px;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 .result-category {
   font-size: 0.85rem;
   color: var(--secondary-color);
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 .result-price {
   color: var(--accent-color);
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 /* ProductFilter Component */
@@ -372,7 +372,7 @@
   font-size: 1.2rem;
   font-weight: 300;
   color: var(--primary-color);
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 .filter-section {
@@ -385,7 +385,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 .filter-section-title button {
@@ -414,7 +414,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 .color-option {
@@ -435,7 +435,7 @@
   justify-content: space-between;
   margin-top: 5px;
   font-size: 0.9rem;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 .filter-view-controls {
@@ -480,7 +480,7 @@
   font-weight: 300;
   cursor: pointer;
   transition: all 0.3s;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 .sort-select:focus {
@@ -510,7 +510,7 @@
   font-weight: 300;
   cursor: pointer;
   transition: all 0.3s;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 .pagination-button.active {

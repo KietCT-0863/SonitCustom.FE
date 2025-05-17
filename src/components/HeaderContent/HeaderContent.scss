@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
 @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&family=Montserrat:wght@300;400;500&display=swap");
 
 // Variables - Đồng bộ với biến trong index.css
@@ -139,7 +139,7 @@ $dark-bg: #0a0a0a;
         border-radius: var(--input-border-radius, 6px);
         font-size: 1.2rem;
         background: rgba(255, 255, 255, 0.95);
-        font-family: 'Bungee', sans-serif;
+        font-family: 'Cabin', sans-serif;
 
         &:focus {
           outline: none;
@@ -224,7 +224,7 @@ $dark-bg: #0a0a0a;
           transition: opacity 0.3s ease;
 
           h3 {
-            font-family: 'Bungee', sans-serif;
+            font-family: 'Cabin', sans-serif;
             font-size: 1.8rem;
             color: $primary-color;
             margin-bottom: 0.5rem;
@@ -233,7 +233,7 @@ $dark-bg: #0a0a0a;
           }
 
           p {
-            font-family: 'Bungee', sans-serif;
+            font-family: 'Cabin', sans-serif;
             font-size: 1rem;
             color: $secondary-color;
             margin: 0;
@@ -256,7 +256,7 @@ $dark-bg: #0a0a0a;
     }
 
     .current-time {
-      font-family: 'Bungee', sans-serif;
+      font-family: 'Cabin', sans-serif;
       font-size: 1.2rem;
       color: $primary-color;
       margin: 1rem 0;
@@ -270,7 +270,7 @@ $dark-bg: #0a0a0a;
       flex: 0 0 50%;
 
       h1 {
-        font-family: 'Bungee', sans-serif;
+        font-family: 'Cabin', sans-serif;
         font-size: 3.5rem;
         color: $primary-color;
         margin-bottom: 1.5rem;
@@ -286,7 +286,7 @@ $dark-bg: #0a0a0a;
         margin: 0 auto;
         line-height: 1.6;
         font-weight: 300;
-        font-family: 'Bungee', sans-serif;
+        font-family: 'Cabin', sans-serif;
       }
     }
 
@@ -303,7 +303,7 @@ $dark-bg: #0a0a0a;
         font-weight: 300;
         cursor: pointer;
         transition: all 0.3s ease;
-        font-family: 'Bungee', sans-serif;
+        font-family: 'Cabin', sans-serif;
 
         &-primary {
           background: transparent;
@@ -355,14 +355,14 @@ $dark-bg: #0a0a0a;
           font-weight: 300;
           color: $primary-color;
           margin-bottom: 0.5rem;
-          font-family: 'Bungee', sans-serif;
+          font-family: 'Cabin', sans-serif;
         }
 
         .stat-label {
           color: $secondary-color;
           font-size: 1rem;
           font-weight: 300;
-          font-family: 'Bungee', sans-serif;
+          font-family: 'Cabin', sans-serif;
         }
       }
     }
@@ -525,4 +525,65 @@ $dark-bg: #0a0a0a;
       }
     }
   }
+}
+
+.navigation-item-content h3 {
+  font-family: 'Cabin', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+  color: #D4C9BE;
+}
+
+.info-box h2 {
+  font-family: 'Cabin', sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #D4C9BE;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.info-box p {
+  font-family: 'Cabin', sans-serif;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  color: #D4C9BE;
+}
+
+.showcase-text h3 {
+  font-family: 'Cabin', sans-serif;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #D4C9BE;
+}
+
+.showcase-text p {
+  font-family: 'Cabin', sans-serif;
+  font-size: 0.85rem;
+  color: #D4C9BE;
+  margin-bottom: 1rem;
+}
+
+.mobile-menu-link {
+  font-family: 'Cabin', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #D4C9BE;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 1rem 0;
+}
+
+.language-toggle button {
+  font-family: 'Cabin', sans-serif;
+  background: none;
+  border: none;
+  color: #D4C9BE;
+  cursor: pointer;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.8rem;
+  opacity: 0.7;
+  transition: opacity 0.3s;
 } 

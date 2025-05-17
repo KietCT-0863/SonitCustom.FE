@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500&family=Montserrat:wght@300;400;500&display=swap');
 
 :root {
@@ -8,8 +8,8 @@
   --background-color: #000000;
   --border-color: #222222;
   --text-color: #D4C9BE;
-  --heading-font: 'Bungee', sans-serif;
-  --body-font: 'Bungee', sans-serif;
+  --heading-font: 'Cabin', sans-serif;
+  --body-font: 'Cabin', sans-serif;
 }
 
 .blog-page {

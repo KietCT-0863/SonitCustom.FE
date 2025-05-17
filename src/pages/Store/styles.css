@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
 
 /* Common container styles */
 .container {
@@ -95,7 +95,7 @@
 
 .filter-header h2 {
   font-size: 1.2rem;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   letter-spacing: 2px;
   margin: 0;
 }
@@ -123,7 +123,7 @@
 .filter-section h3 {
   font-size: 1rem;
   margin-bottom: 1rem;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   letter-spacing: 1px;
 }
 
@@ -357,7 +357,7 @@
 }
 
 .store-content h1 {
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   font-size: 2.5rem;
   margin-bottom: 1.5rem;
   letter-spacing: 3px;
@@ -491,7 +491,7 @@
 }
 
 .product-name {
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   font-size: 1.1rem;
   margin-bottom: 0.25rem;
   letter-spacing: 1px;
@@ -598,14 +598,14 @@
 }
 
 .products-banner h1 {
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   font-size: 2.5rem;
   letter-spacing: 3px;
   margin-bottom: 1rem;
 }
 
 .products-banner p {
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   font-size: 1.1rem;
   max-width: 600px;
   margin: 1rem auto 0;
@@ -990,7 +990,7 @@
 }
 
 .product-title {
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   font-size: 2rem;
   margin-bottom: 0.5rem;
   letter-spacing: 2px;
@@ -1050,7 +1050,7 @@
 }
 
 .available-colors h3 {
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   font-size: 1rem;
   margin-bottom: 0.75rem;
   letter-spacing: 1px;
@@ -1098,7 +1098,7 @@
 }
 
 .section-title {
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   font-size: 1.75rem;
   margin-bottom: 1.5rem;
   letter-spacing: 2px;
@@ -1142,14 +1142,14 @@
 }
 
 .rule-content h3 {
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
 }
 
 .rule-content p {
   font-size: 0.9rem;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   color: #888;
   line-height: 1.4;
 }
@@ -1299,14 +1299,14 @@
 }
 
 .artkey-brand h3 {
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
 }
 
 .artkey-brand p {
   font-size: 0.9rem;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   color: #888;
   margin-bottom: 1.5rem;
 }
@@ -1333,7 +1333,7 @@
   margin-top: 2rem;
   font-size: 0.8rem;
   text-align: center;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 /* Responsive Styles */

@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
 
 :root {
-  --primary-font: 'Bungee', sans-serif;
-  --heading-font: 'Bungee', sans-serif;
+  --primary-font: 'Cabin', sans-serif;
+  --heading-font: 'Cabin', sans-serif;
   --primary-color: #D4C9BE;
   --secondary-color: #cccccc;
   --accent-color: #ffffff;
@@ -21,7 +21,7 @@
   
   font-family: var(--primary-font);
   line-height: 1.5;
-  font-weight: 300;
+  font-weight: 400;
   
   color-scheme: dark;
   color: var(--primary-color);
@@ -37,7 +37,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 body {
@@ -45,7 +45,7 @@ body {
   min-height: 100vh;
   background-color: var(--background-color);
   color: var(--primary-color);
-  font-family: 'Bungee', sans-serif;
+  font-family: 'Cabin', sans-serif;
   overflow-x: hidden;
 }
 
@@ -53,7 +53,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--heading-font);
   line-height: 1.1;
   letter-spacing: 1px;
-  font-weight: 300;
+  font-weight: 500;
 }
 
 h1 {
@@ -71,7 +71,7 @@ button {
   border: 1px solid var(--primary-color);
   padding: 0.6em 1.2em;
   font-size: 1em;
-  font-weight: 300;
+  font-weight: 400;
   font-family: var(--primary-font);
   background-color: transparent;
   color: #D4C9BE;

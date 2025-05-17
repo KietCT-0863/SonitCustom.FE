@@ -8,6 +8,7 @@
   padding-top: 80px;
   position: relative;
   overflow-x: hidden;
+  font-family: 'Cabin', sans-serif;
 }
 
 .catalogue-header {
@@ -15,6 +16,7 @@
   text-align: center;
   margin-bottom: 30px;
   position: relative;
+  font-family: 'Cabin', sans-serif;
 }
 
 .catalogue-header h1 {
@@ -29,20 +31,23 @@
   -webkit-text-fill-color: transparent;
   text-shadow: 0 2px 10px rgba(0,0,0,0.3);
   display: inline-block;
+  font-family: 'Cabin', sans-serif;
 }
 
 .catalogue-subtitle {
   font-size: 1.1rem;
   color: #D4C9BE;
   margin-top: 5px;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 1px;
+  font-family: 'Cabin', sans-serif;
 }
 
 /* Filter Section */
 .catalogue-filter {
   padding: 0 40px;
   margin-bottom: 40px;
+  font-family: 'Cabin', sans-serif;
 }
 
 .filter-wrapper {
@@ -73,6 +78,7 @@
   color: #D4C9BE;
   transition: all 0.3s ease;
   font-weight: 500;
+  font-family: 'Cabin', sans-serif;
 }
 
 .filter-category:hover {
@@ -175,6 +181,7 @@
   color: #e9c46a;
   margin: 0;
   letter-spacing: 2px;
+  font-family: 'Cabin', sans-serif;
 }
 
 .products-grid {
@@ -250,6 +257,7 @@
   opacity: 0;
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   transition-delay: 0.1s;
+  font-family: 'Cabin', sans-serif;
 }
 
 .product-card:hover .view-product {
@@ -272,6 +280,7 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   transition: color 0.3s ease;
+  font-family: 'Cabin', sans-serif;
 }
 
 .product-card:hover .product-name {
@@ -288,6 +297,7 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   align-self: flex-start;
+  font-family: 'Cabin', sans-serif;
 }
 
 /* Product Modal */
@@ -401,6 +411,7 @@
   color: #D4C9BE;
   text-transform: uppercase;
   letter-spacing: 1px;
+  font-family: 'Cabin', sans-serif;
 }
 
 .modal-category {
@@ -409,6 +420,7 @@
   text-transform: uppercase;
   letter-spacing: 2px;
   margin-bottom: 30px;
+  font-family: 'Cabin', sans-serif;
 }
 
 .modal-description {
@@ -416,6 +428,7 @@
   line-height: 1.8;
   color: #D4C9BE;
   margin-bottom: 40px;
+  font-family: 'Cabin', sans-serif;
 }
 
 .view-details-btn {
@@ -435,6 +448,7 @@
   overflow: hidden;
   border: none;
   cursor: pointer;
+  font-family: 'Cabin', sans-serif;
 }
 
 .view-details-btn:before {
@@ -646,6 +660,7 @@
   color: #D4C9BE;
   padding-top: 80px;
   position: relative;
+  font-family: 'Cabin', sans-serif;
 }
 
 /* Loader styles */
@@ -846,7 +861,7 @@
 .product-meta {
   display: flex;
   gap: 2rem;
-  font-size: 1.1rem;
+    font-size: 1.1rem;
   animation: fadeInUp 1s ease 0.2s forwards;
   opacity: 0;
 }
@@ -1017,8 +1032,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 35px;
-  height: 35px;
+    width: 35px;
+    height: 35px;
   border-radius: 50%;
   background-color: #1a1a1a;
   color: #D4C9BE;
