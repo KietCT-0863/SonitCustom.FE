@@ -84,7 +84,11 @@ const LoginPage = () => {
         <div className="login-card-inner">
           <div className="login-header">
             <div className="login-logo">
-              <div className="logo-circle">SC</div>
+            <img 
+            src="/assets/images/logo.jpg" 
+      className='login-logo-image'
+  
+          />
             </div>
             <h1>Welcome Back</h1>
             <p>Enter your credentials to access your account</p>
@@ -174,7 +178,7 @@ const LoginPage = () => {
             </div>
             
             <p className="signup-text">
-              Don't have an account? 
+              Don't have an account ? 
               <Link to="/register" className="register-link"> Create an account</Link>
             </p>
           </div>

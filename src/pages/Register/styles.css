@@ -1,33 +1,36 @@
-/* Thiết lập chung cho trang Register */
 :root {
-  --primary-color: #e9c46a;
-  --primary-dark: #d6b058;
+  --primary-color: #D4C9BE;
+  --primary-dark: #D4C9BE;
   --text-light: #f8f8f8;
   --text-dark: #333;
-  --bg-dark: #121212;
-  --card-bg: rgba(25, 25, 25, 0.8);
-  --input-bg: rgba(30, 30, 30, 0.8);
+  --bg-dark: #000000;
+  --card-bg: rgba(0, 0, 0, 0.8);
+  --input-bg: rgba(0, 0, 0, 0.8);
   --input-border: rgba(255, 255, 255, 0.1);
-  --highlight: rgba(233, 196, 106, 0.7);
+  --highlight: #D4C9BE;
   --shadow-color: rgba(0, 0, 0, 0.4);
   --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
   --gold-gradient: linear-gradient(135deg, #e9c46a, #f4a261);
   --transition-normal: all 0.3s ease;
   --transition-slow: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  --error-color: #e74c3c;
 }
 
+.register-logo-image{
+  width: 60%;
+  height: 60%;
+  object-fit: cover;
+  margin-left: 20%;
+}
 .register-page {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
   background: var(--bg-dark);
-  background-image: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
   padding: 20px;
   position: relative;
   overflow: hidden;
-  color: var(--text-light);
+  color:  #D4C9BE;
 }
 
 /* Back to Home Button */
@@ -42,7 +45,7 @@
   background-color: rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 30px;
-  color: var(--text-light);
+  color:  #D4C9BE;
   font-size: 0.9rem;
   text-decoration: none;
   transition: var(--transition-normal);
@@ -86,7 +89,7 @@
 
 .particle {
   position: absolute;
-  background-color: var(--primary-color);
+  background-color: #D4C9BE;
   border-radius: 50%;
   opacity: 0.2;
   animation: float 8s infinite ease-in-out;
@@ -180,10 +183,10 @@
   justify-content: center;
   font-size: 24px;
   font-weight: bold;
-  color: var(--bg-dark);
+  color:  #D4C9BE;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  animation: glow 3s infinite alternate;
+
+
 }
 
 @keyframes glow {
@@ -204,16 +207,14 @@
 .register-header h1 {
   font-size: 2rem;
   font-weight: 600;
-  color: var(--primary-color);
+  color: #D4C9BE;
   margin-bottom: 10px;
-  background: var(--gold-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .register-header p {
-  color: rgba(255, 255, 255, 0.7);
+  color: #D4C9BE;
   font-size: 0.95rem;
 }
 
@@ -243,7 +244,7 @@
   background: var(--input-bg);
   border: 1px solid var(--input-border);
   border-radius: 8px;
-  color: var(--text-light);
+  color:  #D4C9BE;  
   font-size: 16px;
   transition: var(--transition-normal);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
@@ -253,7 +254,7 @@
 
 .form-floating input:focus {
   outline: none;
-  border-color: var(--primary-color);
+  border-color: #D4C9BE;
   box-shadow: 0 0 0 3px rgba(233, 196, 106, 0.25);
 }
 
@@ -271,7 +272,7 @@
 .form-floating.focused label,
 .form-floating input:not(:placeholder-shown) + label {
   transform: translateY(-25px) scale(0.85);
-  color: var(--primary-color);
+  color: #D4C9BE;
 }
 
 .input-highlight {
@@ -290,7 +291,7 @@
 }
 
 .error-message {
-  color: var(--error-color);
+  color: #D4C9BE;
   font-size: 0.85rem;
   margin-top: 8px;
   padding-left: 2px;
@@ -366,7 +367,7 @@
 }
 
 .terms-link {
-  color: var(--primary-color);
+  color: #D4C9BE;
   text-decoration: none;
   transition: var(--transition-normal);
 }
@@ -379,8 +380,8 @@
 .register-button {
   width: 100%;
   padding: 15px;
-  background: var(--gold-gradient);
-  color: var(--text-dark);
+
+      color:  #D4C9BE;
   border: none;
   border-radius: 8px;
   font-size: 16px;
@@ -516,14 +517,14 @@
 }
 
 .login-link {
-  color: var(--primary-color);
+  color: #c81212;
   text-decoration: none;
   font-weight: 500;
   transition: var(--transition-normal);
 }
 
 .login-link:hover {
-  color: #f4a261;
+  color: #D4C9BE;
   text-decoration: underline;
 }
 

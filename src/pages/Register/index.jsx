@@ -129,7 +129,11 @@ const RegisterPage = () => {
         <div className="register-card-inner">
           <div className="register-header">
             <div className="register-logo">
-              <div className="logo-circle">SC</div>
+            <img 
+            src="/assets/images/logo.jpg" 
+      className='register-logo-image'
+  
+          />
             </div>
             <h1>Create Account</h1>
             <p>Join Sonit Custom and explore our premium products</p>
