@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
 @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&family=Montserrat:wght@300;400;500&display=swap");
 
 // Variables - Đồng bộ với biến trong index.css
@@ -138,7 +139,7 @@ $dark-bg: #0a0a0a;
         border-radius: var(--input-border-radius, 6px);
         font-size: 1.2rem;
         background: rgba(255, 255, 255, 0.95);
-        font-family: var(--primary-font, 'Montserrat'), sans-serif;
+        font-family: 'Bungee', sans-serif;
 
         &:focus {
           outline: none;
@@ -223,7 +224,7 @@ $dark-bg: #0a0a0a;
           transition: opacity 0.3s ease;
 
           h3 {
-            font-family: var(--heading-font, 'Oswald'), sans-serif;
+            font-family: 'Bungee', sans-serif;
             font-size: 1.8rem;
             color: $primary-color;
             margin-bottom: 0.5rem;
@@ -232,7 +233,7 @@ $dark-bg: #0a0a0a;
           }
 
           p {
-            font-family: var(--primary-font, 'Montserrat'), sans-serif;
+            font-family: 'Bungee', sans-serif;
             font-size: 1rem;
             color: $secondary-color;
             margin: 0;
@@ -255,7 +256,7 @@ $dark-bg: #0a0a0a;
     }
 
     .current-time {
-      font-family: var(--primary-font, 'Montserrat'), sans-serif;
+      font-family: 'Bungee', sans-serif;
       font-size: 1.2rem;
       color: $primary-color;
       margin: 1rem 0;
@@ -269,7 +270,7 @@ $dark-bg: #0a0a0a;
       flex: 0 0 50%;
 
       h1 {
-        font-family: var(--heading-font, 'Oswald'), sans-serif;
+        font-family: 'Bungee', sans-serif;
         font-size: 3.5rem;
         color: $primary-color;
         margin-bottom: 1.5rem;
@@ -285,7 +286,7 @@ $dark-bg: #0a0a0a;
         margin: 0 auto;
         line-height: 1.6;
         font-weight: 300;
-        font-family: var(--primary-font, 'Montserrat'), sans-serif;
+        font-family: 'Bungee', sans-serif;
       }
     }
 
@@ -302,7 +303,7 @@ $dark-bg: #0a0a0a;
         font-weight: 300;
         cursor: pointer;
         transition: all 0.3s ease;
-        font-family: var(--primary-font, 'Montserrat'), sans-serif;
+        font-family: 'Bungee', sans-serif;
 
         &-primary {
           background: transparent;
@@ -354,14 +355,14 @@ $dark-bg: #0a0a0a;
           font-weight: 300;
           color: $primary-color;
           margin-bottom: 0.5rem;
-          font-family: var(--heading-font, 'Oswald'), sans-serif;
+          font-family: 'Bungee', sans-serif;
         }
 
         .stat-label {
           color: $secondary-color;
           font-size: 1rem;
           font-weight: 300;
-          font-family: var(--primary-font, 'Montserrat'), sans-serif;
+          font-family: 'Bungee', sans-serif;
         }
       }
     }

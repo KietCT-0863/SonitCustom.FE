@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
 /* Theme Variables */
 :root {
   --primary-color: #D4C9BE;
@@ -6,8 +8,8 @@
   --background-color: #000000;
   --border-color: #222222;
   --text-color: #D4C9BE;
-  --heading-font: 'Oswald', sans-serif;
-  --body-font: 'Montserrat', sans-serif;
+  --heading-font: 'Bungee', sans-serif;
+  --body-font: 'Bungee', sans-serif;
 }
 
 /* Blog Detail Page Styles */
@@ -188,6 +190,7 @@
 .blog-content {
   font-size: 1.1rem;
   line-height: 1.8;
+  font-family: var(--body-font);
 }
 
 .blog-content h2 {
@@ -341,6 +344,7 @@
   border-radius: 4px;
   transition: all 0.3s;
   margin-bottom: 1rem;
+  font-family: var(--body-font);
 }
 
 .back-button:hover {

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -53,7 +55,7 @@
 .nav-link {
   color: #D4C9BE;
   text-decoration: none;
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Bungee', sans-serif;
   font-size: 1rem;
   font-weight: 500;
   letter-spacing: 1px;
@@ -111,7 +113,7 @@
 .auth-link {
   color: #D4C9BE;
   text-decoration: none;
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Bungee', sans-serif;
   font-size: 0.9rem;
   font-weight: 500;
   letter-spacing: 1px;
@@ -202,7 +204,7 @@
 
 .dropdown-header h3 {
   color: #ffffff;
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Bungee', sans-serif;
   font-size: 1.2rem;
   font-weight: 500;
   margin-bottom: 0.25rem;
@@ -210,7 +212,7 @@
 
 .dropdown-header p {
   color: #D4C9BE;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Bungee', sans-serif;
   font-size: 0.9rem;
 }
 
@@ -273,14 +275,14 @@
 
 .submenu-title {
   color: #ffffff;
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Bungee', sans-serif;
   font-size: 0.9rem;
   font-weight: 500;
 }
 
 .submenu-description {
   color: #D4C9BE;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Bungee', sans-serif;
   font-size: 0.8rem;
 }
 
@@ -368,7 +370,7 @@
 .mobile-nav-header a {
   color: #D4C9BE;
   text-decoration: none;
-  font-family: var(--heading-font);
+  font-family: 'Bungee', sans-serif;
   font-size: 1.1rem;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -414,7 +416,7 @@
   padding: 12px 20px;
   color: #D4C9BE;
   text-decoration: none;
-  font-family: var(--primary-font);
+  font-family: 'Bungee', sans-serif;
   font-size: 0.95rem;
   border-left: 3px solid transparent;
   transition: all 0.3s ease;
@@ -455,7 +457,7 @@
 .lang-btn {
   color: #D4C9BE;
   text-decoration: none;
-  font-family: var(--primary-font);
+  font-family: 'Bungee', sans-serif;
   font-size: 0.9rem;
   padding: 5px 15px;
   border: 1px solid var(--border-color);
@@ -650,7 +652,7 @@
 .nav-links a {
   color: #D4C9BE;
   text-decoration: none;
-  font-family: var(--heading-font);
+  font-family: 'Bungee', sans-serif;
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -716,7 +718,7 @@
 }
 
 .language-social a {
-  font-family: var(--primary-font);
+  font-family: 'Bungee', sans-serif;
   font-size: 0.8rem;
   transition: color 0.3s;
 }
@@ -758,7 +760,7 @@
 
 .login-text {
   color: #D4C9BE;
-  font-family: var(--heading-font);
+  font-family: 'Bungee', sans-serif;
   font-size: 0.85rem;
   margin-right: 15px;
 } 

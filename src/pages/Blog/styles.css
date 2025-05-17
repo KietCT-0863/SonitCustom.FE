@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500&family=Montserrat:wght@300;400;500&display=swap');
 
 :root {
@@ -7,8 +8,8 @@
   --background-color: #000000;
   --border-color: #222222;
   --text-color: #D4C9BE;
-  --heading-font: 'Oswald', sans-serif;
-  --body-font: 'Montserrat', sans-serif;
+  --heading-font: 'Bungee', sans-serif;
+  --body-font: 'Bungee', sans-serif;
 }
 
 .blog-page {
@@ -108,6 +109,7 @@
   color: var(--text-color);
   font-size: 1.1rem;
   transition: all 0.3s ease;
+  font-family: var(--body-font);
 }
 
 .search-box.focused input {
@@ -544,8 +546,10 @@ a {
 h1, h2, h3, h4, h5, h6 {
   font-weight: 300;
   letter-spacing: 1px;
+  font-family: var(--heading-font);
 }
 
 p {
   line-height: 1.8;
+  font-family: var(--body-font);
 } 

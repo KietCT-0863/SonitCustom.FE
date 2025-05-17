@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
 .support-page {
   max-width: 1200px;
   margin: 0 auto;
@@ -5,7 +7,8 @@
   padding-top: 120px;
   min-height: 100vh;
   color: #D4C9BE;
-  background-color: #000000;
+  background-color: #121212;
+  font-family: 'Bungee', sans-serif;
 }
 
 .page-banner {
@@ -37,7 +40,7 @@
   color: #D4C9BE;
   position: relative;
   z-index: 2;
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Bungee', sans-serif;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
@@ -47,7 +50,7 @@
   color: #D4C9BE;
   position: relative;
   z-index: 2;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Bungee', sans-serif;
   max-width: 600px;
   margin: 0 auto;
 }
@@ -77,7 +80,7 @@
   color: #D4C9BE;
   cursor: pointer;
   position: relative;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Bungee', sans-serif;
   transition: all 0.3s ease;
 }
 
@@ -136,14 +139,14 @@
   font-size: 1.4rem;
   margin-bottom: 15px;
   color: #D4C9BE;
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Bungee', sans-serif;
   letter-spacing: 1px;
 }
 
 .info-card p {
   margin-bottom: 20px;
   color: rgba(212, 201, 190, 0.8);
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Bungee', sans-serif;
 }
 
 .contact-link {
@@ -156,6 +159,7 @@
   border-radius: 5px;
   background-color: rgba(212, 201, 190, 0.1);
   transition: all 0.3s ease;
+  font-family: 'Bungee', sans-serif;
 }
 
 .contact-link:hover {
@@ -173,6 +177,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   letter-spacing: 0.5px;
+  font-family: 'Bungee', sans-serif;
 }
 
 .chat-button:hover {
@@ -189,7 +194,7 @@
   margin-bottom: 30px;
   color: #D4C9BE;
   text-align: center;
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Bungee', sans-serif;
   letter-spacing: 1px;
 }
 
@@ -225,7 +230,7 @@
 .faq-header h3 {
   font-size: 1.2rem;
   color: #D4C9BE;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Bungee', sans-serif;
   margin: 0;
 }
 
@@ -247,7 +252,7 @@
 .faq-content p {
   color: rgba(212, 201, 190, 0.8);
   line-height: 1.6;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Bungee', sans-serif;
   margin: 0;
 }
 
@@ -266,7 +271,7 @@
   margin-bottom: 15px;
   color: #D4C9BE;
   text-align: center;
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Bungee', sans-serif;
   letter-spacing: 1px;
 }
 
@@ -274,7 +279,7 @@
   text-align: center;
   margin-bottom: 30px;
   color: rgba(212, 201, 190, 0.8);
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Bungee', sans-serif;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
@@ -304,7 +309,7 @@
   margin-bottom: 10px;
   font-weight: 500;
   color: #D4C9BE;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Bungee', sans-serif;
 }
 
 .form-group input,
@@ -318,7 +323,7 @@
   font-size: 16px;
   color: #D4C9BE;
   transition: all 0.3s ease;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Bungee', sans-serif;
 }
 
 .form-group input:focus,
@@ -353,7 +358,7 @@
   margin-top: 15px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Bungee', sans-serif;
 }
 
 .submit-button:hover {
@@ -377,7 +382,7 @@
 .success-message p {
   font-size: 1.2rem;
   color: #D4C9BE;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Bungee', sans-serif;
 } 
 
 @media (max-width: 768px) {

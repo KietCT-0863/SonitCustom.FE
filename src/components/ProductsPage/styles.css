@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
 /* ProductCard Component */
 .product-card {
   background-color: rgba(0, 0, 0, 0.7);
@@ -75,6 +77,7 @@
   font-weight: 300;
   cursor: pointer;
   transition: all 0.3s;
+  font-family: 'Bungee', sans-serif;
 }
 
 .quick-view-btn:hover {
@@ -89,7 +92,7 @@
 }
 
 .product-name {
-  font-family: var(--heading-font);
+  font-family: 'Bungee', sans-serif;
   font-size: 1.1rem;
   font-weight: 300;
   margin-bottom: 5px;
@@ -104,6 +107,7 @@
   font-size: 0.85rem;
   color: var(--secondary-color);
   margin-bottom: 10px;
+  font-family: 'Bungee', sans-serif;
 }
 
 .product-details {
@@ -116,11 +120,13 @@
 .product-price {
   font-weight: 300;
   color: var(--accent-color);
+  font-family: 'Bungee', sans-serif;
 }
 
 .product-status {
   font-size: 0.8rem;
   font-weight: 300;
+  font-family: 'Bungee', sans-serif;
 }
 
 .status-in-stock {
@@ -203,6 +209,7 @@
   font-size: 0.8rem;
   font-weight: 300;
   z-index: 5;
+  font-family: 'Bungee', sans-serif;
 }
 
 .new-badge {
@@ -270,6 +277,7 @@
   font-size: 1rem;
   font-weight: 300;
   transition: all 0.3s;
+  font-family: 'Bungee', sans-serif;
 }
 
 .search-input:focus {
@@ -336,15 +344,18 @@
 .result-name {
   font-weight: bold;
   margin-bottom: 3px;
+  font-family: 'Bungee', sans-serif;
 }
 
 .result-category {
   font-size: 0.85rem;
   color: var(--secondary-color);
+  font-family: 'Bungee', sans-serif;
 }
 
 .result-price {
   color: var(--accent-color);
+  font-family: 'Bungee', sans-serif;
 }
 
 /* ProductFilter Component */
@@ -361,6 +372,7 @@
   font-size: 1.2rem;
   font-weight: 300;
   color: var(--primary-color);
+  font-family: 'Bungee', sans-serif;
 }
 
 .filter-section {
@@ -373,6 +385,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  font-family: 'Bungee', sans-serif;
 }
 
 .filter-section-title button {
@@ -401,6 +414,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  font-family: 'Bungee', sans-serif;
 }
 
 .color-option {
@@ -421,6 +435,7 @@
   justify-content: space-between;
   margin-top: 5px;
   font-size: 0.9rem;
+  font-family: 'Bungee', sans-serif;
 }
 
 .filter-view-controls {
@@ -465,6 +480,7 @@
   font-weight: 300;
   cursor: pointer;
   transition: all 0.3s;
+  font-family: 'Bungee', sans-serif;
 }
 
 .sort-select:focus {
@@ -494,6 +510,7 @@
   font-weight: 300;
   cursor: pointer;
   transition: all 0.3s;
+  font-family: 'Bungee', sans-serif;
 }
 
 .pagination-button.active {
