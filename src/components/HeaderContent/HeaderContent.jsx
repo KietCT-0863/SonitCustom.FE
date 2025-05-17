@@ -93,8 +93,8 @@ const HeaderContent = ({ isDarkMode }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1>ELEVATE YOUR BILLIARDS EXPERIENCE</h1>
-          <p>Khám phá bộ sưu tập billiard cao cấp nhất với thiết kế độc quyền và chất lượng vượt trội</p>
+          <h1>SONIT CUSTOM</h1>
+          <p>Discover the best billiard collection with exclusive designs and superior quality</p>
 
           <div className="current-time">{currentTime.toLocaleTimeString()}</div>
 

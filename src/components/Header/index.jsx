@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Logo from '../Logo/Logo';
 import './styles.css';
 
 // Dummy translation data (English only)
@@ -17,7 +18,11 @@ const headerTranslations = {
     CATALOGUE: {
       submenu: []
     },
+
     'ABOUT US': {
+      submenu: []
+    },
+    AUTHENTICITY: {
       submenu: []
     },
     BLOG: {
@@ -39,7 +44,7 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [expandedItems, setExpandedItems] = useState({});
   
-  const menuKeys = ['STORE',  'CATALOGUE', 'ABOUT US', 'BLOG', 'SUPPORT'];
+  const menuKeys = ['STORE', 'CATALOGUE', 'ABOUT US', 'BLOG', 'SUPPORT'];
   const menuItems = menuKeys.map((key, idx) => {
     const path = key === 'ABOUT US' ? '/about-us' : `/${key.toLowerCase()}`;
     
@@ -101,7 +106,7 @@ const Header = () => {
         {/* Left Section - Logo */}
         <div className="header-left">
           <Link to="/" className="logo-link" aria-label="Đến trang chủ">
-            <img src="/logo.jpg" alt="Sonit Custom" className="logo-animated" />
+            <Logo size="medium" animated={true} />
           </Link>
         </div>
         
@@ -155,9 +160,6 @@ const Header = () => {
         <div className="header-right">
           <div className="user-actions">
 
-            <Link to="/login" className="user-icon">
-
-            </Link>
             <Link to="/login" className="auth-link login-btn">
               LOGIN
             </Link>
@@ -165,7 +167,11 @@ const Header = () => {
               REGISTER
             </Link>
             <Link to="/cart" className="cart-icon">
-             
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
             </Link>
           </div>
         </div>
@@ -249,8 +255,6 @@ const Header = () => {
               </div>
             </div>
           </nav>
-          
-
         </div>
       </div>
     </>

@@ -7,9 +7,10 @@ const HomePage = () => {
   return (
     <div className="home-page">
       <div className="hero-container">
+      <HeaderContent />
+
         <Hero />
       </div>
-      <HeaderContent />
 
     </div>
 

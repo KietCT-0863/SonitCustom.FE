@@ -2,7 +2,7 @@
 .catalogue-container {
   width: 100%;
   min-height: 100vh;
-  background-color: #0d0d0d;
+  background-color: #000000;
   color: #D4C9BE;
   padding-bottom: 60px; 
   padding-top: 100px;
@@ -11,10 +11,8 @@
 
 .catalogue-header {
   padding: 30px 40px;
-  background: linear-gradient(to right, rgba(0,0,0,0.9), rgba(13,13,13,0.7));
   margin-bottom: 40px;
   position: relative;
-  border-bottom: 1px solid rgba(233, 196, 106, 0.2);
 }
 
 .catalogue-header:before {
@@ -24,7 +22,6 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(to right, transparent, rgba(233, 196, 106, 0.5), transparent);
 }
 
 .catalogue-header h1 {
@@ -33,7 +30,7 @@
   letter-spacing: 3px;
   margin-bottom: 15px;
   text-transform: uppercase;
-  background: linear-gradient(45deg, #e9c46a, #f4a261);
+  background: linear-gradient(45deg,#D4C9BE);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 2px 10px rgba(0,0,0,0.3);

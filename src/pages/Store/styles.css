@@ -459,7 +459,7 @@
 
 .product-status.raffle-ended {
   background-color: #9E9E9E;
-  color: white;
+  color: #534e4a;
 }
 
 /* Product tags */
@@ -475,13 +475,13 @@
 
 .product-tag.new-tag {
   background-color: #2196F3;
-  color: white;
+  color: #D4C9BE;
   top: 10px;
 }
 
 .product-tag.bestseller-tag {
   background-color: #FF9800;
-  color: white;
+  color: #D4C9BE;
   top: 45px;
 }
 
