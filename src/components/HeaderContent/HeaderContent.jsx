@@ -16,34 +16,6 @@ const HeaderContent = ({ isDarkMode }) => {
     return () => clearInterval(timer)
   }, [])
 
-  const features = [
-    {
-      title: "EXTENDER",
-      description: "Add power to your cue with the Custom Extender",
-      direction: "left",
-      color: "rgba(212, 201, 190, 0.1)",
-    },
-    {
-      title: "BUMPER",
-      description: "The custom bumper for cues which is able to attach the Pro Telescopic Extension directly to the bumper",
-      direction: "right",
-      color: "rgba(212, 201, 190, 0.1)",
-    },
-    {
-      title: "JOIN PROTECTOR",
-      description: "Custom Joint protectors provide the best protection and peace of mind for your favorite Cues when you’re on the go",
-      direction: "left",
-      color: "rgba(212, 201, 190, 0.1)",
-    },
-    {
-      title: "BILLIARD CUE REPAIR AND RENEWAL",
-      description: "The billiard cue repair and renewal service is a professional service that repairs and renews billiard cues.",
-      direction: "right",
-      color: "rgba(212, 201, 190, 0.1)",
-    },
-   
-  ]
-
   const floatingItems = [
     { src: "public/bvc4.png", alt: "Billiard Cue 1", position: "left" },
     { src: "public/bvr.jpg", alt: "Billiard Cue 2", position: "right" },
@@ -147,41 +119,6 @@ const HeaderContent = ({ isDarkMode }) => {
               </div>
             </div>
           </motion.div>
-        </div>
-
-        <div className="features-waterfall">
-          {features.map((feature, index) => (
-            <motion.div
-              key={index}
-              className={`feature-card ${feature.direction}`}
-              initial={{
-                x: feature.direction === "left" ? -100 : 100,
-                opacity: 0,
-              }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{
-                duration: 0.8,
-                delay: index * 0.2,
-                type: "spring",
-                stiffness: 100,
-              }}
-              whileHover={{
-                y: -10,
-                scale: 1.02,
-                transition: { duration: 0.3 },
-              }}
-            >
-              <div className="water-drop"></div>
-              <div className="feature-content">
-                <div className="feature-icon-wrapper" style={{ backgroundColor: feature.color }}>
-                  <div className="icon-ripple"></div>
-                </div>
-                <h3>{feature.title}</h3>
-                <p>{feature.description}</p>
-              </div>
-              <div className="water-stream"></div>
-            </motion.div>
-          ))}
         </div>
 
         <motion.div
