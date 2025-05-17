@@ -53,7 +53,8 @@ const HeaderContent = ({ isDarkMode }) => {
             transition={{ duration: 0.8 }}
           >
             <h1>SONIT CUSTOM</h1>
-            <p>Discover the best billiard collection with exclusive designs and superior quality</p>
+            <p>Discover the best billiard collection with </p>
+              <p>exclusive designs and superior quality</p>
 
             <div className="current-time">{currentTime.toLocaleTimeString()}</div>
 

@@ -37,21 +37,24 @@
 .hero-title {
   font-family: 'Cabin', sans-serif;
   font-size: 5rem;
-  font-weight: 600;
+  font-weight: 900;
   margin-bottom: 1rem;
-  color: #D4C9BE;
+  color: #000 !important;
   text-transform: uppercase;
   letter-spacing: 3px;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-  animation: white-glow 2s ease-in-out infinite alternate;
+  -webkit-text-fill-color: #000 !important;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 0 0 8px rgba(255, 255, 255, 0.8);
 }
 
 .hero-subtitle {
   font-family: 'Cabin', sans-serif;
   font-size: 1.5rem;
   margin-bottom: 2rem;
-  color: #D4C9BE;
+  color: #000 !important;
   letter-spacing: 2px;
+  font-weight: 700;
+  -webkit-text-fill-color: #000 !important;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 0 0 5px rgba(255, 255, 255, 0.6);
 }
 
 @keyframes fadeIn {

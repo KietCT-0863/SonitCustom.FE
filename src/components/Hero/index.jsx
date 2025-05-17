@@ -23,9 +23,9 @@ const slides = [
 
 // Thông tin hình ảnh của slides 
 const slideImages = [
-  '/assets/miyabi.jpg',
-  '/assets/koukai.jpg',
-  '/assets/santa-fe.jpg',
+  '/assets/products/hand.jpg',
+  '/assets/products/tech.jpg',
+  '/assets/products/cusexcellence.png',
 ];
 
 const Hero = () => {
@@ -46,7 +46,7 @@ const Hero = () => {
               style={{ backgroundImage: `url(${slideImages[idx]})` }}
             >
               <div className="hero-content">
-                <h1 className="hero-title font-effect-neon">{slide.title}</h1>
+                <h1 className="hero-title">{slide.title}</h1>
                 <h2 className="hero-subtitle">{slide.subtitle}</h2>
               </div>
             </div>
