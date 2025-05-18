@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import './styles.css';
-
+import ScrollToTop from '../../components/ScrollToTop';
 const AboutUs = () => {
   const timelineRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -386,6 +386,7 @@ const AboutUs = () => {
           </motion.button>
         </motion.div>
       </section>
+      <ScrollToTop />
     </div>
   );
 };
