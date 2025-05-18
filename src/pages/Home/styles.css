@@ -72,6 +72,7 @@
   transition: color 0.3s ease;
   padding: 0.5rem 1rem;
   border: 1px solid var(--accent-color);
+  
   border-radius: 4px;
 }
 
@@ -103,7 +104,7 @@
 
 /* Enhanced Featured Products Title Styling */
 .featured-products .section-title h2 {
-  color: #15449c; /* Gold color for better visibility */
+  color: #D4C9BE; /* Gold color for better visibility */
   font-size: 2.8rem;
   text-shadow: 0 0 10px rgba(0, 127, 211, 0.5); /* Subtle glow effect */
   letter-spacing: 5px;
@@ -111,7 +112,7 @@
 }
 
 .featured-products .section-title h2::after {
-  background-color: #15449c; /* Gold underline */
+  background-color:  #D4C9BE; /* Gold underline */
   height: 3px;
   width: 80px;
   box-shadow: 0 0 8px rgba(0, 127, 211, 0.5);
@@ -286,7 +287,7 @@
   transform: translateX(-50%);
   width: 0;
   height: 2px;
-  background-color: var(--accent-color);
+  background-color: #D4C9BE;
   transition: width 0.3s ease;
 }
 

@@ -87,20 +87,32 @@ const Header = () => {
     };
   }, [mobileMenuOpen]);
 
-  // Handle outside click to close dropdown
   useEffect(() => {
+    // Đóng dropdown menu khi click ra ngoài
     const handleClickOutside = (event) => {
       if (headerRef.current && !headerRef.current.contains(event.target)) {
         setActiveDropdown(null);
       }
     };
 
+    // Đóng dropdown khi resize màn hình
+    const handleResize = () => {
+      setActiveDropdown(null);
+      
+      if (window.innerWidth > 992 && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+
     document.addEventListener('mousedown', handleClickOutside);
+    window.addEventListener('resize', handleResize);
+    
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('resize', handleResize);
     };
-  }, []);
-  
+  }, [mobileMenuOpen]);
+
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
@@ -112,30 +124,27 @@ const Header = () => {
     }));
   };
 
+  // Cải thiện xử lý hover và click trên mobile
   const handleMenuItemHover = (index) => {
-    setActiveDropdown(index);
+    if (window.innerWidth > 992) {
+      setActiveDropdown(index);
+    }
   };
 
   const handleMenuItemLeave = () => {
-    // Using a slight delay before closing dropdown for better UX
-    setTimeout(() => {
-      setActiveDropdown(null);
-    }, 200);
+    if (window.innerWidth > 992) {
+      setTimeout(() => {
+        setActiveDropdown(null);
+      }, 200);
+    }
   };
 
-  // Close mobile menu when window is resized to desktop size
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 992 && mobileMenuOpen) {
-        setMobileMenuOpen(false);
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [mobileMenuOpen]);
+  const handleMenuItemClick = (index, event) => {
+    if (window.innerWidth <= 992) {
+      event.preventDefault();
+      setActiveDropdown(activeDropdown === index ? null : index);
+    }
+  };
 
   // Handle keyboard navigation for accessibility
   const handleKeyDown = (event, index) => {
@@ -165,14 +174,21 @@ const Header = () => {
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 tabIndex={0}
               >
-                <Link to={item.path} className="nav-link">
+                <Link 
+                  to={item.path} 
+                  className="nav-link"
+                  onClick={(e) => handleMenuItemClick(index, e)}
+                >
                   {item.title}
                   {item.submenu && item.submenu.length > 0 && (
                     <span className="dropdown-arrow">▼</span>
                   )}
                 </Link>
                 {item.submenu && item.submenu.length > 0 && (
-                  <div className={`dropdown-menu ${activeDropdown === index ? 'active' : ''}`}>
+                  <div 
+                    className={`dropdown-menu ${activeDropdown === index ? 'active' : ''}`}
+                    onClick={e => e.stopPropagation()}
+                  >
                     <div className="dropdown-header">
                       <h3>{item.title}</h3>
                       <p>{item.description}</p>

@@ -2,6 +2,7 @@ import React from 'react';
 import Hero from '../../components/Hero';
 import HeaderContent from '../../components/HeaderContent/HeaderContent';
 import ScrollToTop from '../../components/ScrollToTop';
+import BlogSlider from '../../components/BlogSlider';
 import './styles.css';
 
 const HomePage = () => {
@@ -34,34 +35,6 @@ const HomePage = () => {
       categories: ['Service', 'Maintenance'],
       image: '/assets/products/scc.jpg',
       description: 'Professional service that repairs and renews billiard cues'
-    }
-  ];
-
-  // Blog posts data
-  const blogPosts = [
-    {
-      id: 1,
-      title: 'The Art of Custom Cue Craftsmanship',
-      date: 'Mar 28, 2024',
-      description: 'The balance, weight, and feel of a custom cue is paramount to a player\'s success. Our craftsmen meticulously design every component to ensure optimal performance.',
-      image: '/assets/blog/post1.jpg',
-      tags: ['SonitSharing', 'CustomCue', 'Craftsmanship']
-    },
-    {
-      id: 2,
-      title: 'Exotic Woods in Custom Billiard Cues',
-      date: 'Feb 19, 2024',
-      description: 'From Cocobolo to Bocote, we explore the finest exotic woods used in creating stunning custom billiard cues that not only perform flawlessly but become conversation pieces.',
-      image: '/assets/blog/post2.jpg',
-      tags: ['SonitSharing', 'ExoticWoods', 'CustomCue']
-    },
-    {
-      id: 3,
-      title: 'Inlay Techniques for Premium Cues',
-      date: 'Jan 8, 2024',
-      description: 'Our artisans have perfected various inlay techniques using materials like mother-of-pearl, abalone, and precious metals to create distinctive patterns that set our custom cues apart.',
-      image: '/assets/blog/post3.jpg',
-      tags: ['SonitSharing', 'InlayTechniques', 'PremiumCues']
     }
   ];
 
@@ -102,6 +75,9 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+      
+      {/* Blog Slider Section */}
+      <BlogSlider />
 
       {/* Social Media Section */}
       <section className="social-media-section">
@@ -132,37 +108,6 @@ const HomePage = () => {
                 <span>TikTok</span>
               </a>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Blog Section */}
-      <section className="blog-section">
-        <div className="container">
-          <div className="section-title">
-            <h2>Blog</h2>
-            <p>Discover the artistry and craftsmanship behind our custom billiard cues!<br />Explore our insights, techniques, and innovations.</p>
-            <a href="/blog" className="view-all">View all articles</a>
-          </div>
-          
-          <div className="blog-grid">
-            {blogPosts.map(post => (
-              <div className="blog-card" key={post.id}>
-                <div className="blog-image">
-                  <img src={post.image} alt={post.title} />
-                </div>
-                <div className="blog-content">
-                  <h3>{post.title}</h3>
-                  <div className="blog-date">{post.date}</div>
-                  <p>{post.description}</p>
-                  <div className="blog-tags">
-                    {post.tags.map((tag, index) => (
-                      <span key={index}>#{tag}</span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>

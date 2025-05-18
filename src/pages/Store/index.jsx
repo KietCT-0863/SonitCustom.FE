@@ -5,6 +5,7 @@ import './styles.css';
 import { ProductsGrid } from '../../components/ProductsPage/ProductsGrid';
 import { SearchBar } from '../../components/ProductsPage/SearchBar';
 import { Pagination } from '../../components/ProductsPage/Pagination';
+import { motion } from 'framer-motion';
 
 // Categories data
 const categories = [
@@ -454,22 +455,51 @@ const StorePage = () => {
   const endIndex = startIndex + itemsPerPage;
   const currentProducts = filteredProducts.slice(startIndex, endIndex);
   
+  // Animation variants
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
+  
   return (
     <div className="store-page">
-      <div className="breadcrumb">
+      <motion.div 
+        className="breadcrumb"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <span>HOME</span> &gt; <span>STORE</span>
-        </div>
+      </motion.div>
       
       {/* Mobile Filter Toggle Button */}
-      <div className="mobile-filter-toggle">
+      <motion.div 
+        className="mobile-filter-toggle"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+      >
         <button onClick={toggleMobileFilter}>
           {isMobileFilterOpen ? 'Hide Filters' : 'Show Filters'} <span className="filter-icon">&#9776;</span>
         </button>
-      </div>
+      </motion.div>
       
       <div className="store-container">
         {/* Sidebar with filters */}
-        <div className={`store-sidebar ${isMobileFilterOpen ? 'mobile-open' : ''}`}>
+        <motion.div 
+          className={`store-sidebar ${isMobileFilterOpen ? 'mobile-open' : ''}`}
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
           <div className="filter-header">
             <h2>Filters</h2>
             <button className="close-filter-btn" onClick={toggleMobileFilter}>&times;</button>
@@ -498,7 +528,12 @@ const StorePage = () => {
                   </div>
                   
                   {tempCategory === category.id && category.subcategories.length > 0 && (
-                    <ul className="subcategories-list">
+                    <motion.ul 
+                      className="subcategories-list"
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      transition={{ duration: 0.3 }}
+                    >
                       {category.subcategories.map(subcategory => (
                         <li key={subcategory.id}>
                           <label className="checkbox-container">
@@ -511,7 +546,7 @@ const StorePage = () => {
                           </label>
                         </li>
                       ))}
-                    </ul>
+                    </motion.ul>
                   )}
                 </li>
               ))}
@@ -588,23 +623,44 @@ const StorePage = () => {
             <button className="apply-filter-btn" onClick={applyFilters}>Apply Filters</button>
             <button className="clear-filter-btn" onClick={clearFilters}>Clear Filters</button>
           </div>
-        </div>
+        </motion.div>
         
         {/* Main content */}
-        <div className="store-content">
-          <h1>STORE</h1>
+        <motion.div 
+          className="store-content"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            STORE
+          </motion.h1>
           
           {/* Active filters display */}
           {(activeCategory || activeSubcategories.length > 0 || activeColors.length > 0 || activeTags.length > 0 || 
            priceRange.min > 0 || priceRange.max < 500) && (
-            <div className="active-filters">
+            <motion.div 
+              className="active-filters"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.5 }}
+            >
               <div className="active-filters-header">
                 <h3>Active Filters:</h3>
                 <button className="clear-all-btn" onClick={applyClearFilters}>Clear All</button>
               </div>
               <div className="filter-tags">
                 {activeCategory && (
-                  <span className="filter-tag">
+                  <motion.span 
+                    className="filter-tag"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
                     {categories.find(c => c.id === activeCategory)?.name}
                     <button onClick={() => {
                       setActiveCategory(null);
@@ -612,58 +668,86 @@ const StorePage = () => {
                       setTempCategory(null);
                       setTempSubcategories([]);
                     }}>&times;</button>
-                  </span>
+                  </motion.span>
                 )}
                 
                 {activeSubcategories.map(subId => {
                   const category = categories.find(c => c.subcategories.some(sub => sub.id === subId));
                   const subcategory = category?.subcategories.find(sub => sub.id === subId);
                   return (
-                    <span key={subId} className="filter-tag">
+                    <motion.span 
+                      key={subId} 
+                      className="filter-tag"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3 }}
+                    >
                       {subcategory?.name}
                       <button onClick={() => {
                         setActiveSubcategories(prev => prev.filter(id => id !== subId));
                         setTempSubcategories(prev => prev.filter(id => id !== subId));
                       }}>&times;</button>
-                    </span>
+                    </motion.span>
                   );
                 })}
                 
                 {activeColors.map(colorId => (
-                  <span key={colorId} className="filter-tag">
+                  <motion.span 
+                    key={colorId} 
+                    className="filter-tag"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
                     {colorOptions.find(c => c.id === colorId)?.name}
                     <button onClick={() => {
                       setActiveColors(prev => prev.filter(id => id !== colorId));
                       setTempColors(prev => prev.filter(id => id !== colorId));
                     }}>&times;</button>
-                  </span>
+                  </motion.span>
                 ))}
                 
                 {activeTags.map(tagId => (
-                  <span key={tagId} className="filter-tag">
+                  <motion.span 
+                    key={tagId} 
+                    className="filter-tag"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
                     {productTags.find(t => t.id === tagId)?.name}
                     <button onClick={() => {
                       setActiveTags(prev => prev.filter(id => id !== tagId));
                       setTempTags(prev => prev.filter(id => id !== tagId));
                     }}>&times;</button>
-                  </span>
+                  </motion.span>
                 ))}
                 
                 {(priceRange.min > 0 || priceRange.max < 500) && (
-                  <span className="filter-tag">
+                  <motion.span 
+                    className="filter-tag"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
                     Price: ${priceRange.min} - ${priceRange.max}
                     <button onClick={() => {
                       setPriceRange({ min: 0, max: 500 });
                       setTempPriceRange({ min: 0, max: 500 });
                     }}>&times;</button>
-                  </span>
+                  </motion.span>
                 )}
               </div>
-            </div>
+            </motion.div>
           )}
           
           {/* Search and sort */}
-          <div className="store-header">
+          <motion.div 
+            className="store-header"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.6 }}
+          >
             <div className="search-container">
               <SearchBar onSearch={handleSearch} placeholder="Search..." />
             </div>
@@ -682,13 +766,24 @@ const StorePage = () => {
                 ))}
               </select>
             </div>
-          </div>
+          </motion.div>
           
           {/* Products grid */}
-          <div className="products-grid">
+          <motion.div 
+            className="products-grid"
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+          >
             {currentProducts.length > 0 ? (
               currentProducts.map(product => (
-                <div key={product.id} className="product-card" onClick={() => handleProductClick(product.id)}>
+                <motion.div 
+                  key={product.id}
+                  className="product-card"
+                  onClick={() => handleProductClick(product.id)}
+                  variants={fadeIn}
+                  whileHover={{ y: -8, transition: { duration: 0.3 } }}
+                >
                   <div className="product-image">
                     <img src={product.image} alt={product.name} />
                     <div className={`product-status ${product.status === 'IN STOCK' ? 'in-stock' : 'raffle-ended'}`}>
@@ -712,38 +807,47 @@ const StorePage = () => {
                       {product.colors.map(colorId => {
                         const color = colorOptions.find(c => c.id === colorId);
                         return color ? (
-                          <div 
+                          <motion.div 
                             key={colorId} 
                             className="product-color-dot" 
                             style={{ backgroundColor: color.hex }}
                             title={color.name}
-                          ></div>
+                            whileHover={{ scale: 1.3 }}
+                          ></motion.div>
                         ) : null;
                       })}
                     </div>
                     <p className="product-price">${product.price}</p>
                   </div>
-                </div>
+                </motion.div>
               ))
             ) : (
-              <div className="no-products-message">
+              <motion.div 
+                className="no-products-message"
+                variants={fadeIn}
+              >
                 <p>No products match your selected filters.</p>
                 <button onClick={applyClearFilters}>Clear All Filters</button>
-              </div>
+              </motion.div>
             )}
-          </div>
+          </motion.div>
           
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="pagination-container">
-            <Pagination 
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-            </div>
+            <motion.div 
+              className="pagination-container"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+            >
+              <Pagination 
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            </motion.div>
           )}
-        </div>
+        </motion.div>
       </div>
       
       <ScrollToTop />

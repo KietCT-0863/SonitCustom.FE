@@ -187,9 +187,31 @@
   font-family: 'Cabin', sans-serif;
 }
 
+/* Responsive Design Improvements */
+@media (max-width: 1024px) {
+  .hero-content {
+    margin-left: 3rem;
+    max-width: 450px;
+  }
+  
+  .hero-title {
+    font-size: 3rem;
+  }
+  
+  .product-name {
+    font-size: 1.8rem;
+  }
+  
+  .technology-section {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
   .hero-content {
-    margin-left: 2rem;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    max-width: 400px;
   }
   
   .hero-title {
@@ -206,5 +228,49 @@
   
   .nav-links {
     display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    max-width: 100%;
+    text-align: center;
+  }
+  
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .product-name {
+    font-size: 1.5rem;
+  }
+  
+  .product-description {
+    font-size: 0.9rem;
+  }
+  
+  .technology-section {
+    grid-template-columns: 1fr;
+  }
+  
+  .tech-item {
+    padding: 1.5rem;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) {
+  .product-item:hover img {
+    transform: none;
+  }
+  
+  .product-overlay {
+    opacity: 1;
   }
 }

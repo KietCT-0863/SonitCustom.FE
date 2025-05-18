@@ -20,11 +20,11 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        {/* Authentication routes (không sử dụng MainLayout) */}
+        {/* Authentication routes */}
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
         
-        {/* 404 Not Found route - Không dùng MainLayout */}
+        {/* 404 Not Found route */}
         <Route path="*" element={<NotFoundPage />} />
         
         {/* Main routes với MainLayout */}
