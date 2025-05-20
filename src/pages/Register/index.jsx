@@ -136,7 +136,7 @@ const RegisterPage = () => {
   
           />
             </div>
-            <h1>Create Account</h1>
+            <h1>C<span className="letter-space">reate </span>A<span className="letter-space">ccount</span></h1>
             <p>Join Sonit Custom and explore our premium products</p>
           </div>
           

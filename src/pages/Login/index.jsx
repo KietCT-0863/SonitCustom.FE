@@ -91,7 +91,7 @@ const LoginPage = () => {
   
           />
             </div>
-            <h1>Welcome Back</h1>
+            <h1>W<span className="letter-space">elcome </span>B<span className="letter-space">ack</span></h1>
             <p>Enter your credentials to access your account</p>
           </div>
           
