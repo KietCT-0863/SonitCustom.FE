@@ -154,12 +154,12 @@
 
 .product-card {
   position: relative;
-  
   overflow: hidden;
   border-radius: 8px;
   transition: transform 0.3s ease, box-shadow 0.4s ease;
   height: 350px; /* Set fixed height for uniformity */
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
 }
 
 .product-card:hover {
@@ -186,12 +186,13 @@
 
 .product-info {
   padding: 1.5rem;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.6) 60%, transparent);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.8) 60%, rgba(0, 0, 0, 0.5) 90%);
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   color: #fff;
+  box-sizing: border-box;
 }
 
 .product-info h3 {
@@ -209,6 +210,10 @@
                1px 1px 0 #000,
                0 2px 4px rgba(0, 0, 0, 0.5);
   transition: all 0.3s ease;
+  /* Prevent text from being cut off */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .product-card:hover .product-info h3 {
@@ -232,6 +237,9 @@
   color: #D4C9BE;
   opacity: 0.8;
   font-family: 'Cabin', sans-serif;
+  background: rgba(0, 0, 0, 0.5); 
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
 }
 
 /* Social Media Section */
@@ -514,12 +522,25 @@
     height: 300px;
   }
   
+  .product-info {
+    padding: 1rem;
+  }
+  
   .product-info h3 {
     font-size: 1.3rem;
+    margin-bottom: 0.3rem;
   }
   
   .product-description {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+    margin: 0.3rem 0 0.8rem;
+    -webkit-line-clamp: 2; /* Ensure only 2 lines are shown */
+    max-height: 2.6em;
+  }
+  
+  .product-categories span {
+    font-size: 0.75rem;
+    padding: 0.15rem 0.4rem;
   }
   
   .social-links {
@@ -591,15 +612,34 @@
   }
 
   .product-card {
-    height: 280px;
+    height: 250px; /* Smaller height for very small screens */
+  }
+  
+  .product-image {
+    height: 100%;
+  }
+  
+  .product-info {
+    padding: 0.8rem;
   }
   
   .product-info h3 {
     font-size: 1.2rem;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.2rem;
   }
   
   .product-description {
     font-size: 0.8rem;
+    margin: 0.2rem 0 0.6rem;
+    line-height: 1.3;
+    -webkit-line-clamp: 2;
+    max-height: 2.4em;
+  }
+  
+  .product-categories span {
+    font-size: 0.7rem;
+    padding: 0.1rem 0.3rem;
   }
 
   .blog-content h3 {
@@ -637,4 +677,10 @@
                1px -1px 0 rgba(0, 0, 0, 0.8), 
                -1px 1px 0 rgba(0, 0, 0, 0.8), 
                1px 1px 0 rgba(0, 0, 0, 0.8);
+  max-height: 2.8em; /* Limit to 2 lines of text */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 } 
