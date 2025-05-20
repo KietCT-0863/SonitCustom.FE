@@ -477,12 +477,26 @@
   
   .section-title h2 {
     font-size: 2rem;
+    letter-spacing: 2px;
+  }
+  
+  .section-title p {
+    font-size: 0.95rem;
   }
 
   .featured-products,
   .social-media-section,
   .blog-section {
     padding: 3rem 0;
+  }
+  
+  .featured-products .section-title h2 {
+    font-size: 2.2rem;
+    letter-spacing: 3px;
+  }
+  
+  .featured-products .section-title p {
+    font-size: 1rem;
   }
   
   .products-grid {
@@ -500,6 +514,14 @@
     height: 300px;
   }
   
+  .product-info h3 {
+    font-size: 1.3rem;
+  }
+  
+  .product-description {
+    font-size: 0.85rem;
+  }
+  
   .social-links {
     flex-direction: column;
     gap: 3rem;
@@ -509,6 +531,10 @@
     width: 80px;
     height: 80px;
     font-size: 2.2rem;
+  }
+  
+  .social-link span {
+    font-size: 1rem;
   }
   
   .blog-grid {
@@ -521,6 +547,18 @@
   .blog-image {
     height: 200px;
   }
+  
+  .blog-content h3 {
+    font-size: 1.2rem;
+  }
+  
+  .blog-content p {
+    font-size: 0.9rem;
+  }
+  
+  .blog-date {
+    font-size: 0.85rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -529,18 +567,51 @@
     letter-spacing: 2px;
   }
   
+  .section-title p {
+    font-size: 0.9rem;
+  }
+  
+  .featured-products .section-title h2 {
+    font-size: 2rem;
+    letter-spacing: 2px;
+  }
+  
+  .featured-products .section-title p {
+    font-size: 0.9rem;
+  }
+  
   .social-icon {
     width: 70px;
     height: 70px;
     font-size: 2rem;
   }
+  
+  .social-link span {
+    font-size: 0.9rem;
+  }
 
   .product-card {
     height: 280px;
   }
+  
+  .product-info h3 {
+    font-size: 1.2rem;
+  }
+  
+  .product-description {
+    font-size: 0.8rem;
+  }
 
   .blog-content h3 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+  }
+  
+  .blog-content p {
+    font-size: 0.85rem;
+  }
+  
+  .blog-date {
+    font-size: 0.8rem;
   }
 }
 

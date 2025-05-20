@@ -10,32 +10,32 @@ const AboutUs = () => {
   const milestones = [
     {
       year: "2020",
-      title: "Khởi Nguồn Đam Mê",
-      description: "SONIT CUSTOM được thành lập bởi những người nghệ nhân đam mê billiard với sứ mệnh nâng tầm trải nghiệm chơi billiard cho người Việt. Những sản phẩm đầu tiên ra đời từ một xưởng sản xuất nhỏ tại TP.HCM.",
+      title: "The Beginning of Passion",
+      description: "SONIT CUSTOM was founded by billiard enthusiasts with the mission to elevate the billiard playing experience for Vietnamese people. The first products were born from a small workshop in Ho Chi Minh City.",
       icon: "🌟"
     },
     {
       year: "2021",
-      title: "Phát Triển Dịch Vụ",
-      description: "Mở rộng xưởng sản xuất và đội ngũ nghệ nhân chuyên nghiệp. Giới thiệu dịch vụ custom cue cao cấp và trở thành đối tác của nhiều tay chơi billiard hàng đầu Việt Nam.",
+      title: "Service Development",
+      description: "Expanded the workshop and professional artisan team. Introduced premium custom cue services and became partners with many top billiard players in Vietnam.",
       icon: "🔨"
     },
     {
       year: "2022",
-      title: "Đối Tác Toàn Cầu",
-      description: "Thiết lập quan hệ hợp tác với các thương hiệu billiard nổi tiếng thế giới như Predator, Mezz và McDermott. Ra mắt bộ sưu tập SONIT Signature với công nghệ độc quyền.",
+      title: "Global Partnership",
+      description: "Established partnerships with famous billiard brands worldwide such as Predator, Mezz, and McDermott. Launched the SONIT Signature collection with exclusive technology.",
       icon: "🤝"
     },
     {
       year: "2023",
-      title: "Vươn Tầm Quốc Tế",
-      description: "Mở rộng thị trường xuất khẩu sang các nước Đông Nam Á và châu Âu. Tham gia và tài trợ cho các giải đấu billiard quốc tế, quảng bá thương hiệu Việt trên trường quốc tế.",
+      title: "International Expansion",
+      description: "Expanded export markets to Southeast Asia and Europe. Participated in and sponsored international billiard tournaments, promoting the Vietnamese brand on the international stage.",
       icon: "🌏"
     },
     {
       year: "2024",
-      title: "Đổi Mới & Sáng Tạo",
-      description: "Ra mắt dòng sản phẩm SONIT Elite với công nghệ gia công tiên tiến nhất. Khai trương showroom mới tại Hà Nội và Đà Nẵng, mang trải nghiệm sản phẩm đến gần hơn với khách hàng.",
+      title: "Innovation & Creativity",
+      description: "Launched the SONIT Elite product line with the most advanced processing technology. Opened new showrooms in Hanoi and Da Nang, bringing the product experience closer to customers.",
       icon: "💫"
     }
   ];
@@ -43,35 +43,35 @@ const AboutUs = () => {
   const values = [
     {
       icon: "💎",
-      title: "Chất Lượng Đỉnh Cao",
-      description: "Mỗi sản phẩm đều được chọn lọc và kiểm tra kỹ lưỡng để đảm bảo chất lượng tốt nhất",
+      title: "Top Quality",
+      description: "Each product is carefully selected and inspected to ensure the best quality",
       color: "#FFD700"
     },
     {
       icon: "🎯",
-      title: "Độc Quyền & Sáng Tạo",
-      description: "Thiết kế độc quyền, sáng tạo không ngừng để tạo ra những sản phẩm độc đáo",
+      title: "Exclusive & Creative",
+      description: "Exclusive design, continuous creativity to create unique products",
       color: "#E6007E"
     },
     {
       icon: "🤝",
-      title: "Dịch Vụ Tận Tâm",
-      description: "Đội ngũ chuyên gia giàu kinh nghiệm, sẵn sàng tư vấn và hỗ trợ 24/7",
+      title: "Dedicated Service",
+      description: "Experienced expert team, ready to advise and support 24/7",
       color: "#4CAF50"
     },
     {
       icon: "🚀",
-      title: "Đổi Mới Liên Tục",
-      description: "Không ngừng cập nhật xu hướng và công nghệ mới trong ngành billiard",
+      title: "Continuous Innovation",
+      description: "Constantly updating trends and new technologies in the billiard industry",
       color: "#2196F3"
     }
   ];
 
   const achievements = [
-    { number: "1000+", label: "Khách Hàng Hài Lòng" },
-    { number: "500+", label: "Mẫu Cue Độc Quyền" },
-    { number: "50+", label: "Đối Tác Toàn Cầu" },
-    { number: "10+", label: "Năm Kinh Nghiệm" }
+    { number: "1000+", label: "Satisfied Customers" },
+    { number: "500+", label: "Exclusive Cue Models" },
+    { number: "50+", label: "Global Partners" },
+    { number: "10+", label: "Years of Experience" }
   ];
 
   const fadeInUp = {
@@ -165,7 +165,7 @@ const AboutUs = () => {
           transition={{ delay: 0.5, duration: 1 }}
         >
           <h1>SONIT CUSTOM</h1>
-          <p>Nơi Nghệ Thuật Gặp Gỡ Đam Mê Billiard</p>
+          <p>Where Art Meets Billiard Passion</p>
           <motion.div 
             className="hero-stats"
             variants={staggerContainer}
@@ -195,17 +195,17 @@ const AboutUs = () => {
           viewport={{ once: true }}
           transition={{ duration: 1 }}
         >
-          <h2>Câu Chuyện Của Chúng Tôi</h2>
+          <h2>Our Story</h2>
           <div className="story-grid">
             <div className="story-text">
               <p>
-                SONIT CUSTOM được thành lập bởi những người đam mê billiard, với khát vọng mang đến những sản phẩm billiard đẳng cấp thế giới cho người chơi Việt Nam.
+                SONIT CUSTOM was founded by billiard enthusiasts, with the aspiration to bring world-class billiard products to Vietnamese players.
               </p>
               <p>
-                Chúng tôi không chỉ đơn thuần là nơi cung cấp các sản phẩm billiard, mà còn là nơi tạo ra những tác phẩm nghệ thuật độc đáo, kết hợp giữa thẩm mỹ và công năng.
+                We are not just a place to provide billiard products, but also a place to create unique works of art, combining aesthetics and functionality.
               </p>
               <p>
-                Với đội ngũ thợ thủ công lành nghề và các chuyên gia trong ngành, chúng tôi tự hào mang đến những sản phẩm chất lượng cao nhất, đáp ứng mọi nhu cầu của người chơi billiard chuyên nghiệp.
+                With a team of skilled craftsmen and industry experts, we are proud to bring the highest quality products, meeting all the needs of professional billiard players.
               </p>
             </div>
             <div className="story-image">
@@ -217,7 +217,7 @@ const AboutUs = () => {
 
       {/* Values Section */}
       <section className="about-values">
-        <h2>Giá Trị Cốt Lõi</h2>
+        <h2>Core Values</h2>
         <motion.div 
           className="values-grid"
           variants={staggerContainer}
@@ -249,7 +249,7 @@ const AboutUs = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-        >Hành Trình Phát Triển</motion.h2>
+        >Development Journey</motion.h2>
         
         <div className="timeline">
           <motion.div 
@@ -361,8 +361,8 @@ const AboutUs = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <h2>Liên Hệ Với Chúng Tôi</h2>
-          <p>Hãy để chúng tôi giúp bạn tìm được sản phẩm hoàn hảo nhất</p>
+          <h2>Contact Us</h2>
+          <p>Let us help you find the perfect product</p>
           <div className="contact-info">
             <div className="contact-item">
               <span className="contact-icon">📞</span>
@@ -374,7 +374,7 @@ const AboutUs = () => {
             </div>
             <div className="contact-item">
               <span className="contact-icon">📍</span>
-              <p>123 Đường ABC, Quận XYZ, TP.HCM</p>
+              <p>123 ABC Street, XYZ District, Ho Chi Minh City</p>
             </div>
           </div>
           <motion.button 
@@ -382,7 +382,7 @@ const AboutUs = () => {
             whileHover={{ scale: 1.05, backgroundColor: "#D4C9BE" }}
             whileTap={{ scale: 0.95 }}
           >
-            Liên Hệ Ngay
+            Contact Now
           </motion.button>
         </motion.div>
       </section>

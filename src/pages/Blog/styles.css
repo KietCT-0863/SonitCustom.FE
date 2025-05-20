@@ -393,6 +393,22 @@
   .card-content h2 {
     font-size: 1.5rem;
   }
+  
+  .blog-title {
+    font-size: 1.8rem;
+  }
+  
+  .blog-description {
+    font-size: 0.9rem;
+  }
+  
+  .blog-card-title {
+    font-size: 1.2rem;
+  }
+  
+  .blog-card-excerpt {
+    font-size: 0.9rem;
+  }
 }
 
 @media (max-width: 576px) {
@@ -424,6 +440,30 @@
   
   .card-content {
     padding: 1.5rem;
+  }
+  
+  .blog-title {
+    font-size: 1.6rem;
+  }
+  
+  .blog-description {
+    font-size: 0.85rem;
+  }
+  
+  .blog-card-title {
+    font-size: 1.1rem;
+  }
+  
+  .blog-card-excerpt {
+    font-size: 0.85rem;
+  }
+  
+  .blog-card-meta {
+    font-size: 0.8rem;
+  }
+  
+  .blog-category {
+    font-size: 0.75rem;
   }
 }
 

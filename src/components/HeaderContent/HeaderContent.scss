@@ -454,6 +454,10 @@ $dark-bg: #0a0a0a;
         h1 {
           font-size: 2.5rem;
         }
+        
+        p {
+          font-size: 1.1rem;
+        }
       }
       
       .hero-image-frame {
@@ -464,7 +468,41 @@ $dark-bg: #0a0a0a;
           .main-featured-image {
             height: 350px;
           }
+          
+          .image-overlay {
+            h3 {
+              font-size: 1.6rem;
+            }
+            
+            p {
+              font-size: 0.95rem;
+            }
+          }
         }
+      }
+    }
+    
+    .navigation-item-content h3 {
+      font-size: 0.95rem;
+    }
+    
+    .info-box {
+      h2 {
+        font-size: 1.4rem;
+      }
+      
+      p {
+        font-size: 0.85rem;
+      }
+    }
+    
+    .showcase-text {
+      h3 {
+        font-size: 1.1rem;
+      }
+      
+      p {
+        font-size: 0.8rem;
       }
     }
   }
@@ -496,6 +534,16 @@ $dark-bg: #0a0a0a;
           .main-featured-image {
             height: 250px;
           }
+          
+          .image-overlay {
+            h3 {
+              font-size: 1.4rem;
+            }
+            
+            p {
+              font-size: 0.9rem;
+            }
+          }
         }
       }
 
@@ -505,6 +553,7 @@ $dark-bg: #0a0a0a;
 
         .btn {
           width: 100%;
+          font-size: 0.95rem;
         }
       }
 
@@ -514,6 +563,14 @@ $dark-bg: #0a0a0a;
 
         .stat-item {
           width: 100%;
+          
+          .stat-number {
+            font-size: 2rem;
+          }
+          
+          .stat-label {
+            font-size: 0.9rem;
+          }
         }
       }
     }
@@ -523,6 +580,115 @@ $dark-bg: #0a0a0a;
         max-width: 80px;
         padding: 3px;
       }
+    }
+    
+    .navigation-item-content h3 {
+      font-size: 0.9rem;
+    }
+    
+    .info-box {
+      h2 {
+        font-size: 1.3rem;
+      }
+      
+      p {
+        font-size: 0.8rem;
+      }
+    }
+    
+    .showcase-text {
+      h3 {
+        font-size: 1rem;
+      }
+      
+      p {
+        font-size: 0.75rem;
+      }
+    }
+    
+    .mobile-menu-link {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .hero {
+    .hero-content {
+      .hero-header {
+        h1 {
+          font-size: 1.8rem;
+        }
+        
+        p {
+          font-size: 0.9rem;
+        }
+      }
+      
+      .hero-image-frame {
+        .image-container {
+          .image-overlay {
+            h3 {
+              font-size: 1.2rem;
+            }
+            
+            p {
+              font-size: 0.85rem;
+            }
+          }
+        }
+      }
+      
+      .hero-buttons {
+        .btn {
+          font-size: 0.9rem;
+          padding: 0.8rem 1.5rem;
+        }
+      }
+      
+      .hero-stats {
+        .stat-item {
+          .stat-number {
+            font-size: 1.8rem;
+          }
+          
+          .stat-label {
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+    
+    .navigation-item-content h3 {
+      font-size: 0.85rem;
+    }
+    
+    .info-box {
+      h2 {
+        font-size: 1.2rem;
+      }
+      
+      p {
+        font-size: 0.75rem;
+      }
+    }
+    
+    .showcase-text {
+      h3 {
+        font-size: 0.9rem;
+      }
+      
+      p {
+        font-size: 0.7rem;
+      }
+    }
+    
+    .mobile-menu-link {
+      font-size: 1rem;
+    }
+    
+    .language-toggle button {
+      font-size: 0.75rem;
     }
   }
 }

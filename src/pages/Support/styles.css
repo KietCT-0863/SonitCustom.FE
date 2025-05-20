@@ -409,7 +409,7 @@
   }
 
   .page-banner p {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .support-tabs {
@@ -421,9 +421,109 @@
   .tab-button {
     width: 100%;
     max-width: 300px;
+    font-size: 1rem;
   }
 
   .tab-button:after {
     bottom: -5px;
+  }
+  
+  .support-faq h2,
+  .contact-form-container h2 {
+    font-size: 1.8rem;
+  }
+  
+  .info-card h3 {
+    font-size: 1.3rem;
+  }
+  
+  .info-card p {
+    font-size: 0.95rem;
+  }
+  
+  .faq-header h3 {
+    font-size: 1.1rem;
+  }
+  
+  .faq-content p {
+    font-size: 0.95rem;
+  }
+  
+  .contact-form-container > p {
+    font-size: 0.95rem;
+  }
+  
+  .form-group label {
+    font-size: 0.95rem;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .page-banner {
+    padding: 40px 15px;
+  }
+  
+  .page-banner h1 {
+    font-size: 1.8rem;
+  }
+  
+  .page-banner p {
+    font-size: 0.9rem;
+  }
+  
+  .tab-button {
+    font-size: 0.9rem;
+    padding: 8px 20px;
+  }
+  
+  .support-faq h2,
+  .contact-form-container h2 {
+    font-size: 1.6rem;
+  }
+  
+  .info-card h3 {
+    font-size: 1.2rem;
+  }
+  
+  .info-card p {
+    font-size: 0.9rem;
+  }
+  
+  .contact-link {
+    font-size: 0.9rem;
+  }
+  
+  .faq-header h3 {
+    font-size: 1rem;
+  }
+  
+  .faq-content p {
+    font-size: 0.9rem;
+  }
+  
+  .contact-form-container > p {
+    font-size: 0.9rem;
+  }
+  
+  .form-group label {
+    font-size: 0.85rem;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 0.9rem;
+    padding: 12px 14px;
+  }
+  
+  .submit-button {
+    font-size: 0.9rem;
+    padding: 14px;
   }
 } 

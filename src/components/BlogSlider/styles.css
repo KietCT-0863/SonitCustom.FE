@@ -380,6 +380,18 @@
   .blog-section-header h2 {
     font-size: 2rem;
   }
+  
+  .blog-slider__title {
+    font-size: 1.4rem;
+  }
+  
+  .blog-slider__text {
+    font-size: 0.9rem;
+  }
+  
+  .blog-slider__button {
+    font-size: 0.9rem;
+  }
 }
 
 @media (max-width: 576px) {
@@ -423,6 +435,24 @@
   
   .blog-section-header p {
     font-size: 1rem;
+  }
+  
+  .blog-slider__title {
+    font-size: 1.2rem;
+  }
+  
+  .blog-slider__text {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+  
+  .blog-slider__button {
+    font-size: 0.85rem;
+    padding: 0.6rem 1.2rem;
+  }
+  
+  .blog-slider__code {
+    font-size: 0.8rem;
   }
 }
 

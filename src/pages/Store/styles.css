@@ -862,6 +862,90 @@
   .filter-tag {
     font-size: 0.7rem;
   }
+  
+  .store-title {
+    font-size: 2rem;
+  }
+  
+  .store-description {
+    font-size: 0.95rem;
+  }
+  
+  .filter-title {
+    font-size: 1.2rem;
+  }
+  
+  .filter-option {
+    font-size: 0.9rem;
+  }
+  
+  .product-title {
+    font-size: 1.1rem;
+  }
+  
+  .product-price {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .products-banner h1 {
+    font-size: 1.6rem;
+  }
+  
+  .products-banner {
+    height: 200px;
+  }
+  
+  .product-detail-right {
+    padding: 1rem;
+  }
+  
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .color-filter-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .price-inputs {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .store-title {
+    font-size: 1.8rem;
+  }
+  
+  .store-description {
+    font-size: 0.9rem;
+  }
+  
+  .filter-title {
+    font-size: 1.1rem;
+  }
+  
+  .filter-option {
+    font-size: 0.85rem;
+  }
+  
+  .product-title {
+    font-size: 1rem;
+  }
+  
+  .product-price {
+    font-size: 0.9rem;
+  }
+  
+  .product-category {
+    font-size: 0.75rem;
+  }
+  
+  .btn {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+  }
 }
 
 @media (max-width: 480px) {

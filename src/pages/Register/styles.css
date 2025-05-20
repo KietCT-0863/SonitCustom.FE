@@ -569,4 +569,68 @@
     width: 16px;
     height: 16px;
   }
+}
+
+/* Thêm media query cho màn hình trung bình */
+@media (max-width: 768px) {
+  .register-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .register-header p {
+    font-size: 0.95rem;
+  }
+  
+  .form-floating label {
+    font-size: 0.9rem;
+  }
+  
+  .form-floating input {
+    font-size: 0.95rem;
+  }
+  
+  .checkbox-label {
+    font-size: 0.85rem;
+  }
+  
+  .register-button {
+    font-size: 0.95rem;
+  }
+  
+  .signin-text {
+    font-size: 0.85rem;
+  }
+}
+
+/* Media query cho màn hình siêu nhỏ */
+@media (max-width: 480px) {
+  .register-header h1 {
+    font-size: 1.6rem;
+  }
+  
+  .register-header p {
+    font-size: 0.9rem;
+  }
+  
+  .form-floating label {
+    font-size: 0.85rem;
+  }
+  
+  .form-floating input {
+    font-size: 0.9rem;
+    padding: 12px 12px;
+  }
+  
+  .checkbox-label {
+    font-size: 0.8rem;
+  }
+  
+  .register-button {
+    font-size: 0.9rem;
+    padding: 12px;
+  }
+  
+  .signin-text {
+    font-size: 0.8rem;
+  }
 } 
