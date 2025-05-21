@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../Logo/Logo';
+import UserDropdown from './UserDropdown';
+import { useUser } from '../../contexts/UserContext';
 import './styles.css';
 
 // Dummy translation data (English only)
@@ -36,6 +38,7 @@ const headerTranslations = {
 };
 
 const Header = () => {
+  const { user, logout } = useUser();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [expandedItems, setExpandedItems] = useState({});
@@ -94,25 +97,28 @@ const Header = () => {
         setActiveDropdown(null);
       }
     };
-
-    // Đóng dropdown khi resize màn hình
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+  
+  // Handle window resize
+  useEffect(() => {
     const handleResize = () => {
-      setActiveDropdown(null);
-      
       if (window.innerWidth > 992 && mobileMenuOpen) {
         setMobileMenuOpen(false);
       }
     };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    window.addEventListener('resize', handleResize);
     
+    window.addEventListener('resize', handleResize);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
       window.removeEventListener('resize', handleResize);
     };
   }, [mobileMenuOpen]);
-
+  
+  // Toggle mobile menu
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
@@ -225,11 +231,26 @@ const Header = () => {
         {/* Right Section - Authentication & Cart */}
         <div className="header-right">
           <div className="user-actions">
-            <Link to="/login" className="auth-link login-btn">
-              LOGIN
-            </Link>
-            <Link to="/register" className="auth-link register-btn">
-              REGISTER
+            {user ? (
+              <UserDropdown />
+            ) : (
+              <>
+                <Link to="/login" className="auth-link login-btn">
+                  LOGIN
+                </Link>
+                <Link to="/register" className="auth-link register-btn">
+                  REGISTER
+                </Link>
+              </>
+            )}
+          </div>
+          <div className="cart-icon">
+            <Link to="/cart" aria-label="Shopping Cart">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 22C9.55228 22 10 21.5523 10 21C10 20.4477 9.55228 20 9 20C8.44772 20 8 20.4477 8 21C8 21.5523 8.44772 22 9 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M20 22C20.5523 22 21 21.5523 21 21C21 20.4477 20.5523 20 20 20C19.4477 20 19 20.4477 19 21C19 21.5523 19.4477 22 20 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M1 1H5L7.68 14.39C7.77144 14.8504 8.02191 15.264 8.38755 15.5583C8.75318 15.8526 9.2107 16.009 9.68 16H19.4C19.8693 16.009 20.3268 15.8526 20.6925 15.5583C21.0581 15.264 21.3086 14.8504 21.4 14.39L23 6H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </Link>
           </div>
         </div>
@@ -295,20 +316,53 @@ const Header = () => {
               </div>
             ))}
 
-            <div className="mobile-nav-item">
-              <div className="mobile-nav-header">
-                <Link to="/login" onClick={toggleMobileMenu}>
-                  LOGIN
-                </Link>
-              </div>
-            </div>
-            <div className="mobile-nav-item">
-              <div className="mobile-nav-header">
-                <Link to="/register" onClick={toggleMobileMenu}>
-                  REGISTER
-                </Link>
-              </div>
-            </div>
+            {!user ? (
+              <>
+                <div className="mobile-nav-item">
+                  <div className="mobile-nav-header">
+                    <Link to="/login" onClick={toggleMobileMenu}>
+                      LOGIN
+                    </Link>
+                  </div>
+                </div>
+                <div className="mobile-nav-item">
+                  <div className="mobile-nav-header">
+                    <Link to="/register" onClick={toggleMobileMenu}>
+                      REGISTER
+                    </Link>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="mobile-nav-item">
+                  <div className="mobile-nav-header">
+                    <Link to="/account" onClick={toggleMobileMenu}>
+                      TÀI KHOẢN
+                    </Link>
+                  </div>
+                </div>
+                {user.roleName === 'admin' && (
+                  <div className="mobile-nav-item">
+                    <div className="mobile-nav-header">
+                      <Link to="/admin" onClick={toggleMobileMenu}>
+                        ADMIN
+                      </Link>
+                    </div>
+                  </div>
+                )}
+                <div className="mobile-nav-item">
+                  <div className="mobile-nav-header">
+                    <Link to="/" onClick={() => {
+                      toggleMobileMenu();
+                      logout();
+                    }}>
+                      ĐĂNG XUẤT
+                    </Link>
+                  </div>
+                </div>
+              </>
+            )}
           </nav>
         </div>
       </div>

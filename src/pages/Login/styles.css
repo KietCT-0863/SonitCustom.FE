@@ -656,4 +656,24 @@
     width: 35px;
     height: 35px;
   }
+}
+
+.error-message {
+  background-color: rgba(255, 0, 0, 0.1);
+  color: #ff4444;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  text-align: center;
+  border: 1px solid rgba(255, 0, 0, 0.2);
+}
+
+.success-message {
+  background-color: rgba(0, 255, 0, 0.1);
+  color: #00C851;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  text-align: center;
+  border: 1px solid rgba(0, 255, 0, 0.2);
 } 

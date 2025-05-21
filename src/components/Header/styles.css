@@ -269,37 +269,34 @@
 .user-actions {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 1rem;
+  gap: 8px;
 }
 
 .auth-link {
-  color: #D4C9BE;
   text-decoration: none;
-  font-size: 0.85rem;
-  letter-spacing: 1px;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 25px;
   transition: all 0.3s ease;
 }
 
 .login-btn {
-  background-color: transparent;
-  border: 1px solid #D4C9BE;
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .login-btn:hover {
-  background-color: rgba(212, 201, 190, 0.1);
-  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .register-btn {
   background-color: #D4C9BE;
-  color: #000000;
+  color: #000;
 }
 
 .register-btn:hover {
-  background-color: #ffffff;
+  background-color: #c2b6a9;
 }
 
 /* Mobile menu button */
@@ -620,12 +617,12 @@
   }
   
   .user-actions {
-    gap: 0.5rem;
+    gap: 8px;
   }
   
   .auth-link {
-    font-size: 0.7rem;
-    padding: 0.3rem 0.6rem;
+    padding: 6px 12px;
+    font-size: 12px;
   }
   
   .nav-menu a,
@@ -853,7 +850,7 @@
 .user-actions {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 8px;
 }
 
 .login-text {
@@ -919,4 +916,30 @@
     margin-left: 10px;
     margin-right: 10px;
   }
+}
+
+/* Header Right Section */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Cart Icon */
+.cart-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.cart-icon a {
+  color: #fff;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.cart-icon a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 } 
