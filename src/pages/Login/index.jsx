@@ -4,6 +4,7 @@ import AuthService from '../../services/auth.service';
 import { useUser } from '../../contexts/UserContext';
 import './styles.css';
 import { FaGoogle, FaFacebook, FaApple } from 'react-icons/fa';
+import Cookies from 'js-cookie';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -74,6 +75,27 @@ const LoginPage = () => {
     };
   }, []);
   
+  // Test cookie functionality
+  useEffect(() => {
+    // Test if cookies are working
+    const testCookieStorage = () => {
+      try {
+        // Try to set a test cookie
+        Cookies.set('test_cookie', 'test_value', { path: '/' });
+        const testCookie = Cookies.get('test_cookie');
+        
+        console.log('Cookie test result:', testCookie ? 'Cookies are working' : 'Cookies failed');
+        
+        // Clean up
+        Cookies.remove('test_cookie', { path: '/' });
+      } catch (error) {
+        console.error('Cookie test error:', error);
+      }
+    };
+    
+    testCookieStorage();
+  }, []);
+  
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prevData => ({
@@ -84,14 +106,9 @@ const LoginPage = () => {
   
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (isLoading) return;
-    
     setIsLoading(true);
     setError('');
-    setSuccess('');
     
-    console.log("Attempting login with:", formData);
-
     try {
       const response = await AuthService.login(formData);
       console.log("Login response:", response);
@@ -99,6 +116,14 @@ const LoginPage = () => {
       if (response.success) {
         // Show success message
         setSuccess(response.message);
+        
+        // Check if token was set properly
+        const token = Cookies.get('jwt_token');
+        console.log("Token in cookies after login:", token ? "Token exists" : "No token found");
+        
+        // Inspect localStorage as fallback
+        const localToken = localStorage.getItem('jwt_token');
+        console.log("Token in localStorage after login:", localToken ? "Token exists" : "No token found");
         
         // Update user context if user data is available
         if (response.user) {

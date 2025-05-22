@@ -1,4 +1,5 @@
 import api from '../config/api.config';
+import Cookies from 'js-cookie';
 
 const AuthService = {
   // Login user
@@ -24,9 +25,31 @@ const AuthService = {
         const roleFromUsername = credentials.username.toLowerCase() === 'admin' ? 'admin' : 'member';
         const roleName = response.roleName || roleFromUsername;
         
-        // Store token if available
+        // Store token in cookies if available
         if (response.token) {
-          localStorage.setItem('token', response.token);
+          console.log("Setting token in cookies:", response.token.substring(0, 20) + "...");
+          
+          try {
+            // Store token in cookies with secure options matching backend
+            Cookies.set('jwt_token', response.token, { 
+              expires: 1/24, // Expires in 60 minutes (1/24 of a day)
+              secure: window.location.protocol === 'https:', // Only set secure when on HTTPS
+              sameSite: 'lax', // Less restrictive to ensure it works in development
+              path: '/' // Accessible from any path
+            });
+            
+            // Verify the cookie was set
+            const savedToken = Cookies.get('jwt_token');
+            console.log("Cookie set verification:", savedToken ? "Cookie was set successfully" : "Failed to set cookie");
+            
+            // Also store in localStorage as fallback
+            localStorage.setItem('jwt_token', response.token);
+            
+          } catch (cookieError) {
+            console.error("Error setting cookie:", cookieError);
+            // Fallback to localStorage
+            localStorage.setItem('jwt_token', response.token);
+          }
           
           // Fetch user data after token is set
           try {
@@ -70,6 +93,8 @@ const AuthService = {
             };
           }
         } else {
+          console.warn("No token received in login response");
+          
           // If no token but login successful, create minimal user
           const minimalUser = {
             username: credentials.username,
@@ -116,7 +141,14 @@ const AuthService = {
   logout: () => {
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('userData');
-    localStorage.removeItem('token');
+    localStorage.removeItem('jwt_token');
+    // Remove token from cookies
+    try {
+      Cookies.remove('jwt_token', { path: '/' });
+      console.log("Removed jwt_token cookie");
+    } catch (error) {
+      console.error("Error removing cookie:", error);
+    }
     localStorage.removeItem('authError');
   },
 
@@ -136,7 +168,8 @@ const AuthService = {
 
   // Check if user is authenticated
   isAuthenticated: () => {
-    return localStorage.getItem('isAuthenticated') === 'true';
+    // Check if token exists in cookies or localStorage as fallback
+    return !!Cookies.get('jwt_token') || !!localStorage.getItem('jwt_token');
   },
 
   // Get auth error if any
@@ -147,6 +180,11 @@ const AuthService = {
   // Clear auth error
   clearAuthError: () => {
     localStorage.removeItem('authError');
+  },
+
+  // Get token from cookies or localStorage fallback
+  getToken: () => {
+    return Cookies.get('jwt_token') || localStorage.getItem('jwt_token');
   }
 };
 

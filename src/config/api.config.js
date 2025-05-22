@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 // Create axios instance with default config
 const api = axios.create({
@@ -13,8 +14,8 @@ const api = axios.create({
 // Request interceptor
 api.interceptors.request.use(
   (config) => {
-    // Get token from localStorage
-    const token = localStorage.getItem('token');
+    // Get token from cookies or localStorage as fallback
+    const token = Cookies.get('jwt_token') || localStorage.getItem('jwt_token');
     
     // If token exists, add it to headers
     if (token) {
@@ -39,8 +40,13 @@ api.interceptors.response.use(
     if (error.response) {
       // Handle 401 Unauthorized
       if (error.response.status === 401) {
-        // Clear token but don't force redirect
-        localStorage.removeItem('token');
+        // Clear token from cookies and localStorage
+        try {
+          Cookies.remove('jwt_token', { path: '/' });
+        } catch (e) {
+          console.error("Error removing cookie:", e);
+        }
+        localStorage.removeItem('jwt_token');
         localStorage.removeItem('isAuthenticated');
         // Store auth error instead of redirecting
         localStorage.setItem('authError', 'Session expired. Please log in again.');

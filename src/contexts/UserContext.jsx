@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import api from '../config/api.config';
 import AuthService from '../services/auth.service';
+import Cookies from 'js-cookie';
 
 // Create context
 export const UserContext = createContext();
@@ -26,7 +27,7 @@ export const UserProvider = ({ children }) => {
             setLoading(false);
             
             // Still try to refresh user data in the background if we have a token
-            const token = localStorage.getItem('token');
+            const token = Cookies.get('jwt_token') || localStorage.getItem('jwt_token');
             if (token) {
               try {
                 const userData = await api.get('/User/me');
