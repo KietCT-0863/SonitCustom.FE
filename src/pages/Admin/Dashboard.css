@@ -1,9 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
+
+/* Khai báo biến shadow chung */
+:root {
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --sidebar-shadow: 4px 0 16px rgba(0, 0, 0, 0.1);
+  --header-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --dropdown-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  --button-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
 .admin-dashboard {
   display: flex;
   min-height: 100vh;
   background-color: #f5f5f5;
   color: #333;
   position: relative;
+  font-family: 'Cabin', sans-serif;
+}
+
+/* Admin dashboard - đảm bảo tất cả phần tử con đều sử dụng font Cabin */
+.admin-dashboard * {
+  font-family: 'Cabin', sans-serif;
 }
 
 /* Mobile header (visible only on mobile) */
@@ -19,7 +37,7 @@
   z-index: 1000;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--header-shadow);
   height: 56px;
 }
 
@@ -61,7 +79,7 @@
   position: fixed;
   height: 100vh;
   overflow-y: auto;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--sidebar-shadow);
   z-index: 1001;
   transition: transform 0.3s ease, width 0.3s ease;
 }
@@ -117,6 +135,7 @@
   font-weight: bold;
   font-size: 1.2rem;
   flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .admin-user-details {
@@ -148,6 +167,7 @@
   padding: 2px 8px;
   border-radius: 10px;
   display: inline-block;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .admin-nav {
@@ -180,6 +200,7 @@
 .admin-nav li.active {
   background-color: rgba(212, 201, 190, 0.2);
   border-left-color: #D4C9BE;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1);
 }
 
 .admin-menu-icon {
@@ -230,6 +251,10 @@
   margin-bottom: 25px;
   flex-wrap: wrap;
   gap: 15px;
+  padding: 15px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: var(--header-shadow);
 }
 
 .admin-header h1 {
@@ -254,14 +279,14 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: var(--button-shadow);
   transition: all 0.3s ease;
 }
 
 .admin-button:hover {
   background-color: #f0f0f0;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: var(--hover-shadow);
 }
 
 .admin-main-content {
@@ -280,7 +305,13 @@
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  box-shadow: var(--card-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.admin-stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--hover-shadow);
 }
 
 .admin-stat-card h3 {
@@ -311,8 +342,13 @@
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  box-shadow: var(--card-shadow);
   overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.admin-recent-section:hover {
+  box-shadow: var(--hover-shadow);
 }
 
 .admin-recent-section h2 {
@@ -355,6 +391,7 @@
   font-weight: 500;
   display: inline-block;
   white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .status-success {
@@ -418,6 +455,7 @@
   font-size: 0.8rem;
   color: #D4C9BE;
   white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .admin-access-dot {
@@ -426,6 +464,7 @@
   background-color: #4ade80;
   border-radius: 50%;
   animation: pulse 1.5s infinite;
+  box-shadow: 0 0 6px rgba(74, 222, 128, 0.5);
 }
 
 @keyframes pulse {
@@ -458,6 +497,7 @@
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .admin-action-btn.view {
@@ -467,6 +507,7 @@
 
 .admin-action-btn.view:hover {
   background-color: rgba(74, 222, 128, 0.2);
+  box-shadow: 0 2px 5px rgba(74, 222, 128, 0.2);
 }
 
 .admin-action-btn.edit {
@@ -476,6 +517,7 @@
 
 .admin-action-btn.edit:hover {
   background-color: rgba(59, 130, 246, 0.2);
+  box-shadow: 0 2px 5px rgba(59, 130, 246, 0.2);
 }
 
 /* View all button */
@@ -493,11 +535,13 @@
   border-radius: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: var(--button-shadow);
 }
 
 .admin-view-all-btn:hover {
   background-color: rgba(212, 201, 190, 0.1);
   transform: translateY(-2px);
+  box-shadow: var(--hover-shadow);
 }
 
 /* Responsive adjustments */

@@ -163,7 +163,6 @@ const AdminDashboard = () => {
       {/* Main content */}
       <main className="admin-content">
         <header className="admin-header">
-          <h1>{getCurrentSectionTitle()}</h1>
           <div className="admin-header-actions">
             <span className="admin-access-indicator">
               <span className="admin-access-dot"></span>

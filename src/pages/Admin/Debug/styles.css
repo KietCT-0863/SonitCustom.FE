@@ -1,10 +1,29 @@
 /* Debug Page CSS */
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
+
+/* Khai báo biến shadow chung */
+:root {
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --button-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
 .debug-container {
   width: 100%;
+  font-family: 'Cabin', sans-serif;
+}
+
+/* Đảm bảo tất cả phần tử con đều sử dụng font Cabin */
+.debug-container * {
+  font-family: 'Cabin', sans-serif;
 }
 
 .debug-header {
   margin-bottom: 20px;
+  padding: 15px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
 }
 
 .debug-header h2 {
@@ -33,15 +52,19 @@
   cursor: pointer;
   transition: all 0.2s;
   white-space: nowrap;
+  box-shadow: var(--button-shadow);
 }
 
 .debug-tabs button:hover {
   background-color: #e5e7eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .debug-tabs button.active {
   background-color: #3b82f6;
   color: white;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
 }
 
 .debug-content {
@@ -58,8 +81,14 @@
 .info-card {
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--card-shadow);
   padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--hover-shadow);
 }
 
 .info-card h3 {
@@ -92,12 +121,14 @@
   border-radius: 6px;
   margin-bottom: 15px;
   overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .memory-usage {
   height: 100%;
   background-color: #3b82f6;
   border-radius: 6px;
+  box-shadow: 0 0 4px rgba(59, 130, 246, 0.25);
 }
 
 .env-variables {
@@ -106,17 +137,23 @@
   border-radius: 6px;
   padding: 15px;
   overflow-x: auto;
-  font-family: monospace;
+  font-family: 'Cabin Mono', monospace;
   font-size: 0.85rem;
   line-height: 1.5;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 /* Logs Viewer */
 .logs-viewer {
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--card-shadow);
   overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.logs-viewer:hover {
+  box-shadow: var(--hover-shadow);
 }
 
 .logs-controls {
@@ -147,6 +184,7 @@
   border-radius: 5px;
   background-color: #f9fafb;
   font-size: 0.9rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .clear-logs-btn {
@@ -158,10 +196,13 @@
   cursor: pointer;
   font-size: 0.9rem;
   transition: all 0.2s;
+  box-shadow: var(--button-shadow);
 }
 
 .clear-logs-btn:hover {
   background-color: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.25);
 }
 
 .logs-table-container {
@@ -192,6 +233,11 @@
   border-bottom: none;
 }
 
+.logs-table tr:hover {
+  box-shadow: inset 0 0 0 1px rgba(59, 130, 246, 0.1);
+  background-color: rgba(59, 130, 246, 0.02);
+}
+
 .log-level-info {
   background-color: rgba(59, 130, 246, 0.05);
 }
@@ -214,8 +260,14 @@
 .tool-card {
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--card-shadow);
   padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tool-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--hover-shadow);
 }
 
 .tool-card h3 {
@@ -239,10 +291,13 @@
   cursor: pointer;
   font-size: 0.9rem;
   transition: all 0.2s;
+  box-shadow: var(--button-shadow);
 }
 
 .tool-button:hover {
   background-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.25);
 }
 
 .tool-buttons {
@@ -262,6 +317,7 @@
   border-radius: 5px;
   background-color: #f9fafb;
   font-size: 0.9rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .endpoint-tester input {
@@ -271,6 +327,7 @@
   border-radius: 5px;
   background-color: #f9fafb;
   font-size: 0.9rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 /* Responsive */
