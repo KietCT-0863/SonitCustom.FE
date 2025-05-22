@@ -238,9 +238,9 @@ const Settings = () => {
                   />
                 </div>
                 
-                <div className="form-group password-group">
+                <div className="form-group">
                   <label htmlFor="smtpPassword">SMTP Password</label>
-                  <div className="password-input">
+                  <div className="password-field">
                     <input
                       type={formData.smtpPasswordHidden ? 'password' : 'text'}
                       id="smtpPassword"
@@ -250,10 +250,10 @@ const Settings = () => {
                     />
                     <button 
                       type="button"
-                      className="toggle-password"
+                      className="password-toggle"
                       onClick={() => handleTogglePassword('smtpPassword')}
                     >
-                      {formData.smtpPasswordHidden ? 'Show' : 'Hide'}
+                      {formData.smtpPasswordHidden ? '👁️' : '🔒'}
                     </button>
                   </div>
                 </div>
@@ -273,43 +273,41 @@ const Settings = () => {
               </div>
             )}
             
-            {/* API & Integrations */}
+            {/* API Settings */}
             {activeTab === 'api' && (
               <div className="settings-section">
-                <h3>API & Integrations</h3>
+                <h3>API & Integration Settings</h3>
                 
-                <div className="form-group password-group">
+                <div className="form-group">
                   <label htmlFor="apiKey">API Key</label>
-                  <div className="password-input">
+                  <div className="password-field">
                     <input
                       type={formData.apiKeyHidden ? 'password' : 'text'}
                       id="apiKey"
                       name="apiKey"
                       value={formData.apiKey}
                       onChange={handleInputChange}
+                      className="code-input"
                     />
                     <button 
                       type="button"
-                      className="toggle-password"
+                      className="password-toggle"
                       onClick={() => handleTogglePassword('apiKey')}
                     >
-                      {formData.apiKeyHidden ? 'Show' : 'Hide'}
+                      {formData.apiKeyHidden ? '👁️' : '🔒'}
                     </button>
                   </div>
-                </div>
-                
-                <div className="form-actions">
-                  <button type="button" className="secondary-button">
-                    Generate New API Key
-                  </button>
+                  <p className="warning-text">
+                    Warning: Keep this key secure and never share it publicly.
+                  </p>
                 </div>
               </div>
             )}
             
-            {/* Backup & Security */}
+            {/* Backup Settings */}
             {activeTab === 'backup' && (
               <div className="settings-section">
-                <h3>Backup & Security</h3>
+                <h3>Backup & Security Settings</h3>
                 
                 <div className="form-group">
                   <label htmlFor="backupFrequency">Backup Frequency</label>
@@ -319,26 +317,22 @@ const Settings = () => {
                     value={formData.backupFrequency}
                     onChange={handleInputChange}
                   >
+                    <option value="hourly">Hourly</option>
                     <option value="daily">Daily</option>
                     <option value="weekly">Weekly</option>
                     <option value="monthly">Monthly</option>
                   </select>
                 </div>
-                
-                <div className="form-actions">
-                  <button type="button" className="secondary-button">
-                    Create Backup Now
-                  </button>
-                  <button type="button" className="danger-button">
-                    Clear Cache
-                  </button>
-                </div>
               </div>
             )}
             
-            <div className="form-submit">
-              <button type="submit" className="primary-button">Save Changes</button>
-              <button type="button" className="cancel-button">Cancel</button>
+            <div className="form-actions">
+              <button type="button" className="form-button">
+                Cancel
+              </button>
+              <button type="submit" className="form-submit">
+                Save Settings
+              </button>
             </div>
           </form>
         </div>

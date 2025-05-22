@@ -1,26 +1,22 @@
 /* Settings Page CSS */
-.admin-settings-page {
-  padding: 20px;
+.settings-container {
+  width: 100%;
 }
 
-.admin-settings-header {
-  margin-bottom: 20px;
-}
-
-.admin-settings-header h2 {
-  margin: 0;
+.settings-container h2 {
+  margin: 0 0 20px;
   font-size: 1.5rem;
   color: #333;
 }
 
-.admin-settings-container {
+.settings-content {
   display: flex;
   gap: 20px;
 }
 
-.admin-settings-sidebar {
-  width: 230px;
-  min-width: 230px;
+.settings-sidebar {
+  width: 220px;
+  min-width: 220px;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -28,13 +24,13 @@
   align-self: flex-start;
 }
 
-.admin-settings-tabs {
+.settings-tabs {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.admin-settings-tabs li {
+.settings-tabs li {
   padding: 14px 20px;
   display: flex;
   align-items: center;
@@ -46,41 +42,33 @@
   color: #64748b;
 }
 
-.admin-settings-tabs li:last-child {
+.settings-tabs li:last-child {
   border-bottom: none;
 }
 
-.admin-settings-tabs li.active {
+.settings-tabs li.active {
   background-color: #f1f5f9;
   color: #0f172a;
   font-weight: 500;
 }
 
-.admin-settings-tabs li:hover:not(.active) {
+.settings-tabs li:hover:not(.active) {
   background-color: #f8fafc;
 }
 
-.admin-settings-tab-icon {
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.admin-settings-content {
+.settings-panel {
   flex: 1;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
   padding: 20px;
 }
 
-.admin-settings-section {
+.settings-section {
   margin-bottom: 30px;
 }
 
-.admin-settings-section h3 {
+.settings-section h3 {
   margin: 0 0 20px;
   font-size: 1.2rem;
   font-weight: 500;
@@ -89,11 +77,11 @@
   padding-bottom: 10px;
 }
 
-.admin-form-group {
+.form-group {
   margin-bottom: 20px;
 }
 
-.admin-form-group label {
+.form-group label {
   display: block;
   margin-bottom: 8px;
   font-size: 0.9rem;
@@ -101,7 +89,9 @@
   color: #4b5563;
 }
 
-.admin-form-control {
+.form-group input,
+.form-group select,
+.form-group textarea {
   width: 100%;
   padding: 10px 12px;
   border: 1px solid #e5e7eb;
@@ -110,59 +100,103 @@
   font-size: 0.9rem;
 }
 
-.admin-form-control:focus {
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
   outline: none;
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
 }
 
-.admin-form-control-with-preview {
-  display: flex;
-  gap: 15px;
-}
-
-.admin-form-control-with-preview .admin-form-control {
-  flex: 1;
-}
-
-.admin-logo-preview {
-  width: 50px;
-  height: 50px;
-  border-radius: 4px;
-  overflow: hidden;
-  border: 1px solid #e5e7eb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.admin-logo-preview img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-.admin-form-checkbox {
+.checkbox-group {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.admin-form-checkbox label {
-  margin-bottom: 0;
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding-left: 30px;
+  font-size: 0.9rem;
+  font-weight: normal;
+  color: #4b5563;
 }
 
-.admin-form-help-text {
-  margin-top: 8px;
-  font-size: 0.85rem;
-  color: #64748b;
-  padding: 8px 12px;
-  background-color: rgba(59, 130, 246, 0.1);
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
   border-radius: 4px;
 }
 
-.admin-settings-actions {
+.checkbox-container:hover input ~ .checkmark {
+  background-color: #f3f4f6;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkbox-container .checkmark:after {
+  left: 7px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Password field with toggle */
+.password-field {
+  position: relative;
+}
+
+.password-field input {
+  padding-right: 40px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #6b7280;
+  font-size: 1rem;
+}
+
+.form-actions {
   display: flex;
   gap: 10px;
   justify-content: flex-end;
@@ -171,82 +205,164 @@
   border-top: 1px solid #f1f5f9;
 }
 
-/* Button styles */
-.admin-button {
-  border: none;
-  border-radius: 5px;
+.form-actions button {
   padding: 10px 16px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.2s;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  border-radius: 5px;
   font-size: 0.9rem;
-  line-height: 1;
-  background-color: #f3f4f6;
-  color: #4b5563;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.admin-button:hover {
+.form-button {
+  background-color: #f3f4f6;
+  color: #4b5563;
+  border: none;
+}
+
+.form-button:hover {
   background-color: #e5e7eb;
 }
 
-.admin-primary-button {
+.form-submit {
   background-color: #3b82f6;
   color: white;
+  border: none;
 }
 
-.admin-primary-button:hover {
+.form-submit:hover {
   background-color: #2563eb;
 }
 
+/* Advanced settings section */
+.warning-text {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
+
+.code-input {
+  font-family: monospace;
+}
+
 /* Responsive */
+@media (max-width: 992px) {
+  .settings-sidebar {
+    width: 200px;
+    min-width: 200px;
+  }
+  
+  .settings-tabs li {
+    padding: 12px 15px;
+    font-size: 0.9rem;
+  }
+}
+
 @media (max-width: 768px) {
-  .admin-settings-container {
+  .settings-content {
     flex-direction: column;
   }
   
-  .admin-settings-sidebar {
+  .settings-sidebar {
     width: 100%;
+    min-width: 100%;
     margin-bottom: 20px;
   }
   
-  .admin-settings-tabs {
+  .settings-tabs {
     display: flex;
     flex-wrap: wrap;
   }
   
-  .admin-settings-tabs li {
-    flex: 1;
-    min-width: 120px;
-    justify-content: center;
-    padding: 10px;
-    font-size: 0.85rem;
+  .settings-tabs li {
+    padding: 10px 15px;
     border-bottom: none;
+    border-right: 1px solid #f1f5f9;
+    flex: 1;
+    justify-content: center;
+    min-width: 100px;
+    text-align: center;
   }
   
-  .admin-settings-tab-icon {
-    margin-right: 5px;
+  .settings-tabs li:last-child {
+    border-right: none;
+  }
+  
+  .settings-panel {
+    padding: 15px;
+  }
+  
+  .settings-section h3 {
+    font-size: 1.1rem;
+  }
+  
+  .form-actions {
+    flex-wrap: wrap;
+  }
+  
+  .form-actions button {
+    flex: 1;
+    min-width: 120px;
   }
 }
 
 @media (max-width: 576px) {
-  .admin-form-control-with-preview {
+  .settings-tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .settings-tabs li {
+    white-space: nowrap;
+    flex: 0 0 auto;
+    min-width: auto;
+    padding: 10px 15px;
+  }
+  
+  .form-group label {
+    font-size: 0.85rem;
+  }
+  
+  .checkbox-container {
+    font-size: 0.85rem;
+  }
+  
+  .form-actions {
     flex-direction: column;
-    align-items: flex-start;
   }
   
-  .admin-logo-preview {
-    margin-top: 10px;
-  }
-  
-  .admin-settings-actions {
-    flex-direction: column;
-  }
-  
-  .admin-button {
+  .form-actions button {
     width: 100%;
-    justify-content: center;
+  }
+  
+  .settings-panel {
+    padding: 12px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+}
+
+@media (max-width: 400px) {
+  .settings-container h2 {
+    font-size: 1.3rem;
+  }
+  
+  .settings-section h3 {
+    font-size: 1rem;
+  }
+  
+  .settings-tabs li {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 8px 10px;
+    font-size: 0.85rem;
   }
 } 

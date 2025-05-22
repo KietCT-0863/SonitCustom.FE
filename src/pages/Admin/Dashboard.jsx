@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useUser } from '../../contexts/UserContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams, Navigate } from 'react-router-dom';
 import './Dashboard.css';
 
 // Import child components
@@ -15,20 +15,24 @@ import DebugPage from './Debug/index';
 // Admin sidebar menu items
 const sidebarItems = [
   { id: 'dashboard', label: 'Dashboard', icon: '📊' },
-  { id: 'products', label: 'Products Management', icon: '🛒' },
+  { id: 'products', label: 'Products', icon: '🛒' },
   { id: 'orders', label: 'Orders', icon: '📦' },
   { id: 'users', label: 'Users', icon: '👥' },
-  { id: 'settings', label: 'Settings', icon: '⚙️' },
   { id: 'analytics', label: 'Analytics', icon: '📈' },
-  { id: 'debug', label: 'Debug Info', icon: '🔍' },
+  { id: 'settings', label: 'Settings', icon: '⚙️' },
+  { id: 'debug', label: 'Debug', icon: '🔍' },
 ];
 
 const AdminDashboard = () => {
   const { user, logout } = useUser();
-  const [activeSection, setActiveSection] = useState('dashboard');
   const [lastLogin, setLastLogin] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const { section } = useParams();
+  
+  // Kiểm tra nếu section là hợp lệ
+  const isValidSection = sidebarItems.some(item => item.id === section);
+  const activeSection = isValidSection ? section : 'dashboard';
   
   console.log("AdminDashboard mounted with user:", user);
   
@@ -49,6 +53,19 @@ const AdminDashboard = () => {
   // Toggle mobile menu
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+  
+  // Close menu when clicking outside on mobile
+  const handleOverlayClick = () => {
+    setMenuOpen(false);
+  };
+  
+  // Handle menu item click
+  const handleMenuItemClick = (sectionId) => {
+    navigate(`/admin/${sectionId}`);
+    if (window.innerWidth <= 768) {
+      setMenuOpen(false);
+    }
   };
   
   // Render the appropriate component based on activeSection
@@ -73,12 +90,23 @@ const AdminDashboard = () => {
     }
   };
   
+  // Get current section title
+  const getCurrentSectionTitle = () => {
+    const section = sidebarItems.find(item => item.id === activeSection);
+    return section ? section.label : 'Dashboard';
+  };
+  
+  // Redirect to dashboard if section is invalid
+  if (!isValidSection && section !== undefined) {
+    return <Navigate to="/admin/dashboard" replace />;
+  }
+  
   return (
     <div className="admin-dashboard">
-      {/* Mobile menu toggle */}
+      {/* Mobile header */}
       <div className="admin-mobile-header">
         <h2>Admin Panel</h2>
-        <button className="admin-menu-toggle" onClick={toggleMenu}>
+        <button className="admin-menu-toggle" onClick={toggleMenu} aria-label="Toggle menu">
           {menuOpen ? '✕' : '☰'}
         </button>
       </div>
@@ -87,7 +115,7 @@ const AdminDashboard = () => {
       <aside className={`admin-sidebar ${menuOpen ? 'active' : ''}`}>
         <div className="admin-logo">
           <h2>Admin Panel</h2>
-          <button className="admin-close-menu" onClick={toggleMenu}>✕</button>
+          <button className="admin-close-menu" onClick={toggleMenu} aria-label="Close menu">✕</button>
         </div>
         
         <div className="admin-user-info">
@@ -97,7 +125,7 @@ const AdminDashboard = () => {
           <div className="admin-user-details">
             <h3>{user?.fullname || user?.username || 'Admin User'}</h3>
             <p>{user?.email || 'admin@example.com'}</p>
-            <span className="admin-role-badge">{user?.roleName || 'Unknown Role'}</span>
+            <span className="admin-role-badge">{user?.roleName || 'Admin'}</span>
           </div>
         </div>
         
@@ -107,12 +135,8 @@ const AdminDashboard = () => {
               <li 
                 key={item.id} 
                 className={activeSection === item.id ? 'active' : ''}
-                onClick={() => {
-                  setActiveSection(item.id);
-                  if (window.innerWidth <= 768) {
-                    setMenuOpen(false);
-                  }
-                }}
+                onClick={() => handleMenuItemClick(item.id)}
+                aria-current={activeSection === item.id ? 'page' : undefined}
               >
                 <span className="admin-menu-icon">{item.icon}</span>
                 <span className="admin-menu-label">{item.label}</span>
@@ -139,18 +163,16 @@ const AdminDashboard = () => {
       {/* Main content */}
       <main className="admin-content">
         <header className="admin-header">
-          <h1>
-            {sidebarItems.find(item => item.id === activeSection)?.label || 'Dashboard'}
-          </h1>
+          <h1>{getCurrentSectionTitle()}</h1>
           <div className="admin-header-actions">
             <span className="admin-access-indicator">
               <span className="admin-access-dot"></span>
-              Admin Access Only
+              Admin Access
             </span>
-            <button className="admin-button">
+            <button className="admin-button" aria-label="Notifications">
               <span>🔔</span>
             </button>
-            <button className="admin-button">
+            <button className="admin-button" aria-label="Messages">
               <span>✉️</span>
             </button>
           </div>
@@ -162,7 +184,7 @@ const AdminDashboard = () => {
       </main>
       
       {/* Overlay for mobile */}
-      {menuOpen && <div className="admin-sidebar-overlay" onClick={() => setMenuOpen(false)}></div>}
+      {menuOpen && <div className="admin-sidebar-overlay" onClick={handleOverlayClick}></div>}
     </div>
   );
 };

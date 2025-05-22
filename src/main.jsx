@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { UserProvider } from './contexts/UserContext'
 import './index.css'
 import MainLayout from './layouts/MainLayout'
@@ -29,11 +29,19 @@ createRoot(document.getElementById('root')).render(
           <Route path="register" element={<RegisterPage />} />
           
           {/* Admin routes (protected) */}
-          <Route path="admin" element={
-            <ProtectedRoute requiredRole="admin">
-              <AdminDashboard />
-            </ProtectedRoute>
-          } />
+          <Route path="admin">
+            <Route index element={
+              <ProtectedRoute requiredRole="admin">
+                <Navigate to="dashboard" replace />
+              </ProtectedRoute>
+            } />
+            
+            <Route path=":section" element={
+              <ProtectedRoute requiredRole="admin">
+                <AdminDashboard />
+              </ProtectedRoute>
+            } />
+          </Route>
           
           {/* 404 Not Found routes - specific and catch-all */}
           <Route path="404" element={<NotFoundPage />} />
