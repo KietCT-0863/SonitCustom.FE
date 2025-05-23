@@ -1,6 +1,9 @@
 /* Products Page CSS */
 .products-container {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
 }
 
 .products-header {
@@ -354,5 +357,56 @@
   .products-table td {
     padding: 8px 10px;
     font-size: 0.75rem;
+  }
+}
+
+/* Products specific styles - using system variables */
+
+/* Admin action buttons */
+.admin-action-btn.delete:hover {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+/* Empty state customization */
+.admin-empty-state .admin-empty-icon {
+  background-color: rgba(59, 130, 246, 0.08);
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 1.8rem;
+}
+
+/* Stock status specific colors */
+.admin-status.status-success {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.admin-status.status-warning {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+
+.admin-status.status-danger {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+@media (max-width: 768px) {
+  .filters-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .admin-form-group {
+    margin-bottom: var(--space-sm);
+  }
+  
+  .clear-filters-btn {
+    align-self: flex-start;
   }
 } 

@@ -163,6 +163,12 @@ const AdminDashboard = () => {
       {/* Main content */}
       <main className="admin-content">
         <header className="admin-header">
+          <div className="admin-header-title">
+            <h1>{getCurrentSectionTitle()}</h1>
+            <p className="admin-header-breadcrumb">
+              <span>Admin</span> / <span>{getCurrentSectionTitle()}</span>
+            </p>
+          </div>
           <div className="admin-header-actions">
             <span className="admin-access-indicator">
               <span className="admin-access-dot"></span>
@@ -183,7 +189,7 @@ const AdminDashboard = () => {
       </main>
       
       {/* Overlay for mobile */}
-      {menuOpen && <div className="admin-sidebar-overlay" onClick={handleOverlayClick}></div>}
+      {menuOpen && <div className="admin-sidebar-overlay active" onClick={handleOverlayClick}></div>}
     </div>
   );
 };
