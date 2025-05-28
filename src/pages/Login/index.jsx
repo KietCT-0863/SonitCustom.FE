@@ -4,7 +4,6 @@ import AuthService from '../../services/auth.service';
 import { useUser } from '../../contexts/UserContext';
 import './styles.css';
 import { FaGoogle, FaFacebook, FaApple } from 'react-icons/fa';
-import Cookies from 'js-cookie';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -21,6 +20,54 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [isConnected, setIsConnected] = useState(navigator.onLine);
+  const [cookieStatus, setCookieStatus] = useState({
+    enabled: true,
+    tested: false
+  });
+  
+  // Test cookie functionality
+  useEffect(() => {
+    const testCookies = () => {
+      try {
+        // Try to set a test cookie
+        document.cookie = "cookie_test=1; path=/; SameSite=Lax";
+        const cookiesEnabled = document.cookie.indexOf("cookie_test") !== -1;
+        
+        // Clear the test cookie
+        document.cookie = "cookie_test=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        
+        console.log("Cookie test result:", cookiesEnabled ? "Cookies are working" : "Cookies are disabled");
+        setCookieStatus({
+          enabled: cookiesEnabled,
+          tested: true
+        });
+      } catch (error) {
+        console.error("Cookie test error:", error);
+        setCookieStatus({
+          enabled: false,
+          tested: true
+        });
+      }
+    };
+    
+    // Run test after a short delay to ensure page is fully loaded
+    setTimeout(testCookies, 1000);
+  }, []);
+  
+  // Check online status
+  useEffect(() => {
+    const handleOnline = () => setIsConnected(true);
+    const handleOffline = () => setIsConnected(false);
+    
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
   
   // Check for auth errors on mount
   useEffect(() => {
@@ -75,27 +122,6 @@ const LoginPage = () => {
     };
   }, []);
   
-  // Test cookie functionality
-  useEffect(() => {
-    // Test if cookies are working
-    const testCookieStorage = () => {
-      try {
-        // Try to set a test cookie
-        Cookies.set('test_cookie', 'test_value', { path: '/' });
-        const testCookie = Cookies.get('test_cookie');
-        
-        console.log('Cookie test result:', testCookie ? 'Cookies are working' : 'Cookies failed');
-        
-        // Clean up
-        Cookies.remove('test_cookie', { path: '/' });
-      } catch (error) {
-        console.error('Cookie test error:', error);
-      }
-    };
-    
-    testCookieStorage();
-  }, []);
-  
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prevData => ({
@@ -108,6 +134,20 @@ const LoginPage = () => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
+    setSuccess('');
+    
+    // Check if we're online before trying to login
+    if (!navigator.onLine) {
+      setError('Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối mạng của bạn.');
+      setIsLoading(false);
+      return;
+    }
+    
+    // Warn about cookie issues
+    if (cookieStatus.tested && !cookieStatus.enabled) {
+      console.warn("Cookies are disabled. Login might work but sessions won't persist between page refreshes.");
+      // We'll still try to login, as we have the localStorage fallback
+    }
     
     try {
       const response = await AuthService.login(formData);
@@ -115,38 +155,29 @@ const LoginPage = () => {
       
       if (response.success) {
         // Show success message
-        setSuccess(response.message);
-        
-        // Check if token was set properly
-        const token = Cookies.get('jwt_token');
-        console.log("Token in cookies after login:", token ? "Token exists" : "No token found");
-        
-        // Inspect localStorage as fallback
-        const localToken = localStorage.getItem('jwt_token');
-        console.log("Token in localStorage after login:", localToken ? "Token exists" : "No token found");
+        setSuccess(response.message || 'Đăng nhập thành công');
         
         // Update user context if user data is available
         if (response.user) {
           console.log("Setting user in context:", response.user);
           userContextLogin(response.user);
           
-          // Navigate to home page - no need for setTimeout
+          // Navigate to home page
           navigate('/', { replace: true });
-        } else {
-          console.log("No user data returned, attempting to navigate anyway");
-          // If no user data, try to navigate after a brief delay
-          // This gives the context time to update if needed
-          setTimeout(() => {
-            navigate('/', { replace: true });
-          }, 100);
         }
       } else {
         console.log("Login failed:", response.message);
-        setError(response.message);
+        setError(response.message || 'Đăng nhập thất bại');
       }
     } catch (err) {
       console.error("Login error:", err);
-      setError('Có lỗi xảy ra khi đăng nhập');
+      
+      // Show a more user-friendly message for network errors
+      if (err.code === 'ERR_NETWORK') {
+        setError('Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối mạng của bạn.');
+      } else {
+        setError(err.message || 'Có lỗi xảy ra khi đăng nhập');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -175,6 +206,16 @@ const LoginPage = () => {
             </div>
             <h1>Welcome Back</h1>
             <p>Please sign in to continue</p>
+            {!isConnected && (
+              <div className="network-warning">
+                ⚠️ Không có kết nối mạng. Một số tính năng có thể không hoạt động.
+              </div>
+            )}
+            {cookieStatus.tested && !cookieStatus.enabled && (
+              <div className="cookie-warning">
+                ⚠️ Cookies bị vô hiệu hóa. Đăng nhập có thể hoạt động nhưng phiên sẽ không được lưu trữ giữa các lần làm mới trang.
+              </div>
+            )}
           </div>
           
           <div className="login-form-container">
@@ -249,37 +290,26 @@ const LoginPage = () => {
               <span>or</span>
             </div>
             
-            <div className="social-buttons">
-              <button 
-                type="button" 
-                className="social-button google"
-                aria-label="Sign in with Google"
-                title="Sign in with Google"
-              >
-                <FaGoogle aria-hidden="true" />
+            <div className="social-login">
+              <button className="social-login-btn google">
+                <FaGoogle />
+                <span>Sign in with Google</span>
               </button>
-              <button 
-                type="button" 
-                className="social-button facebook"
-                aria-label="Sign in with Facebook"
-                title="Sign in with Facebook"
-              >
-                <FaFacebook aria-hidden="true" />
+              
+              <button className="social-login-btn facebook">
+                <FaFacebook />
+                <span>Sign in with Facebook</span>
               </button>
-              <button 
-                type="button" 
-                className="social-button apple"
-                aria-label="Sign in with Apple"
-                title="Sign in with Apple"
-              >
-                <FaApple aria-hidden="true" />
+              
+              <button className="social-login-btn apple">
+                <FaApple />
+                <span>Sign in with Apple</span>
               </button>
             </div>
             
-            <p className="signup-text">
-              Don't have an account ? 
-              <Link to="/register" className="register-link"> Create an account</Link>
-            </p>
+            <div className="register-link">
+              Don't have an account? <Link to="/register">Sign up</Link>
+            </div>
           </div>
         </div>
       </div>

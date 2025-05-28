@@ -1,7 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import api from '../config/api.config';
 import AuthService from '../services/auth.service';
-import Cookies from 'js-cookie';
 
 // Create context
 export const UserContext = createContext();
@@ -13,62 +12,66 @@ export const UserProvider = ({ children }) => {
   // Fetch user info on mount if authenticated
   useEffect(() => {
     const checkAuth = async () => {
-      if (AuthService.isAuthenticated()) {
-        try {
-          // First try to get user from localStorage
-          const storedUser = AuthService.getCurrentUser();
-          if (storedUser) {
-            // Ensure roleName exists in the user object
-            if (!storedUser.roleName) {
-              storedUser.roleName = storedUser.username.toLowerCase() === 'admin' ? 'admin' : 'member';
+      console.log("Checking authentication status on page load/refresh");
+      
+      // Attempt to restore session even if cookies might be lost
+      const storedUser = AuthService.getCurrentUser();
+      const isAuthInStorage = localStorage.getItem('isAuthenticated') === 'true';
+      
+      if (isAuthInStorage && storedUser) {
+        console.log("Found auth data in localStorage, setting user state");
+        setUser(storedUser);
+        setLoading(false);
+        
+        // Try to validate the session with the backend
+        if (navigator.onLine) {
+          try {
+            console.log("Attempting to validate session with backend");
+            const userData = await api.get('/User/me');
+            
+            if (userData && userData.username) {
+              console.log("Session is valid, updating user data");
+              setUser(userData);
+              localStorage.setItem('userData', JSON.stringify(userData));
+              localStorage.setItem('isAuthenticated', 'true');
+            } else {
+              console.log("Failed to get valid user data");
             }
+          } catch (error) {
+            console.error("Session validation failed:", error);
             
-            setUser(storedUser);
-            setLoading(false);
-            
-            // Still try to refresh user data in the background if we have a token
-            const token = Cookies.get('jwt_token') || localStorage.getItem('jwt_token');
-            if (token) {
+            if (error.code === 'ERR_NETWORK') {
+              console.warn('Network error detected - maintaining session state');
+              // Keep existing user data
+            } else if (error.status === 401) {
+              console.log("Session expired, need to login again");
+              // Try silent refresh if using refresh tokens
               try {
+                // This assumes your backend has an endpoint for refreshing tokens
+                await api.post('/Auth/refresh');
+                // If successful, try getting user data again
                 const userData = await api.get('/User/me');
-                // Only update if we got valid data
                 if (userData && userData.username) {
-                  // Ensure roleName exists
-                  if (!userData.roleName) {
-                    userData.roleName = userData.username.toLowerCase() === 'admin' ? 'admin' : 'member';
-                  }
-                  
                   setUser(userData);
-                  // Update localStorage for future use
                   localStorage.setItem('userData', JSON.stringify(userData));
+                  localStorage.setItem('isAuthenticated', 'true');
                 }
               } catch (refreshError) {
-                console.log('Background user refresh failed:', refreshError);
-                // Don't logout - we'll keep using the stored user data
+                console.error("Token refresh failed:", refreshError);
+                // Clear auth since refresh failed
+                await AuthService.logout();
+                setUser(null);
               }
+            } else {
+              await AuthService.logout();
+              setUser(null);
             }
-            return;
           }
-          
-          // If no user in localStorage but authenticated, fetch from API
-          const userData = await api.get('/User/me');
-          
-          // Ensure roleName exists
-          if (!userData.roleName) {
-            userData.roleName = userData.username.toLowerCase() === 'admin' ? 'admin' : 'member';
-          }
-          
-          setUser(userData);
-          // Store in localStorage for future use
-          localStorage.setItem('userData', JSON.stringify(userData));
-        } catch (error) {
-          console.error('Failed to fetch user data:', error);
-          // Clear auth if user fetch fails
-          AuthService.logout();
-          setUser(null);
         }
+      } else {
+        console.log("No auth data found in localStorage");
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     checkAuth();
@@ -76,21 +79,17 @@ export const UserProvider = ({ children }) => {
 
   // Login function
   const login = (userData) => {
-    // Ensure roleName exists
-    if (!userData.roleName) {
-      userData.roleName = userData.username.toLowerCase() === 'admin' ? 'admin' : 'member';
-    }
-    
     setUser(userData);
     // Also update localStorage
     if (userData) {
       localStorage.setItem('userData', JSON.stringify(userData));
+      localStorage.setItem('isAuthenticated', 'true');
     }
   };
 
   // Logout function
-  const logout = () => {
-    AuthService.logout();
+  const logout = async () => {
+    await AuthService.logout();
     setUser(null);
   };
 

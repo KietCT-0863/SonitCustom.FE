@@ -1,5 +1,4 @@
 import api from '../config/api.config';
-import Cookies from 'js-cookie';
 
 const AuthService = {
   // Login user
@@ -13,58 +12,28 @@ const AuthService = {
         password: credentials.password
       });
       
-      console.log("Raw API login response:", response);
+      console.log("Login response:", response);
       
-      // Check if login was successful based on message
-      if (response.message && response.message.includes("thành công")) {
-        // Store auth data 
+      // Check cookies after login
+      AuthService.checkCookieStatus();
+      
+      // If login was successful
+      if (response && response.message && response.message.includes("thành công")) {
+        // Store authentication state
         localStorage.setItem('isAuthenticated', 'true');
         
-        // Determine roleName based on the username or API response
-        // Mặc định roleName là admin nếu username là admin, ngược lại là member
-        const roleFromUsername = credentials.username.toLowerCase() === 'admin' ? 'admin' : 'member';
-        const roleName = response.roleName || roleFromUsername;
+        // Kiểm tra và lưu token nếu nhận được từ response
+        if (response.accessToken) {
+          localStorage.setItem('access_token', response.accessToken);
+          console.log("Stored access token in localStorage");
+        }
         
-        // Store token in cookies if available
-        if (response.token) {
-          console.log("Setting token in cookies:", response.token.substring(0, 20) + "...");
+        try {
+          // After login, fetch user data
+          const userData = await api.get('/User/me');
+          console.log("User data response:", userData);
           
-          try {
-            // Store token in cookies with secure options matching backend
-            Cookies.set('jwt_token', response.token, { 
-              expires: 1/24, // Expires in 60 minutes (1/24 of a day)
-              secure: window.location.protocol === 'https:', // Only set secure when on HTTPS
-              sameSite: 'lax', // Less restrictive to ensure it works in development
-              path: '/' // Accessible from any path
-            });
-            
-            // Verify the cookie was set
-            const savedToken = Cookies.get('jwt_token');
-            console.log("Cookie set verification:", savedToken ? "Cookie was set successfully" : "Failed to set cookie");
-            
-            // Also store in localStorage as fallback
-            localStorage.setItem('jwt_token', response.token);
-            
-          } catch (cookieError) {
-            console.error("Error setting cookie:", cookieError);
-            // Fallback to localStorage
-            localStorage.setItem('jwt_token', response.token);
-          }
-          
-          // Fetch user data after token is set
-          try {
-            // Create a small delay to ensure token is properly set
-            await new Promise(resolve => setTimeout(resolve, 100));
-            
-            // Fetch user data with the new token
-            const userData = await api.get('/User/me');
-            console.log("User data response:", userData);
-            
-            // Đảm bảo roleName tồn tại trong userData
-            if (!userData.roleName) {
-              userData.roleName = roleName;
-            }
-            
+          if (userData) {
             // Store user data
             localStorage.setItem('userData', JSON.stringify(userData));
             
@@ -73,33 +42,14 @@ const AuthService = {
               message: response.message,
               user: userData
             };
-          } catch (userError) {
-            console.error('Failed to fetch user data:', userError);
-            
-            // For now, create a minimal user object from credentials
-            const minimalUser = {
-              username: credentials.username,
-              fullname: credentials.username || 'User', // Fallback name
-              roleName: roleName // Thêm roleName vào đây
-            };
-            
-            // Store minimal user data
-            localStorage.setItem('userData', JSON.stringify(minimalUser));
-            
-            return {
-              success: true,
-              message: response.message,
-              user: minimalUser
-            };
           }
-        } else {
-          console.warn("No token received in login response");
+        } catch (userError) {
+          console.error('Failed to fetch user data:', userError);
           
-          // If no token but login successful, create minimal user
+          // For now, create a minimal user object from credentials
           const minimalUser = {
             username: credentials.username,
-            fullname: credentials.username || 'User', // Fallback name
-            roleName: roleName // Thêm roleName vào đây
+            roleName: credentials.username.toLowerCase() === 'admin' ? 'admin' : 'member'
           };
           
           // Store minimal user data
@@ -111,14 +61,14 @@ const AuthService = {
             user: minimalUser
           };
         }
-      } else {
-        return {
-          success: false,
-          message: response.message || "Đăng nhập thất bại"
-        };
       }
+      
+      // If we got here without returning, the login was not successful
+      return {
+        success: false,
+        message: response.message || "Đăng nhập thất bại"
+      };
     } catch (error) {
-      // Handle network errors or other exceptions
       console.error('Login error:', error);
       return {
         success: false,
@@ -131,25 +81,32 @@ const AuthService = {
   register: async (userData) => {
     try {
       const response = await api.post('/auth/register', userData);
-      return response.data;
+      return response;
     } catch (error) {
       throw error;
     }
   },
 
   // Logout user
-  logout: () => {
-    localStorage.removeItem('isAuthenticated');
-    localStorage.removeItem('userData');
-    localStorage.removeItem('jwt_token');
-    // Remove token from cookies
+  logout: async () => {
     try {
-      Cookies.remove('jwt_token', { path: '/' });
-      console.log("Removed jwt_token cookie");
+      // Only attempt API call if we're likely connected
+      if (navigator.onLine) {
+        // Call the backend logout endpoint to invalidate the refresh token
+        await api.post('/Auth/logout').catch(err => {
+          console.error('Error during logout API call:', err);
+          // Continue with local logout regardless
+        });
+      }
     } catch (error) {
-      console.error("Error removing cookie:", error);
+      console.error('Error during logout:', error);
+    } finally {
+      // Always clear local state regardless of API call success
+      localStorage.removeItem('isAuthenticated');
+      localStorage.removeItem('userData');
+      localStorage.removeItem('authError');
+      localStorage.removeItem('access_token');
     }
-    localStorage.removeItem('authError');
   },
 
   // Get current user data
@@ -166,10 +123,12 @@ const AuthService = {
     }
   },
 
-  // Check if user is authenticated
+  // Check if user is authenticated locally
   isAuthenticated: () => {
-    // Check if token exists in cookies or localStorage as fallback
-    return !!Cookies.get('jwt_token') || !!localStorage.getItem('jwt_token');
+    // Check cookie status to detect issues
+    AuthService.checkCookieStatus();
+    return localStorage.getItem('isAuthenticated') === 'true' && 
+           (document.cookie.length > 0 || localStorage.getItem('access_token'));
   },
 
   // Get auth error if any
@@ -181,10 +140,26 @@ const AuthService = {
   clearAuthError: () => {
     localStorage.removeItem('authError');
   },
-
-  // Get token from cookies or localStorage fallback
-  getToken: () => {
-    return Cookies.get('jwt_token') || localStorage.getItem('jwt_token');
+  
+  // Debug cookie status
+  checkCookieStatus: () => {
+    console.log("Cookie status check:");
+    console.log("- Document cookies exist:", document.cookie.length > 0);
+    console.log("- Cookie same-site policy:", document.cookie.includes("SameSite=") ? "Specified in cookie" : "Not specified (browser default)");
+    console.log("- Cookie secure flag:", document.cookie.includes("Secure") ? "Yes" : "No");
+    console.log("- All cookies:", document.cookie);
+    
+    // Also check localStorage backup
+    console.log("- IsAuthenticated in localStorage:", localStorage.getItem('isAuthenticated'));
+    console.log("- UserData in localStorage:", !!localStorage.getItem('userData'));
+    console.log("- Access token in localStorage:", !!localStorage.getItem('access_token'));
+    
+    // Try to make a test request to check cookies
+    if (navigator.onLine) {
+      api.get('/User/me')
+        .then(() => console.log("- API test with cookies: Success"))
+        .catch(err => console.log("- API test with cookies: Failed", err.message));
+    }
   }
 };
 

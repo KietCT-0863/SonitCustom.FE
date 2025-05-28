@@ -676,4 +676,22 @@
   margin-bottom: 15px;
   text-align: center;
   border: 1px solid rgba(0, 255, 0, 0.2);
+}
+
+.network-warning,
+.cookie-warning {
+  background-color: rgba(255, 193, 7, 0.2);
+  border: 1px solid #ffc107;
+  border-radius: 4px;
+  color: #856404;
+  font-size: 0.9rem;
+  margin-top: 10px;
+  padding: 8px 12px;
+  text-align: center;
+}
+
+.cookie-warning {
+  background-color: rgba(255, 150, 50, 0.2);
+  border-color: #ff9632;
+  color: #663c00;
 } 
