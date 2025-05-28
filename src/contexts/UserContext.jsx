@@ -14,64 +14,46 @@ export const UserProvider = ({ children }) => {
     const checkAuth = async () => {
       console.log("Checking authentication status on page load/refresh");
       
-      // Attempt to restore session even if cookies might be lost
-      const storedUser = AuthService.getCurrentUser();
+      // Attempt to restore session from localStorage flag
       const isAuthInStorage = localStorage.getItem('isAuthenticated') === 'true';
       
-      if (isAuthInStorage && storedUser) {
-        console.log("Found auth data in localStorage, setting user state");
-        setUser(storedUser);
-        setLoading(false);
+      if (isAuthInStorage) {
+        console.log("Found auth flag in localStorage, trying to get user data");
         
-        // Try to validate the session with the backend
-        if (navigator.onLine) {
-          try {
-            console.log("Attempting to validate session with backend");
-            const userData = await api.get('/User/me');
-            
-            if (userData && userData.username) {
-              console.log("Session is valid, updating user data");
-              setUser(userData);
-              localStorage.setItem('userData', JSON.stringify(userData));
-              localStorage.setItem('isAuthenticated', 'true');
-            } else {
-              console.log("Failed to get valid user data");
-            }
-          } catch (error) {
-            console.error("Session validation failed:", error);
-            
-            if (error.code === 'ERR_NETWORK') {
-              console.warn('Network error detected - maintaining session state');
-              // Keep existing user data
-            } else if (error.status === 401) {
-              console.log("Session expired, need to login again");
-              // Try silent refresh if using refresh tokens
-              try {
-                // This assumes your backend has an endpoint for refreshing tokens
-                await api.post('/Auth/refresh');
-                // If successful, try getting user data again
-                const userData = await api.get('/User/me');
-                if (userData && userData.username) {
-                  setUser(userData);
-                  localStorage.setItem('userData', JSON.stringify(userData));
-                  localStorage.setItem('isAuthenticated', 'true');
-                }
-              } catch (refreshError) {
-                console.error("Token refresh failed:", refreshError);
-                // Clear auth since refresh failed
-                await AuthService.logout();
-                setUser(null);
-              }
-            } else {
-              await AuthService.logout();
-              setUser(null);
-            }
+        try {
+          // Validate the session with the backend by getting user data
+          const userData = await api.get('/User/me');
+          
+          if (userData) {
+            console.log("Session is valid, setting user data:", userData);
+            setUser(userData);
+            localStorage.setItem('userData', JSON.stringify(userData));
+          } else {
+            console.log("No user data received");
+            setUser(null);
+            localStorage.removeItem('isAuthenticated');
+            localStorage.removeItem('userData');
+          }
+        } catch (error) {
+          console.error("Session validation failed:", error);
+          
+          // If there's a network error, use cached user data
+          if (error.code === 'ERR_NETWORK') {
+            console.warn('Network error detected - using cached user data');
+            const storedUser = AuthService.getCurrentUser();
+            if (storedUser) setUser(storedUser);
+          } else {
+            // For auth errors, clear the user state
+            setUser(null);
+            localStorage.removeItem('isAuthenticated');
+            localStorage.removeItem('userData');
           }
         }
       } else {
-        console.log("No auth data found in localStorage");
-        setLoading(false);
+        console.log("Not authenticated according to localStorage");
       }
+      
+      setLoading(false);
     };
 
     checkAuth();

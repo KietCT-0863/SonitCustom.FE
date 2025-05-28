@@ -14,19 +14,10 @@ const AuthService = {
       
       console.log("Login response:", response);
       
-      // Check cookies after login
-      AuthService.checkCookieStatus();
-      
       // If login was successful
       if (response && response.message && response.message.includes("thành công")) {
         // Store authentication state
         localStorage.setItem('isAuthenticated', 'true');
-        
-        // Kiểm tra và lưu token nếu nhận được từ response
-        if (response.accessToken) {
-          localStorage.setItem('access_token', response.accessToken);
-          console.log("Stored access token in localStorage");
-        }
         
         try {
           // After login, fetch user data
@@ -34,7 +25,7 @@ const AuthService = {
           console.log("User data response:", userData);
           
           if (userData) {
-            // Store user data
+            // Store user data in localStorage
             localStorage.setItem('userData', JSON.stringify(userData));
             
             return {
@@ -46,7 +37,7 @@ const AuthService = {
         } catch (userError) {
           console.error('Failed to fetch user data:', userError);
           
-          // For now, create a minimal user object from credentials
+          // For demo purposes only - in production, we should require proper user data
           const minimalUser = {
             username: credentials.username,
             roleName: credentials.username.toLowerCase() === 'admin' ? 'admin' : 'member'
@@ -105,7 +96,6 @@ const AuthService = {
       localStorage.removeItem('isAuthenticated');
       localStorage.removeItem('userData');
       localStorage.removeItem('authError');
-      localStorage.removeItem('access_token');
     }
   },
 
@@ -125,10 +115,7 @@ const AuthService = {
 
   // Check if user is authenticated locally
   isAuthenticated: () => {
-    // Check cookie status to detect issues
-    AuthService.checkCookieStatus();
-    return localStorage.getItem('isAuthenticated') === 'true' && 
-           (document.cookie.length > 0 || localStorage.getItem('access_token'));
+    return localStorage.getItem('isAuthenticated') === 'true';
   },
 
   // Get auth error if any
@@ -139,27 +126,6 @@ const AuthService = {
   // Clear auth error
   clearAuthError: () => {
     localStorage.removeItem('authError');
-  },
-  
-  // Debug cookie status
-  checkCookieStatus: () => {
-    console.log("Cookie status check:");
-    console.log("- Document cookies exist:", document.cookie.length > 0);
-    console.log("- Cookie same-site policy:", document.cookie.includes("SameSite=") ? "Specified in cookie" : "Not specified (browser default)");
-    console.log("- Cookie secure flag:", document.cookie.includes("Secure") ? "Yes" : "No");
-    console.log("- All cookies:", document.cookie);
-    
-    // Also check localStorage backup
-    console.log("- IsAuthenticated in localStorage:", localStorage.getItem('isAuthenticated'));
-    console.log("- UserData in localStorage:", !!localStorage.getItem('userData'));
-    console.log("- Access token in localStorage:", !!localStorage.getItem('access_token'));
-    
-    // Try to make a test request to check cookies
-    if (navigator.onLine) {
-      api.get('/User/me')
-        .then(() => console.log("- API test with cookies: Success"))
-        .catch(err => console.log("- API test with cookies: Failed", err.message));
-    }
   }
 };
 
