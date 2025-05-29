@@ -4,105 +4,59 @@ import './styles.css';
 const ProductCard = ({ product, onClick }) => {
   const [isHovered, setIsHovered] = useState(false);
  
-  const getStatusClass = (status) => {
-    if (!status) return '';
-    
-    switch(status.toLowerCase()) {
-      case 'in stock':
-      case 'còn hàng':
-        return 'status-in-stock';
-      case 'pre-order':
-      case 'đặt trước':
-        return 'status-pre-order';
-      case 'limited edition':
-      case 'phiên bản giới hạn':
-        return 'status-limited';
-      case 'out of stock':
-      case 'hết hàng':
-      case 'sold out':
-        return 'status-sold-out';
-      default:
-        return '';
+  const handleClick = () => {
+    if (onClick) {
+      onClick(product.prodId || product.id);
     }
   };
   
-  const handleClick = () => {
+  const showDetailsClick = (e) => {
+    e.stopPropagation();
     if (onClick) {
-      onClick(product.path);
+      onClick(product.prodId || product.id);
     }
   };
+
+  // Check if the product should show "Liên Hệ" instead of price
+  const showContactInsteadOfPrice = product.isCustom || product.price === 0;
   
   return (
     <div 
-      className={`product-card ${isHovered ? 'hovered' : ''}`}
+      className="product-card"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleClick}
     >
       <div className="product-image-container">
         <img 
-          src={product.image || product.imageUrl} 
-          alt={product.name} 
+          src={product.imgUrl || product.image || '/assets/products/default.jpg'} 
+          alt={product.proName || product.name} 
           className="product-image" 
         />
-        {product.secondaryImageUrl && (
-          <img 
-            src={product.secondaryImageUrl}
-            alt={`${product.name} alternate view`}
-            className={`product-secondary-image ${isHovered ? 'show' : ''}`}
-          />
-        )}
         
         {isHovered && (
-          <div className="quick-actions">
-            <button className="quick-view-btn">Quick view</button>
+          <div className="product-actions">
+            <button className="show-details-btn" onClick={showDetailsClick}>
+              Xem chi tiết
+            </button>
           </div>
         )}
       </div>
       
       <div className="product-info">
-        <h3 className="product-name">{product.name}</h3>
-        {product.category && (
-          <div className="product-category">{product.category}</div>
-        )}
+        <div className="product-id">{product.prodId || product.id}</div>
+        <h3 className="product-name">{product.proName || product.name}</h3>
         
         <div className="product-details">
-          <div className="product-price">${product.price.toFixed(2)}</div>
-          {product.status && (
-            <div className={`product-status ${getStatusClass(product.status)}`}>
-              {product.status}
+          {showContactInsteadOfPrice ? (
+            <div className="product-contact">Liên Hệ</div>
+          ) : (
+            <div className="product-price">
+              {(product.price || 0).toLocaleString('vi-VN')} ₫
             </div>
           )}
         </div>
-        
-        {product.colors && product.colors.length > 0 && (
-          <div className="product-colors">
-            {product.colors.map((color, index) => (
-              <div 
-                key={index} 
-                className="product-color-dot" 
-                style={{ backgroundColor: color }}
-                title={`Color option ${index + 1}`}
-              />
-            ))}
-          </div>
-        )}
       </div>
-      
-      {isHovered && (
-        <div className="product-actions">
-          <button className="add-to-cart-btn">Add to cart</button>
-          <button className="wishlist-btn">♡</button>
-        </div>
-      )}
-      
-      {product.isNew && (
-        <div className="product-badge new-badge">NEW</div>
-      )}
-      
-      {product.discount > 0 && (
-        <div className="product-badge discount-badge">-{product.discount}%</div>
-      )}
     </div>
   );
 };

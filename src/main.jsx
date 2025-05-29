@@ -64,6 +64,7 @@ createRoot(document.getElementById('root')).render(
             {/* Store routes */}
             <Route path="store">
               <Route index element={<StorePage />} />
+              <Route path="product/:productId" element={<StoreDetail />} />
               <Route path=":id" element={<StoreDetail />} />
               <Route path="billiard/:id" element={<StoreDetail />} />
               <Route path=":category/:id" element={<StoreDetail />} />

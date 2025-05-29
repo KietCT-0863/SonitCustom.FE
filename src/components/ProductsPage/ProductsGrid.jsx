@@ -7,7 +7,7 @@ const ProductsGrid = ({ products, onProductClick, viewMode = 'grid' }) => {
     <div className={`products-grid ${viewMode === 'list' ? 'list-view' : ''}`}>
       {products.map((product) => (
         <ProductCard
-          key={product.id}
+          key={product.prodId}
           product={product}
           onClick={onProductClick}
         />

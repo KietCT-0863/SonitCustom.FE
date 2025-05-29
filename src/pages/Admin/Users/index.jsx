@@ -40,7 +40,7 @@ const Users = () => {
 
   // API instance with withCredentials enabled
   const api = axios.create({
-    baseURL: 'https://sonitcustom-be.onrender.com/api',
+    baseURL: '/api',
     withCredentials: true, // Đảm bảo gửi cookies với mỗi request
     headers: {
       'Content-Type': 'application/json'
