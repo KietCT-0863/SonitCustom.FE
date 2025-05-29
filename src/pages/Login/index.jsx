@@ -151,7 +151,7 @@ const LoginPage = () => {
     
     try {
       const response = await AuthService.login(formData);
-      console.log("Login response:", response);
+      // console.log("Login response:", response);
       
       if (response.success) {
         // Show success message
@@ -159,7 +159,7 @@ const LoginPage = () => {
         
         // Update user context if user data is available
         if (response.user) {
-          console.log("Setting user in context:", response.user);
+          // console.log("Setting user in context:", response.user);
           userContextLogin(response.user);
           
           // Navigate to home page

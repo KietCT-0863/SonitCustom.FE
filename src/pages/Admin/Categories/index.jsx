@@ -455,6 +455,7 @@ const Categories = () => {
       
       await api.delete(`/Category/${categoryId}`);
       fetchCategories();
+      
     } catch (error) {
       console.error('Error deleting category:', error);
       
@@ -467,6 +468,15 @@ const Categories = () => {
             message: 'Your session has expired. Please log in again.' 
           } 
         });
+      } else if (
+        error.message && (
+          error.message.includes('entity changes') ||
+          error.message.includes('FOREIGN KEY constraint') ||
+          error.message.includes('reference constraint')
+        )
+      ) {
+        // This is the specific error when category has dependent items
+        alert('This category cannot be deleted because it has associated products. Please reassign or remove all products in this category first.');
       } else {
         alert(error.message || 'Failed to delete category');
       }
