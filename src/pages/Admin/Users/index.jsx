@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './styles.css';
+import AuthService from '../../../services/auth.service';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -10,12 +11,24 @@ const Users = () => {
   const [selectedRole, setSelectedRole] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
   const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const [newUser, setNewUser] = useState({
     username: '',
     fullname: '',
     email: '',
     password: '',
+    confirmPassword: '',
     roleName: 'admin'
+  });
+  
+  const [focusedInputs, setFocusedInputs] = useState({
+    username: false,
+    fullname: false,
+    email: false,
+    password: false,
+    confirmPassword: false
   });
   
   // Sample user data to use when API fails
@@ -95,49 +108,23 @@ const Users = () => {
   // Handle add new user
   const handleAddNewUser = () => {
     setShowRegisterModal(true);
+    setRegistrationSuccess(false);
   };
-
-  // Handle register admin form submission
-  const handleRegisterAdmin = async (e) => {
-    e.preventDefault();
-    try {
-      setLoading(true);
-      const response = await api.post('/User', newUser);
-      setUsers([...users, response.data]);
-      setShowRegisterModal(false);
-      setNewUser({
-        username: '',
-        fullname: '',
-        email: '',
-        password: '',
-        roleName: 'admin'
-      });
-    } catch (err) {
-      console.error('Error registering admin:', err);
-      
-      // Add locally for demo purposes
-      const newDemoUser = {
-        ...newUser,
-        id: users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1
-      };
-      setUsers([...users, newDemoUser]);
-      setShowRegisterModal(false);
-      setNewUser({
-        username: '',
-        fullname: '',
-        email: '',
-        password: '',
-        roleName: 'admin'
-      });
-      
-      if (err.response && err.response.status === 401) {
-        setError('Authentication failed. Added locally for demo purposes.');
-      } else {
-        setError('API error. Added locally for demo purposes.');
-      }
-    } finally {
-      setLoading(false);
-    }
+  
+  // Handle input focus
+  const handleFocus = (name) => {
+    setFocusedInputs(prev => ({
+      ...prev,
+      [name]: true
+    }));
+  };
+  
+  // Handle input blur
+  const handleBlur = (name) => {
+    setFocusedInputs(prev => ({
+      ...prev,
+      [name]: false
+    }));
   };
 
   // Handle input changes for registration form
@@ -147,6 +134,107 @@ const Users = () => {
       ...prev,
       [name]: value
     }));
+    
+    // Clear password error when password fields change
+    if (name === 'password' || name === 'confirmPassword') {
+      setPasswordError('');
+    }
+  };
+  
+  // Validate form
+  const validateForm = () => {
+    if (newUser.password !== newUser.confirmPassword) {
+      setPasswordError('Mật khẩu không khớp');
+      return false;
+    }
+    
+    if (newUser.password.length < 8) {
+      setPasswordError('Mật khẩu phải có ít nhất 8 ký tự');
+      return false;
+    }
+    
+    return true;
+  };
+
+  // Handle register admin form submission
+  const handleRegisterAdmin = async (e) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+    
+    try {
+      setIsRegistering(true);
+      // Tạo user object để gửi đến API theo định dạng của API register
+      const userToRegister = {
+        username: newUser.username,
+        fullname: newUser.fullname,
+        email: newUser.email,
+        password: newUser.password,
+        roleName: newUser.roleName
+      };
+      
+      // Sử dụng API đăng ký giống với user thông thường
+      const response = await AuthService.register(userToRegister);
+      
+      // Nếu đăng ký thành công
+      if (response && response.message && response.message.includes("thành công")) {
+        setRegistrationSuccess(true);
+        // Refresh danh sách user sau khi đăng ký thành công
+        fetchUsers();
+        
+        // Reset form sau 2 giây
+        setTimeout(() => {
+          setShowRegisterModal(false);
+          setNewUser({
+            username: '',
+            fullname: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            roleName: 'admin'
+          });
+          setRegistrationSuccess(false);
+        }, 2000);
+      } else {
+        setError('Đăng ký không thành công. Vui lòng thử lại.');
+      }
+    } catch (err) {
+      console.error('Error registering admin:', err);
+      
+      if (err.message) {
+        setPasswordError(err.message);
+      } else if (err.response && err.response.data && err.response.data.message) {
+        setPasswordError(err.response.data.message);
+      } else {
+        setPasswordError('Đăng ký không thành công. Vui lòng thử lại.');
+      }
+      
+      // Add locally for demo purposes in case of error
+      if (process.env.NODE_ENV === 'development') {
+        const newDemoUser = {
+          ...newUser,
+          id: users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1
+        };
+        delete newDemoUser.confirmPassword;
+        
+        setUsers([...users, newDemoUser]);
+        setTimeout(() => {
+          setShowRegisterModal(false);
+          setNewUser({
+            username: '',
+            fullname: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            roleName: 'admin'
+          });
+        }, 2000);
+      }
+    } finally {
+      setIsRegistering(false);
+    }
   };
 
   // Filter users based on role and search term
@@ -174,7 +262,7 @@ const Users = () => {
           </button>
           <button 
             className="register-admin-btn"
-            onClick={() => setShowRegisterModal(true)}
+            onClick={handleAddNewUser}
           >
             Register Admin
           </button>
@@ -283,68 +371,146 @@ const Users = () => {
         <button className="pagination-btn">Next</button>
       </div>
 
-      {/* Admin Registration Modal */}
+      {/* Admin Registration Modal - Thiết kế giống với trang Register */}
       {showRegisterModal && (
         <div className="modal-overlay">
-          <div className="modal-content">
-            <h2>Register New Admin</h2>
-            <form onSubmit={handleRegisterAdmin}>
-              <div className="form-group">
-                <label>Username</label>
-                <input 
-                  type="text" 
-                  name="username" 
-                  value={newUser.username} 
-                  onChange={handleInputChange} 
-                  required 
+          <div className="register-modal-content">
+            <div className="register-modal-header">
+              <div className="register-logo">
+                <img 
+                  src="/assets/images/logo.jpg" 
+                  className='register-logo-image'
                 />
               </div>
-              <div className="form-group">
-                <label>Full Name</label>
-                <input 
-                  type="text" 
-                  name="fullname" 
-                  value={newUser.fullname} 
-                  onChange={handleInputChange} 
-                  required 
-                />
+              <h2>Register New Admin</h2>
+              <p>Create a new admin account for the system</p>
+            </div>
+            
+            {registrationSuccess ? (
+              <div className="success-message">
+                <div className="check-icon">✓</div>
+                <h3>Registration Successful!</h3>
+                <p>The new admin account has been created successfully.</p>
               </div>
-              <div className="form-group">
-                <label>Email</label>
-                <input 
-                  type="email" 
-                  name="email" 
-                  value={newUser.email} 
-                  onChange={handleInputChange} 
-                  required 
-                />
-              </div>
-              <div className="form-group">
-                <label>Password</label>
-                <input 
-                  type="password" 
-                  name="password" 
-                  value={newUser.password} 
-                  onChange={handleInputChange} 
-                  required 
-                />
-              </div>
-              <div className="form-group">
-                <label>Role</label>
-                <select 
-                  name="roleName" 
-                  value={newUser.roleName} 
-                  onChange={handleInputChange}
-                >
-                  <option value="admin">Admin</option>
-                  <option value="user">User</option>
-                </select>
-              </div>
-              <div className="modal-actions">
-                <button type="button" onClick={() => setShowRegisterModal(false)}>Cancel</button>
-                <button type="submit" className="primary-btn">Register</button>
-              </div>
-            </form>
+            ) : (
+              <form className="register-form" onSubmit={handleRegisterAdmin}>
+                <div className={`form-floating ${focusedInputs.username || newUser.username ? 'focused' : ''}`}>
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder=" "
+                    value={newUser.username}
+                    onChange={handleInputChange}
+                    onFocus={() => handleFocus('username')}
+                    onBlur={() => handleBlur('username')}
+                    required
+                  />
+                  <label htmlFor="username">Username</label>
+                  <div className="input-highlight"></div>
+                </div>
+                
+                <div className={`form-floating ${focusedInputs.fullname || newUser.fullname ? 'focused' : ''}`}>
+                  <input
+                    type="text"
+                    id="fullname"
+                    name="fullname"
+                    placeholder=" "
+                    value={newUser.fullname}
+                    onChange={handleInputChange}
+                    onFocus={() => handleFocus('fullname')}
+                    onBlur={() => handleBlur('fullname')}
+                    required
+                  />
+                  <label htmlFor="fullname">Full Name</label>
+                  <div className="input-highlight"></div>
+                </div>
+                
+                <div className={`form-floating ${focusedInputs.email || newUser.email ? 'focused' : ''}`}>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder=" "
+                    value={newUser.email}
+                    onChange={handleInputChange}
+                    onFocus={() => handleFocus('email')}
+                    onBlur={() => handleBlur('email')}
+                    required
+                  />
+                  <label htmlFor="email">Email Address</label>
+                  <div className="input-highlight"></div>
+                </div>
+                
+                <div className={`form-floating ${focusedInputs.password || newUser.password ? 'focused' : ''}`}>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder=" "
+                    value={newUser.password}
+                    onChange={handleInputChange}
+                    onFocus={() => handleFocus('password')}
+                    onBlur={() => handleBlur('password')}
+                    required
+                  />
+                  <label htmlFor="password">Password</label>
+                  <div className="input-highlight"></div>
+                </div>
+                
+                <div className={`form-floating ${focusedInputs.confirmPassword || newUser.confirmPassword ? 'focused' : ''}`}>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    placeholder=" "
+                    value={newUser.confirmPassword}
+                    onChange={handleInputChange}
+                    onFocus={() => handleFocus('confirmPassword')}
+                    onBlur={() => handleBlur('confirmPassword')}
+                    required
+                  />
+                  <label htmlFor="confirmPassword">Confirm Password</label>
+                  <div className="input-highlight"></div>
+                  {passwordError && <p className="error-message">{passwordError}</p>}
+                </div>
+                
+                <div className={`form-floating ${focusedInputs.roleName || newUser.roleName ? 'focused' : ''}`}>
+                  <select
+                    id="roleName"
+                    name="roleName"
+                    value={newUser.roleName}
+                    onChange={handleInputChange}
+                    onFocus={() => handleFocus('roleName')}
+                    onBlur={() => handleBlur('roleName')}
+                  >
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
+                  </select>
+                  <label htmlFor="roleName">Role</label>
+                  <div className="input-highlight"></div>
+                </div>
+                
+                <div className="modal-actions">
+                  <button 
+                    type="button" 
+                    className="cancel-button"
+                    onClick={() => setShowRegisterModal(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    type="submit" 
+                    className={`register-button ${isRegistering ? 'loading' : ''}`}
+                    disabled={isRegistering}
+                  >
+                    {isRegistering ? (
+                      <div className="spinner"></div>
+                    ) : 'Register Admin'}
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       )}

@@ -7,13 +7,13 @@ const ProtectedRoute = ({ children, requiredRole }) => {
   const { user, loading } = useUser();
   
   // Logging for debugging
-  console.log("ProtectedRoute check:", { 
-    user, 
-    userRoleName: user?.roleName, 
-    requiredRole, 
-    loading,
-    hasAccess: user?.roleName === requiredRole
-  });
+  // console.log("ProtectedRoute check:", { 
+  //   user, 
+  //   userRoleName: user?.roleName, 
+  //   requiredRole, 
+  //   loading,
+  //   hasAccess: user?.roleName === requiredRole
+  // });
   
   // Show loading indicator while checking authentication
   if (loading) {
@@ -33,7 +33,7 @@ const ProtectedRoute = ({ children, requiredRole }) => {
   
   // If role is required, check user's role
   if (requiredRole && user.roleName !== requiredRole) {
-    console.log(`User role (${user.roleName}) doesn't match required role (${requiredRole}), redirecting to 404 page`);
+    // console.log(`User role (${user.roleName}) doesn't match required role (${requiredRole}), redirecting to 404 page`);
     
     // Chuyển hướng đến trang 404 Not Found thay vì hiển thị trang từ chối quyền truy cập
     return <Navigate to="/404" replace />;

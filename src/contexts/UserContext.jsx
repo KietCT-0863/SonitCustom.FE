@@ -25,7 +25,7 @@ export const UserProvider = ({ children }) => {
           const userData = await api.get('/User/me');
           
           if (userData) {
-            console.log("Session is valid, setting user data:", userData);
+            // console.log("Session is valid, setting user data:", userData);
             setUser(userData);
             localStorage.setItem('userData', JSON.stringify(userData));
           } else {

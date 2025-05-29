@@ -12,7 +12,7 @@ const AuthService = {
         password: credentials.password
       });
       
-      console.log("Login response:", response);
+      // console.log("Login response:", response);
       
       // If login was successful
       if (response && response.message && response.message.includes("thành công")) {
@@ -22,7 +22,7 @@ const AuthService = {
         try {
           // After login, fetch user data
           const userData = await api.get('/User/me');
-          console.log("User data response:", userData);
+          // console.log("User data response:", userData);
           
           if (userData) {
             // Store user data in localStorage

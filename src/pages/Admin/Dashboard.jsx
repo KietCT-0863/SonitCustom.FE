@@ -6,6 +6,7 @@ import './Dashboard.css';
 // Import child components
 import DashboardPage from './Dashboard/index';
 import ProductsPage from './Products/index';
+import CategoriesPage from './Categories/index';
 import OrdersPage from './Orders/index';
 import UsersPage from './Users/index';
 import SettingsPage from './Settings/index';
@@ -16,6 +17,7 @@ import DebugPage from './Debug/index';
 const sidebarItems = [
   { id: 'dashboard', label: 'Dashboard', icon: '📊' },
   { id: 'products', label: 'Products', icon: '🛒' },
+  { id: 'categories', label: 'Categories', icon: '🏷️' },
   { id: 'orders', label: 'Orders', icon: '📦' },
   { id: 'users', label: 'Users', icon: '👥' },
   { id: 'analytics', label: 'Analytics', icon: '📈' },
@@ -34,7 +36,7 @@ const AdminDashboard = () => {
   const isValidSection = sidebarItems.some(item => item.id === section);
   const activeSection = isValidSection ? section : 'dashboard';
   
-  console.log("AdminDashboard mounted with user:", user);
+  // console.log("AdminDashboard mounted with user:", user);
   
   // Simulate data fetching on component mount
   useEffect(() => {
@@ -75,6 +77,8 @@ const AdminDashboard = () => {
         return <DashboardPage />;
       case 'products':
         return <ProductsPage />;
+      case 'categories':
+        return <CategoriesPage />;
       case 'orders':
         return <OrdersPage />;
       case 'users':
