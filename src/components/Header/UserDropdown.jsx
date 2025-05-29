@@ -75,17 +75,17 @@ const UserDropdown = () => {
           <ul className="dropdown-menu-items">
             <li>
               <Link to="/account/profile" className="dropdown-item">
-                Thông tin người dùng
+                <i className="fas fa-user"></i> Thông tin người dùng
               </Link>
             </li>
             <li>
               <Link to="/account/orders/manage" className="dropdown-item">
-                Quản lý đơn hàng
+                <i className="fas fa-clipboard-list"></i> Quản lý đơn hàng
               </Link>
             </li>
             <li>
               <Link to="/account/orders/history" className="dropdown-item">
-                Lịch sử đơn hàng
+                <i className="fas fa-history"></i> Lịch sử đơn hàng
               </Link>
             </li>
             
@@ -93,7 +93,7 @@ const UserDropdown = () => {
             {isAdmin() && (
               <li>
                 <Link to="/admin" className="dropdown-item admin-item">
-                  Admin Dashboard
+                  <i className="fas fa-cogs"></i> Admin Dashboard
                 </Link>
               </li>
             )}
@@ -102,7 +102,7 @@ const UserDropdown = () => {
             
             <li>
               <button onClick={handleLogout} className="dropdown-item logout-item">
-                Đăng xuất
+                <i className="fas fa-sign-out-alt"></i> Đăng xuất
               </button>
             </li>
           </ul>

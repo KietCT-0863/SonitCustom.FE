@@ -17,6 +17,7 @@ import LoginPage from './pages/Login'
 import RegisterPage from './pages/Register'
 import NotFoundPage from './pages/NotFound'
 import AdminDashboard from './pages/Admin/Dashboard'
+import ProfilePage from './pages/Account/Profile'
 import ProtectedRoute from './components/ProtectedRoute'
 
 createRoot(document.getElementById('root')).render(
@@ -50,6 +51,15 @@ createRoot(document.getElementById('root')).render(
           {/* Main routes với MainLayout */}
           <Route path="/" element={<MainLayout />}>
             <Route index element={<HomePage />} />
+            
+            {/* Account routes (protected) */}
+            <Route path="account">
+              <Route path="profile" element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              } />
+            </Route>
             
             {/* Store routes */}
             <Route path="store">
