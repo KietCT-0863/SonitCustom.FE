@@ -71,21 +71,14 @@
   color: #ffffff;
 }
 
+/* Xóa phần gạch chân */
 .nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background-color: #D4C9BE;
-  transition: all 0.3s ease;
-  transform: translateX(-50%);
+  display: none;
 }
 
 .nav-item:hover .nav-link::after,
 .nav-item.active .nav-link::after {
-  width: 80%;
+  display: none;
 }
 
 .dropdown-arrow {
@@ -775,24 +768,13 @@
   transform: translateY(-3px);
 }
 
-/* Hiệu ứng gạch chân khi hover vào menu item */
+/* Xóa hiệu ứng gạch chân khi hover */
 .nav-links .nav-item > a::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background-color: var(--accent-color);
-  transition: width 0.3s;
+  display: none;
 }
 
 .nav-links .nav-item:hover > a::after {
-  width: 100%;
-}
-
-.nav-links .nav-item:hover > a {
-  color: #D4C9BE;
+  display: none;
 }
 
 /* Mobile submenu with descriptions */

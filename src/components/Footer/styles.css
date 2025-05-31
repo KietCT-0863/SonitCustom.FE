@@ -10,11 +10,10 @@
 .footer .logo {
   height: 40px;
   margin: 1rem 0;
-  transition: transform 0.3s ease;
 }
 
 .footer .logo:hover {
-  transform: scale(1.05);
+  transform: none;
 }
 
 .social-links {

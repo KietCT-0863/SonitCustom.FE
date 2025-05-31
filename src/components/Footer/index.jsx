@@ -14,7 +14,7 @@ const Footer = () => {
         <a href="https://tiktok.com"></a>
       </div>
       <div className="footer-logo">
-        <Logo size="large" animated={true} linkTo="/" />
+        <Logo size="large" animated={false} linkTo="/" />
       </div>
       <p className="slogan font-effect-outline">BORN TO PERFORM</p>
       <p className="copyright">© 2025 Sonic Custom. All rights reserved.</p>
