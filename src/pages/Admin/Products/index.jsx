@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './styles.css';
 import ProductService from '../../../services/product.service';
+import { useUser } from '../../../contexts/UserContext';
 
 const Products = () => {
+  const { isAdmin } = useUser();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState({
@@ -17,37 +21,81 @@ const Products = () => {
     description: '',
     imgUrl: '',
     price: 0,
-    category: 1,
+    category: 1, // Default to first category
     isCustom: false
   });
   const [formErrors, setFormErrors] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState({ show: false, id: null });
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [actionLoading, setActionLoading] = useState(false); // Loading state for actions like create, update, delete
 
-  // Load products and categories
+  // Check admin access and authenticate
   useEffect(() => {
-    fetchProducts();
-    fetchCategories();
-  }, []);
+    const checkAuth = async () => {
+      // Verify admin status on component load
+      if (!isAdmin || typeof isAdmin !== 'function' || !isAdmin()) {
+        navigate('/login?redirect=' + encodeURIComponent('/admin/products'));
+        return;
+      }
+      
+      try {
+        setLoading(true);
+        // Verify authentication status
+        const isAuthenticated = await ProductService.checkAuthStatus();
+        
+        if (!isAuthenticated) {
+          console.log("Xác thực thất bại, đang chuyển hướng đến trang đăng nhập");
+          navigate('/login?redirect=' + encodeURIComponent('/admin/products'));
+          return;
+        }
+        
+        // Load initial data
+        await loadData();
+      } catch (error) {
+        console.error('Auth check failed:', error);
+        setErrorMessage('Không thể xác minh trạng thái đăng nhập. Vui lòng tải lại trang.');
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    checkAuth();
+  }, [isAdmin, navigate]);
   
-  const fetchProducts = async () => {
+  // Function to load both products and categories
+  const loadData = async () => {
     setLoading(true);
+    setErrorMessage('');
+    
     try {
-      const response = await ProductService.getProducts();
-      setProductList(response);
+      console.log("Đang tải dữ liệu...");
+      // Load categories first
+      const categoriesResponse = await ProductService.getCategories();
+      setCategories(categoriesResponse);
+      
+      // Then load products
+      const productsResponse = await ProductService.getProducts();
+      setProductList(productsResponse);
+      
+      console.log("Tải dữ liệu thành công:", {
+        categories: categoriesResponse.length,
+        products: productsResponse.length
+      });
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error('Error loading data:', error);
+      
+      // Handle authentication errors
+      if (error?.message?.includes('đăng nhập')) {
+        console.log("Session hết hạn, đang chuyển hướng đến trang đăng nhập");
+        navigate('/login?redirect=' + encodeURIComponent('/admin/products'));
+        return;
+      }
+      
+      setErrorMessage(error?.message || 'Không thể tải dữ liệu. Vui lòng thử lại sau.');
     } finally {
       setLoading(false);
-    }
-  };
-  
-  const fetchCategories = async () => {
-    try {
-      const response = await ProductService.getCategories();
-      setCategories(response);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
     }
   };
   
@@ -55,49 +103,78 @@ const Products = () => {
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters(prev => ({ ...prev, [name]: value }));
-    
-    // Apply filtering
-    setLoading(true);
-    setTimeout(() => setLoading(false), 400);
   };
   
   // Handle search
   const handleSearch = (e) => {
     e.preventDefault();
-    // Filter products by search term in name or description
-    setLoading(true);
-    setTimeout(() => setLoading(false), 400);
+    // Filter is applied in filteredProducts computation
   };
 
   // Filter products based on search term and category
-  const filteredProducts = productList.filter(product => {
+  const filteredProducts = productList?.filter(product => {
+    // Search by name or description
     const matchesSearch = 
       searchTerm === '' || 
-      product.proName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.description.toLowerCase().includes(searchTerm.toLowerCase());
+      product.proName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.description?.toLowerCase().includes(searchTerm.toLowerCase());
     
+    // Filter by category
     const matchesCategory = 
       filters.category === '' || 
-      product.category.toLowerCase() === filters.category.toLowerCase();
+      product.category?.toLowerCase() === filters.category.toLowerCase();
     
     return matchesSearch && matchesCategory;
-  });
+  }) || [];
   
   // Form handling
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+    
+    // Special handling for price
+    if (name === 'price') {
+      const numValue = parseFloat(value);
+      // Allow empty string (will be converted to 0 later) or valid numbers
+      if (value === '' || (!isNaN(numValue) && isFinite(numValue))) {
+        setFormData(prev => ({
+          ...prev,
+          [name]: value === '' ? 0 : numValue
+        }));
+      }
+      return;
+    }
+    
+    // Normal handling for other fields
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : type === 'number' ? Number(value) : value
+      [name]: type === 'checkbox' ? checked : value
     }));
   };
   
   const validateForm = () => {
     const errors = {};
-    if (!formData.proName) errors.proName = 'Product name is required';
-    if (!formData.description) errors.description = 'Description is required';
-    if (!formData.imgUrl) errors.imgUrl = 'Image URL is required';
-    if (formData.price < 0) errors.price = 'Price cannot be negative';
+    
+    if (!formData.proName?.trim()) {
+      errors.proName = 'Tên sản phẩm không được để trống';
+    } else if (formData.proName.length < 3 || formData.proName.length > 100) {
+      errors.proName = 'Tên sản phẩm phải có từ 3 đến 100 ký tự';
+    }
+    
+    if (!formData.description?.trim()) {
+      errors.description = 'Mô tả không được để trống';
+    }
+    
+    if (!formData.imgUrl?.trim()) {
+      errors.imgUrl = 'URL hình ảnh không được để trống';
+    }
+    
+    if (formData.price < 0) {
+      errors.price = 'Giá không được âm';
+    }
+    
+    if (!formData.category) {
+      errors.category = 'Danh mục không được để trống';
+    }
     
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
@@ -107,52 +184,158 @@ const Products = () => {
     e.preventDefault();
     if (!validateForm()) return;
     
-    setLoading(true);
+    setActionLoading(true);
+    setErrorMessage('');
+    setSuccessMessage('');
+    
     try {
       if (isEditing && currentProduct) {
-        // Update: only include changed fields (null otherwise)
+        // UPDATE PRODUCT
+        // Chỉ bao gồm các trường thực sự thay đổi
         const updateData = {};
-        Object.keys(formData).forEach(key => {
-          // If the form value is different from the current product's value
-          if (formData[key] !== currentProduct[key]) {
-            updateData[key] = formData[key];
-          } else {
-            updateData[key] = null; // Use null for unchanged values
-          }
-        });
         
-        await ProductService.updateProduct(currentProduct.prodId, updateData);
+        // So sánh với sản phẩm hiện tại và chỉ bao gồm các trường đã thay đổi
+        if (formData.proName !== currentProduct.proName) {
+          updateData.proName = formData.proName;
+        }
+        
+        if (formData.description !== currentProduct.description) {
+          updateData.description = formData.description;
+        }
+        
+        if (formData.imgUrl !== currentProduct.imgUrl) {
+          updateData.imgUrl = formData.imgUrl;
+        }
+        
+        // Xử lý giá riêng biệt (có thể là 0)
+        if (formData.price !== currentProduct.price) {
+          updateData.price = formData.price;
+        }
+        
+        // Đối với danh mục, kiểm tra xem tên danh mục đã thay đổi chưa
+        const currentCategoryId = getCategoryIdByName(currentProduct.category);
+        if (parseInt(formData.category) !== currentCategoryId) {
+          updateData.category = parseInt(formData.category);
+        }
+        
+        if (formData.isCustom !== currentProduct.isCustom) {
+          updateData.isCustom = formData.isCustom;
+        }
+        
+        // Kiểm tra nếu có thay đổi thực sự
+        if (Object.keys(updateData).length === 0) {
+          setErrorMessage('Không phát hiện thay đổi nào');
+          setActionLoading(false);
+          return;
+        }
+        
+        console.log(`Đang cập nhật sản phẩm ID: ${currentProduct.prodId}`, updateData);
+        
+        try {
+          const result = await ProductService.updateProduct(currentProduct.prodId, updateData);
+          console.log('Kết quả cập nhật sản phẩm:', result);
+          setSuccessMessage(result.message || 'Cập nhật sản phẩm thành công');
+          setShowModal(false);
+          await loadData(); // Tải lại dữ liệu sau khi cập nhật
+        } catch (error) {
+          console.error('Lỗi cập nhật sản phẩm:', error);
+          
+          // Kiểm tra lỗi xác thực
+          if (error?.message?.includes('đăng nhập')) {
+            setErrorMessage('Phiên đăng nhập hết hạn, đang chuyển hướng...');
+            setTimeout(() => {
+              navigate('/login?redirect=' + encodeURIComponent('/admin/products'));
+            }, 1000);
+            return;
+          }
+          
+          // Hiển thị thông báo lỗi chi tiết từ server
+          setErrorMessage(
+            typeof error === 'object' && error !== null && error.message 
+              ? error.message 
+              : (typeof error === 'string' ? error : 'Có lỗi khi cập nhật sản phẩm')
+          );
+        }
       } else {
-        // Create
-        await ProductService.createProduct(formData);
+        // CREATE PRODUCT
+        // Đảm bảo các trường có giá trị hợp lệ
+        const createData = {
+          proName: formData.proName.trim(),
+          description: formData.description.trim(),
+          imgUrl: formData.imgUrl.trim(),
+          price: parseFloat(formData.price), // Chuyển thành số
+          category: parseInt(formData.category)
+        };
+        
+        console.log('Đang tạo sản phẩm mới:', createData);
+        
+        try {
+          const result = await ProductService.createProduct(createData);
+          console.log('Kết quả tạo sản phẩm:', result);
+          setSuccessMessage(result.message || 'Thêm sản phẩm thành công');
+          setShowModal(false);
+          await loadData(); // Tải lại dữ liệu sau khi tạo
+        } catch (error) {
+          console.error('Lỗi tạo sản phẩm:', error);
+          
+          // Kiểm tra lỗi xác thực
+          if (error?.message?.includes('đăng nhập')) {
+            setErrorMessage('Phiên đăng nhập hết hạn, đang chuyển hướng...');
+            setTimeout(() => {
+              navigate('/login?redirect=' + encodeURIComponent('/admin/products'));
+            }, 1000);
+            return;
+          }
+          
+          // Hiển thị thông báo lỗi chi tiết từ server
+          setErrorMessage(
+            typeof error === 'object' && error !== null && error.message 
+              ? error.message 
+              : (typeof error === 'string' ? error : 'Có lỗi khi thêm sản phẩm mới')
+          );
+        }
       }
-      
-      setShowModal(false);
-      fetchProducts(); // Refresh the product list
     } catch (error) {
-      console.error('Error saving product:', error);
-      alert('Failed to save product. Please try again.');
+      console.error('Lỗi gửi form:', error);
+      setErrorMessage('Có lỗi xảy ra. Vui lòng đảm bảo bạn đã đăng nhập với quyền admin.');
     } finally {
-      setLoading(false);
+      setActionLoading(false);
     }
   };
   
   const handleDelete = async (productId) => {
-    setLoading(true);
+    setActionLoading(true);
+    setErrorMessage('');
+    setSuccessMessage('');
+    
     try {
-      await ProductService.deleteProduct(productId);
-      fetchProducts(); // Refresh the product list
+      console.log(`Đang xóa sản phẩm ID: ${productId}`);
+      const result = await ProductService.deleteProduct(productId);
+      setSuccessMessage(result.message || 'Đã xóa sản phẩm thành công');
       setDeleteConfirmation({ show: false, id: null });
+      await loadData(); // Reload data after delete
     } catch (error) {
       console.error('Error deleting product:', error);
-      alert('Failed to delete product. Please try again.');
+      
+      // Check for auth error
+      if (error?.message?.includes('đăng nhập')) {
+        setErrorMessage('Phiên đăng nhập hết hạn, đang chuyển hướng...');
+        setDeleteConfirmation({ show: false, id: null });
+        setTimeout(() => {
+          navigate('/login?redirect=' + encodeURIComponent('/admin/products'));
+        }, 1000);
+        return;
+      }
+      
+      setErrorMessage(error?.message || 'Có lỗi khi xóa sản phẩm');
     } finally {
-      setLoading(false);
+      setActionLoading(false);
     }
   };
   
-  // Add new product button handler
+  // Add new product
   const handleAddNewClick = () => {
+    // Initialize with default values
     setFormData({
       proName: '',
       description: '',
@@ -161,34 +344,73 @@ const Products = () => {
       category: categories.length > 0 ? categories[0].cateId : 1,
       isCustom: false
     });
+    
     setFormErrors({});
     setIsEditing(false);
     setCurrentProduct(null);
+    setErrorMessage('');
+    setSuccessMessage('');
     setShowModal(true);
   };
   
-  // Edit product button handler
+  // Edit existing product
   const handleEditClick = (product) => {
+    // Find the category ID based on the category name from the product
+    const categoryId = getCategoryIdByName(product.category);
+    
     setFormData({
       proName: product.proName,
       description: product.description,
       imgUrl: product.imgUrl,
       price: product.price,
-      category: categories.find(cat => cat.cateName.toLowerCase() === product.category.toLowerCase())?.cateId || 1,
+      category: categoryId,
       isCustom: product.isCustom
     });
+    
     setFormErrors({});
     setIsEditing(true);
     setCurrentProduct(product);
+    setErrorMessage('');
+    setSuccessMessage('');
     setShowModal(true);
   };
   
   // Get category name from category ID
   const getCategoryName = (categoryId) => {
-    const category = categories.find(cat => cat.cateId === categoryId);
+    if (!categories) return '';
+    const category = categories.find(cat => cat.cateId === parseInt(categoryId));
     return category ? category.cateName : '';
   };
+  
+  // Get category ID from category name
+  const getCategoryIdByName = (categoryName) => {
+    if (!categories || !categoryName) return 1; // Default to first category
+    
+    const category = categories.find(cat => 
+      cat.cateName?.toLowerCase() === categoryName.toLowerCase()
+    );
+    
+    return category ? category.cateId : 1;
+  };
 
+  // Retry data loading
+  const handleRetryDataLoading = () => {
+    loadData();
+  };
+
+  // Handle sign out
+  const handleSignOut = async () => {
+    try {
+      await ProductService.logout();
+      navigate('/login');
+    } catch (error) {
+      console.error("Lỗi đăng xuất:", error);
+      // Still redirect even if logout API fails
+      navigate('/login');
+    }
+  };
+
+  // Loading skeleton
   if (loading) {
     return (
       <div className="products-container">
@@ -238,118 +460,144 @@ const Products = () => {
     );
   }
 
+  // Main component render
   return (
     <div className="products-container">
       {/* Header with button */}
       <div className="admin-card">
         <div className="section-header">
           <div>
-            <h2>Product Management</h2>
-            <p className="section-subtitle">Manage your store's inventory</p>
+            <h2>Quản lý sản phẩm</h2>
+            <p className="section-subtitle">Quản lý danh sách sản phẩm của cửa hàng</p>
           </div>
           <div className="header-actions">
-            <button className="admin-action-button" onClick={handleAddNewClick}>
-              <span>➕</span> Add Product
+            <button 
+              className="admin-btn admin-btn-primary"
+              onClick={handleAddNewClick}
+              disabled={actionLoading}
+            >
+              {actionLoading ? 'Đang xử lý...' : 'Thêm sản phẩm mới'}
+            </button>
+            <button 
+              className="admin-btn admin-btn-secondary"
+              onClick={handleRetryDataLoading}
+              disabled={actionLoading || loading}
+              style={{ marginLeft: '10px' }}
+            >
+              Tải lại dữ liệu
+            </button>
+            <button 
+              className="admin-btn admin-btn-secondary"
+              onClick={handleSignOut}
+              disabled={actionLoading}
+              style={{ marginLeft: '10px' }}
+            >
+              Đăng xuất
             </button>
           </div>
         </div>
       </div>
       
-      {/* Filter controls */}
-      <div className="admin-card filter-controls">
-        <form onSubmit={handleSearch} className="search-filters-container">
-          <div className="admin-search-container">
-            <span className="admin-search-icon">🔍</span>
-            <input 
-              type="text" 
-              className="admin-search-input" 
-              placeholder="Search products..." 
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <button type="submit" className="admin-action-button search-button">Search</button>
+      {/* Error message display */}
+      {errorMessage && (
+        <div className="admin-alert admin-alert-error">
+          <span>❌</span>
+          <span>{errorMessage}</span>
+          <button onClick={() => setErrorMessage('')}>×</button>
+        </div>
+      )}
+      
+      {/* Success message display */}
+      {successMessage && (
+        <div className="admin-alert admin-alert-success">
+          <span>✅</span>
+          <span>{successMessage}</span>
+          <button onClick={() => setSuccessMessage('')}>×</button>
+        </div>
+      )}
+      
+      {/* Filters and search */}
+      <div className="admin-card">
+        <div className="filters-container">
+          <div className="search-container">
+            <form onSubmit={handleSearch}>
+              <input
+                type="text"
+                placeholder="Tìm kiếm sản phẩm..."
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+              />
+              <button type="submit">
+                <span>🔍</span>
+              </button>
+            </form>
           </div>
           
-          <div className="filters-row">
-            <div className="admin-form-group">
-              <label htmlFor="category" className="admin-form-label">Category:</label>
+          <div className="filter-selects">
+            <div className="filter-select">
+              <label>Danh mục:</label>
               <select 
-                id="category"
                 name="category"
-                className="admin-form-input"
                 value={filters.category}
                 onChange={handleFilterChange}
               >
-                <option value="">All Categories</option>
-                {categories.map(category => (
-                  <option key={category.cateId} value={category.cateName}>{category.cateName}</option>
+                <option value="">Tất cả danh mục</option>
+                {categories?.map(category => (
+                  <option key={category.cateId} value={category.cateName}>
+                    {category.cateName}
+                  </option>
                 ))}
               </select>
             </div>
-            
-            {(filters.category) && (
-              <button 
-                className="admin-action-button secondary clear-filters-btn"
-                onClick={() => setFilters({ category: '' })}
-                type="button"
-              >
-                Clear Filters
-              </button>
-            )}
           </div>
-        </form>
+        </div>
       </div>
       
-      {/* Products table */}
+      {/* Product table */}
       <div className="admin-recent-section">
         <div className="admin-table-container">
           <table className="admin-table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Product Name</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Custom</th>
-                <th>Actions</th>
+                <th>Mã SP</th>
+                <th>Tên sản phẩm</th>
+                <th>Hình ảnh</th>
+                <th>Giá (₫)</th>
+                <th>Danh mục</th>
+                <th>Thao tác</th>
               </tr>
             </thead>
             <tbody>
-              {filteredProducts.length === 0 ? (
-                <tr>
-                  <td colSpan="6" className="empty-state">
-                    <div className="admin-empty-state">
-                      <div className="admin-empty-icon">📦</div>
-                      <h3 className="admin-empty-title">No products found</h3>
-                      <p className="admin-empty-text">Try adjusting your filters or add a new product</p>
-                    </div>
-                  </td>
-                </tr>
-              ) : (
+              {filteredProducts.length > 0 ? (
                 filteredProducts.map(product => (
                   <tr key={product.prodId}>
                     <td>{product.prodId}</td>
-                    <td><strong>{product.proName}</strong></td>
-                    <td>{product.category}</td>
-                    <td>{product.price.toLocaleString('vi-VN')} đ</td>
+                    <td>{product.proName}</td>
                     <td>
-                      <span className={`admin-status ${product.isCustom ? 'status-success' : 'status-warning'}`}>
-                        {product.isCustom ? 'Yes' : 'No'}
-                      </span>
+                      <img 
+                        src={product.imgUrl} 
+                        alt={product.proName}
+                        className="product-thumbnail"
+                        onError={(e) => {
+                          e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZWVlZWVlIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM5OTk5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGFsaWdubWVudC1iYXNlbGluZT0ibWlkZGxlIj5ObyBJbWFnZTwvdGV4dD48L3N2Zz4=';
+                        }}
+                      />
                     </td>
+                    <td>{product.price.toLocaleString('vi-VN')}</td>
+                    <td>{product.category}</td>
                     <td>
-                      <div className="admin-actions">
+                      <div className="action-buttons">
                         <button 
-                          className="admin-action-btn edit" 
-                          title="Edit product"
+                          className="action-btn edit"
                           onClick={() => handleEditClick(product)}
+                          disabled={actionLoading}
                         >
                           <span>✏️</span>
                         </button>
                         <button 
-                          className="admin-action-btn delete" 
-                          title="Delete product"
+                          className="action-btn delete"
                           onClick={() => setDeleteConfirmation({ show: true, id: product.prodId })}
+                          disabled={actionLoading}
                         >
                           <span>🗑️</span>
                         </button>
@@ -357,106 +605,149 @@ const Products = () => {
                     </td>
                   </tr>
                 ))
+              ) : (
+                <tr>
+                  <td colSpan="6" className="no-data">
+                    Không tìm thấy sản phẩm nào
+                  </td>
+                </tr>
               )}
             </tbody>
           </table>
         </div>
       </div>
-
-      {/* Add/Edit Product Modal */}
+      
+      {/* Product modal */}
       {showModal && (
-        <div className="admin-modal-overlay">
+        <div className="modal-overlay">
           <div className="admin-modal">
-            <div className="admin-modal-header">
-              <h3>{isEditing ? 'Edit Product' : 'Add New Product'}</h3>
-              <button className="close-button" onClick={() => setShowModal(false)}>×</button>
+            <div className="modal-header">
+              <h2>{isEditing ? "Sửa sản phẩm" : "Thêm sản phẩm mới"}</h2>
+              <button 
+                className="modal-close"
+                onClick={() => setShowModal(false)}
+                disabled={actionLoading}
+              >
+                &times;
+              </button>
             </div>
-            <div className="admin-modal-body">
+            
+            <div className="modal-content">
               <form onSubmit={handleSubmit}>
-                <div className="admin-form-group">
-                  <label>Product Name</label>
+                <div className="form-group">
+                  <label>Tên sản phẩm</label>
                   <input
                     type="text"
                     name="proName"
-                    value={formData.proName}
+                    value={formData.proName || ''}
                     onChange={handleInputChange}
-                    className={`admin-form-input ${formErrors.proName ? 'is-invalid' : ''}`}
+                    required
+                    disabled={actionLoading}
                   />
-                  {formErrors.proName && <div className="admin-form-error">{formErrors.proName}</div>}
+                  {formErrors.proName && <span className="error">{formErrors.proName}</span>}
                 </div>
                 
-                <div className="admin-form-group">
-                  <label>Description</label>
+                <div className="form-group">
+                  <label>Mô tả</label>
                   <textarea
                     name="description"
-                    value={formData.description}
+                    value={formData.description || ''}
                     onChange={handleInputChange}
-                    className={`admin-form-input ${formErrors.description ? 'is-invalid' : ''}`}
-                    rows="3"
+                    rows="4"
+                    required
+                    disabled={actionLoading}
                   ></textarea>
-                  {formErrors.description && <div className="admin-form-error">{formErrors.description}</div>}
+                  {formErrors.description && <span className="error">{formErrors.description}</span>}
                 </div>
                 
-                <div className="admin-form-group">
-                  <label>Image URL</label>
+                <div className="form-group">
+                  <label>URL Hình ảnh</label>
                   <input
-                    type="text"
+                    type="url"
                     name="imgUrl"
-                    value={formData.imgUrl}
+                    value={formData.imgUrl || ''}
                     onChange={handleInputChange}
-                    className={`admin-form-input ${formErrors.imgUrl ? 'is-invalid' : ''}`}
+                    required
+                    disabled={actionLoading}
                   />
-                  {formErrors.imgUrl && <div className="admin-form-error">{formErrors.imgUrl}</div>}
+                  {formErrors.imgUrl && <span className="error">{formErrors.imgUrl}</span>}
+                  {formData.imgUrl && (
+                    <div className="img-preview">
+                      <img 
+                        src={formData.imgUrl} 
+                        alt="Product Preview"
+                        onError={(e) => {
+                          e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2VlZWVlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LXNpemU9IjE0IiBmaWxsPSIjOTk5OTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBhbGlnbm1lbnQtYmFzZWxpbmU9Im1pZGRsZSI+SW1hZ2UgbG9hZCBlcnJvcjwvdGV4dD48L3N2Zz4=';
+                        }}
+                      />
+                    </div>
+                  )}
                 </div>
                 
-                <div className="admin-form-group">
-                  <label>Price (VND)</label>
+                <div className="form-group">
+                  <label>Giá (₫)</label>
                   <input
                     type="number"
                     name="price"
                     value={formData.price}
                     onChange={handleInputChange}
-                    className={`admin-form-input ${formErrors.price ? 'is-invalid' : ''}`}
+                    min="0"
+                    step="1"
+                    required
+                    disabled={actionLoading}
                   />
-                  {formErrors.price && <div className="admin-form-error">{formErrors.price}</div>}
+                  {formErrors.price && <span className="error">{formErrors.price}</span>}
                 </div>
                 
-                <div className="admin-form-group">
-                  <label>Category</label>
+                <div className="form-group">
+                  <label>Danh mục</label>
                   <select
                     name="category"
                     value={formData.category}
                     onChange={handleInputChange}
-                    className="admin-form-input"
+                    required
+                    disabled={actionLoading}
                   >
-                    {categories.map(category => (
+                    {categories?.map(category => (
                       <option key={category.cateId} value={category.cateId}>
                         {category.cateName}
                       </option>
                     ))}
                   </select>
+                  {formErrors.category && <span className="error">{formErrors.category}</span>}
                 </div>
                 
-                <div className="admin-form-check">
-                  <input
-                    type="checkbox"
-                    id="isCustom"
-                    name="isCustom"
-                    checked={formData.isCustom}
-                    onChange={handleInputChange}
-                    className="admin-form-check-input"
-                  />
-                  <label htmlFor="isCustom" className="admin-form-check-label">
-                    Is Custom Product
+                <div className="form-group checkbox-group">
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="isCustom"
+                      checked={formData.isCustom || false}
+                      onChange={handleInputChange}
+                      disabled={actionLoading}
+                    />
+                    Sản phẩm tùy chỉnh
                   </label>
+                  <div className="help-text">
+                    Đánh dấu sản phẩm này là có thể tùy chỉnh theo yêu cầu của khách hàng
+                  </div>
                 </div>
                 
-                <div className="admin-modal-footer">
-                  <button type="button" className="admin-button secondary" onClick={() => setShowModal(false)}>
-                    Cancel
+                <div className="form-actions">
+                  <button 
+                    type="button" 
+                    className="admin-btn admin-btn-secondary"
+                    onClick={() => setShowModal(false)}
+                    disabled={actionLoading}
+                  >
+                    Hủy
                   </button>
-                  <button type="submit" className="admin-button primary">
-                    {isEditing ? 'Update' : 'Create'}
+                  <button 
+                    type="submit" 
+                    className="admin-btn admin-btn-primary"
+                    disabled={actionLoading}
+                  >
+                    {actionLoading ? 'Đang xử lý...' : (isEditing ? "Lưu thay đổi" : "Tạo sản phẩm")}
                   </button>
                 </div>
               </form>
@@ -464,25 +755,42 @@ const Products = () => {
           </div>
         </div>
       )}
-
-      {/* Delete Confirmation Modal */}
+      
+      {/* Delete confirmation modal */}
       {deleteConfirmation.show && (
-        <div className="admin-modal-overlay">
-          <div className="admin-modal confirm-modal">
-            <div className="admin-modal-header">
-              <h3>Confirm Delete</h3>
-              <button className="close-button" onClick={() => setDeleteConfirmation({ show: false, id: null })}>×</button>
-            </div>
-            <div className="admin-modal-body">
-              <p>Are you sure you want to delete this product? This action cannot be undone.</p>
-            </div>
-            <div className="admin-modal-footer">
-              <button type="button" className="admin-button secondary" onClick={() => setDeleteConfirmation({ show: false, id: null })}>
-                Cancel
+        <div className="modal-overlay">
+          <div className="admin-modal delete-modal">
+            <div className="modal-header">
+              <h2>Xác nhận xóa</h2>
+              <button 
+                className="modal-close"
+                onClick={() => setDeleteConfirmation({ show: false, id: null })}
+                disabled={actionLoading}
+              >
+                &times;
               </button>
-              <button type="button" className="admin-button danger" onClick={() => handleDelete(deleteConfirmation.id)}>
-                Delete
-              </button>
+            </div>
+            
+            <div className="modal-content">
+              <p>Bạn có chắc chắn muốn xóa sản phẩm này?</p>
+              <p className="warning">Thao tác này không thể hoàn tác.</p>
+              
+              <div className="form-actions">
+                <button 
+                  className="admin-btn admin-btn-secondary"
+                  onClick={() => setDeleteConfirmation({ show: false, id: null })}
+                  disabled={actionLoading}
+                >
+                  Hủy
+                </button>
+                <button 
+                  className="admin-btn admin-btn-danger"
+                  onClick={() => handleDelete(deleteConfirmation.id)}
+                  disabled={actionLoading}
+                >
+                  {actionLoading ? 'Đang xử lý...' : 'Xóa'}
+                </button>
+              </div>
             </div>
           </div>
         </div>

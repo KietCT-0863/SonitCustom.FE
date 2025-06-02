@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import AuthService from '../../services/auth.service';
 import { useUser } from '../../contexts/UserContext';
 import './styles.css';
@@ -7,7 +7,12 @@ import { FaGoogle, FaFacebook, FaApple } from 'react-icons/fa';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login: userContextLogin, user } = useUser();
+  
+  // Get redirect path from query parameters
+  const queryParams = new URLSearchParams(location.search);
+  const redirectPath = queryParams.get('redirect') || '/';
   
   const [formData, setFormData] = useState({
     username: '',
@@ -81,16 +86,27 @@ const LoginPage = () => {
   // Redirect if already logged in
   useEffect(() => {
     if (user) {
+      // Check for stored redirect path first
+      const storedRedirect = localStorage.getItem('redirectAfterLogin');
+      const targetRedirect = storedRedirect || redirectPath;
+      
+      // Clear stored redirect
+      localStorage.removeItem('redirectAfterLogin');
+      
       // Check if the user is an admin
-      if (user.roleName && user.roleName.toLowerCase() === 'admin') {
-        // Redirect admin users to admin dashboard
-        navigate('/admin/dashboard', { replace: true });
+      if (user.roleName?.toLowerCase() === 'admin') {
+        // If trying to access an admin page, go there, otherwise go to admin dashboard
+        if (targetRedirect.includes('/admin/')) {
+          navigate(targetRedirect, { replace: true });
+        } else {
+          navigate('/admin/dashboard', { replace: true });
+        }
       } else {
-        // Redirect regular users to home page
-        navigate('/', { replace: true });
+        // Redirect regular users to home or the requested path
+        navigate(targetRedirect || '/', { replace: true });
       }
     }
-  }, [user, navigate]);
+  }, [user, navigate, redirectPath]);
   
   // Hiệu ứng hạt sáng cho nền
   useEffect(() => {
@@ -167,16 +183,13 @@ const LoginPage = () => {
         // Update user context if user data is available
         if (response.user) {
           console.log("Setting user in context:", response.user);
-          userContextLogin(response.user);
           
-          // Check if the user is an admin
-          if (response.user.roleName && response.user.roleName.toLowerCase() === 'admin') {
-            // Redirect admin users to admin dashboard
-            navigate('/admin/dashboard', { replace: true });
-          } else {
-            // Redirect regular users to home page
-            navigate('/', { replace: true });
+          // Store the redirect path if it's from query params
+          if (redirectPath && redirectPath !== '/') {
+            localStorage.setItem('redirectAfterLogin', redirectPath);
           }
+          
+          userContextLogin(response.user);
         }
       } else {
         console.log("Login failed:", response.message);
