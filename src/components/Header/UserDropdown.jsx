@@ -9,6 +9,16 @@ const UserDropdown = () => {
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   
+  // Check if user has admin role, handle both rolename (from backend) and roleName (frontend normalized)
+  const userIsAdmin = () => {
+    // Use the isAdmin helper from context, or check both role fields if needed
+    if (typeof isAdmin === 'function') {
+      return isAdmin();
+    }
+    const role = (user?.rolename || user?.roleName || '').toLowerCase();
+    return role === 'admin';
+  };
+  
   // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
@@ -27,6 +37,12 @@ const UserDropdown = () => {
   const handleLogout = () => {
     logout();
     navigate('/');
+  };
+
+  // Navigate to admin dashboard
+  const handleAdminDashboard = () => {
+    navigate('/admin/dashboard');
+    setIsOpen(false);
   };
   
   // Get user avatar placeholder
@@ -48,6 +64,9 @@ const UserDropdown = () => {
   
   if (!user) return null;
   
+  // Get admin status
+  const isUserAdmin = userIsAdmin();
+  
   return (
     <div className="user-dropdown-container" ref={dropdownRef}>
       <button 
@@ -56,6 +75,7 @@ const UserDropdown = () => {
       >
         {getUserAvatar()}
         <span className="username">{user.fullname || user.username}</span>
+        {isUserAdmin && <span className="admin-badge">Admin</span>}
       </button>
       
       {isOpen && (
@@ -66,11 +86,23 @@ const UserDropdown = () => {
             </div>
             <div className="user-details">
               <p className="username">{user.fullname || user.username}</p>
-              <p className="email">{user.email}</p>
+              <p className="email">{user.email || ''}</p>
+              {isUserAdmin && <span className="role-badge admin">Admin</span>}
             </div>
           </div>
           
           <div className="dropdown-separator"></div>
+          
+          {/* Show admin dashboard prominently for admins */}
+          {isUserAdmin && (
+            <div className="admin-dashboard-link">
+              <button onClick={handleAdminDashboard} className="admin-dashboard-button">
+                <i className="fas fa-tachometer-alt"></i> Quản trị hệ thống
+              </button>
+            </div>
+          )}
+          
+          {isUserAdmin && <div className="dropdown-separator"></div>}
           
           <ul className="dropdown-menu-items">
             <li>
@@ -89,10 +121,10 @@ const UserDropdown = () => {
               </Link>
             </li>
             
-            {/* Show admin link if user is admin */}
-            {isAdmin() && (
+            {/* Admin features still listed in regular menu for convenience */}
+            {isUserAdmin && (
               <li>
-                <Link to="/admin" className="dropdown-item admin-item">
+                <Link to="/admin/dashboard" className="dropdown-item admin-item">
                   <i className="fas fa-cogs"></i> Admin Dashboard
                 </Link>
               </li>

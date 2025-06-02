@@ -409,4 +409,192 @@
   .clear-filters-btn {
     align-self: flex-start;
   }
+}
+
+/* Admin Modal */
+.admin-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.admin-modal {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.confirm-modal {
+  max-width: 400px;
+}
+
+.admin-modal-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-modal-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 0;
+  line-height: 1;
+}
+
+.admin-modal-body {
+  padding: 24px;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.admin-modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+/* Form styling */
+.admin-form-group {
+  margin-bottom: 20px;
+}
+
+.admin-form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.admin-form-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+
+.admin-form-input:focus {
+  outline: none;
+  border-color: #D4C9BE;
+  box-shadow: 0 0 0 3px rgba(212, 201, 190, 0.2);
+}
+
+.admin-form-input.is-invalid {
+  border-color: #ef4444;
+}
+
+.admin-form-error {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
+
+textarea.admin-form-input {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.admin-form-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.admin-form-check-input {
+  width: 16px;
+  height: 16px;
+}
+
+.admin-form-check-label {
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+/* Button styling */
+.admin-button {
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+  border: none;
+}
+
+.admin-button.primary {
+  background-color: #D4C9BE;
+  color: #000;
+}
+
+.admin-button.primary:hover {
+  background-color: #c5b8a9;
+}
+
+.admin-button.secondary {
+  background-color: #f3f4f6;
+  color: #4b5563;
+}
+
+.admin-button.secondary:hover {
+  background-color: #e5e7eb;
+}
+
+.admin-button.danger {
+  background-color: #ef4444;
+  color: white;
+}
+
+.admin-button.danger:hover {
+  background-color: #dc2626;
+}
+
+/* Responsive adjustments for modals */
+@media (max-width: 768px) {
+  .admin-modal {
+    width: 95%;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-modal-header,
+  .admin-modal-body,
+  .admin-modal-footer {
+    padding: 16px;
+  }
+  
+  .admin-modal-footer {
+    flex-direction: column;
+  }
+  
+  .admin-button {
+    width: 100%;
+  }
 } 

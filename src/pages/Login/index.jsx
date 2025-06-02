@@ -81,7 +81,14 @@ const LoginPage = () => {
   // Redirect if already logged in
   useEffect(() => {
     if (user) {
-      navigate('/', { replace: true });
+      // Check if the user is an admin
+      if (user.roleName && user.roleName.toLowerCase() === 'admin') {
+        // Redirect admin users to admin dashboard
+        navigate('/admin/dashboard', { replace: true });
+      } else {
+        // Redirect regular users to home page
+        navigate('/', { replace: true });
+      }
     }
   }, [user, navigate]);
   
@@ -151,7 +158,7 @@ const LoginPage = () => {
     
     try {
       const response = await AuthService.login(formData);
-      // console.log("Login response:", response);
+      console.log("Login response:", response);
       
       if (response.success) {
         // Show success message
@@ -159,11 +166,17 @@ const LoginPage = () => {
         
         // Update user context if user data is available
         if (response.user) {
-          // console.log("Setting user in context:", response.user);
+          console.log("Setting user in context:", response.user);
           userContextLogin(response.user);
           
-          // Navigate to home page
-          navigate('/', { replace: true });
+          // Check if the user is an admin
+          if (response.user.roleName && response.user.roleName.toLowerCase() === 'admin') {
+            // Redirect admin users to admin dashboard
+            navigate('/admin/dashboard', { replace: true });
+          } else {
+            // Redirect regular users to home page
+            navigate('/', { replace: true });
+          }
         }
       } else {
         console.log("Login failed:", response.message);

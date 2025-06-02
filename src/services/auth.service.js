@@ -1,6 +1,18 @@
 import api from '../config/api.config';
 
 const AuthService = {
+  // Helper function to normalize role name access
+  normalizeUserData: (userData) => {
+    if (!userData) return null;
+    
+    // Create a standardized user object that handles both formats
+    return {
+      ...userData,
+      // Use rolename from backend or fallback to roleName, ensure lowercase
+      roleName: (userData.rolename || userData.roleName || '').toLowerCase()
+    };
+  },
+
   // Login user
   login: async (credentials) => {
     try {
@@ -12,7 +24,7 @@ const AuthService = {
         password: credentials.password
       });
       
-      // console.log("Login response:", response);
+      console.log("Login response:", response);
       
       // If login was successful
       if (response && response.message && response.message.includes("thành công")) {
@@ -22,16 +34,19 @@ const AuthService = {
         try {
           // After login, fetch user data
           const userData = await api.get('/User/me');
-          // console.log("User data response:", userData);
+          console.log("User data response:", userData);
           
           if (userData) {
+            // Normalize user data to handle both rolename and roleName
+            const normalizedUser = AuthService.normalizeUserData(userData);
+            
             // Store user data in localStorage
-            localStorage.setItem('userData', JSON.stringify(userData));
+            localStorage.setItem('userData', JSON.stringify(normalizedUser));
             
             return {
               success: true,
               message: response.message,
-              user: userData
+              user: normalizedUser
             };
           }
         } catch (userError) {
@@ -40,8 +55,11 @@ const AuthService = {
           // For demo purposes only - in production, we should require proper user data
           const minimalUser = {
             username: credentials.username,
+            // Ensure roleName is lowercase for consistent comparison
             roleName: credentials.username.toLowerCase() === 'admin' ? 'admin' : 'member'
           };
+          
+          console.log('Using fallback user data:', minimalUser);
           
           // Store minimal user data
           localStorage.setItem('userData', JSON.stringify(minimalUser));
@@ -104,7 +122,9 @@ const AuthService = {
     try {
       const userData = localStorage.getItem('userData');
       if (userData) {
-        return JSON.parse(userData);
+        const parsedUser = JSON.parse(userData);
+        // Normalize user data to handle both rolename and roleName
+        return AuthService.normalizeUserData(parsedUser);
       }
       return null;
     } catch (error) {

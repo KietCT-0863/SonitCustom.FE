@@ -9,6 +9,19 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Helper function to normalize user data (especially role names)
+  const normalizeUserData = (userData) => {
+    if (!userData) return null;
+    
+    // Create a standardized user object that handles both formats
+    // Backend may provide "rolename" while frontend uses "roleName"
+    return {
+      ...userData,
+      // Use rolename from backend or fallback to roleName, ensure lowercase
+      roleName: (userData.rolename || userData.roleName || '').toLowerCase()
+    };
+  };
+
   // Fetch user info on mount if authenticated
   useEffect(() => {
     const checkAuth = async () => {
@@ -26,8 +39,9 @@ export const UserProvider = ({ children }) => {
           
           if (userData) {
             // console.log("Session is valid, setting user data:", userData);
-            setUser(userData);
-            localStorage.setItem('userData', JSON.stringify(userData));
+            const normalizedUser = normalizeUserData(userData);
+            setUser(normalizedUser);
+            localStorage.setItem('userData', JSON.stringify(normalizedUser));
           } else {
             console.log("No user data received");
             setUser(null);
@@ -41,7 +55,7 @@ export const UserProvider = ({ children }) => {
           if (error.code === 'ERR_NETWORK') {
             console.warn('Network error detected - using cached user data');
             const storedUser = AuthService.getCurrentUser();
-            if (storedUser) setUser(storedUser);
+            if (storedUser) setUser(normalizeUserData(storedUser));
           } else {
             // For auth errors, clear the user state
             setUser(null);
@@ -61,10 +75,11 @@ export const UserProvider = ({ children }) => {
 
   // Login function
   const login = (userData) => {
-    setUser(userData);
+    const normalizedUser = normalizeUserData(userData);
+    setUser(normalizedUser);
     // Also update localStorage
-    if (userData) {
-      localStorage.setItem('userData', JSON.stringify(userData));
+    if (normalizedUser) {
+      localStorage.setItem('userData', JSON.stringify(normalizedUser));
       localStorage.setItem('isAuthenticated', 'true');
     }
   };
@@ -77,7 +92,9 @@ export const UserProvider = ({ children }) => {
 
   // Check if user is admin
   const isAdmin = () => {
-    return user?.roleName === 'admin';
+    // Get the role name, accounting for both rolename and roleName fields
+    const role = (user?.rolename || user?.roleName || '').toLowerCase();
+    return role === 'admin';
   };
 
   return (

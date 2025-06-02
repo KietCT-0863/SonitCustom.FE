@@ -9,8 +9,81 @@
 }
 
 .debug-container {
-  width: 100%;
-  font-family: 'Cabin', sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.debug-section {
+  padding: 16px;
+}
+
+.debug-section p {
+  margin-bottom: 10px;
+}
+
+.debug-json {
+  background-color: #f5f5f5;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  padding: 16px;
+  margin-top: 10px;
+}
+
+.debug-json h4 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.debug-json pre {
+  margin: 0;
+  font-family: monospace;
+  font-size: 13px;
+  white-space: pre-wrap;
+  color: #333;
+  line-height: 1.5;
+}
+
+.debug-section .admin-action-button {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+/* Styles for status indicators */
+.status-indicator {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.status-success {
+  background-color: #4CAF50;
+}
+
+.status-danger {
+  background-color: #F44336;
+}
+
+.status-warning {
+  background-color: #FF9800;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .debug-container {
+    gap: var(--space-md);
+  }
+  
+  .debug-section {
+    padding: 12px;
+  }
+  
+  .debug-json pre {
+    font-size: 12px;
+  }
 }
 
 /* Đảm bảo tất cả phần tử con đều sử dụng font Cabin */
