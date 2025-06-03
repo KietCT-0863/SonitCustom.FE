@@ -24,6 +24,20 @@ const Users = () => {
     roleName: 'admin'
   });
   
+  // New state for edit user modal
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [roles, setRoles] = useState([]);
+  const [editUser, setEditUser] = useState({
+    id: null,
+    username: '',
+    fullname: '',
+    email: '',
+    password: '',
+    role: null
+  });
+  
   const [focusedInputs, setFocusedInputs] = useState({
     username: false,
     fullname: false,
@@ -53,6 +67,7 @@ const Users = () => {
     // If we have auth state in localStorage, proceed with fetching data
     // The api interceptor will handle token refresh if needed
     fetchUsers();
+    fetchRoles();
   }, []);
 
   // Fetch users from API
@@ -88,6 +103,21 @@ const Users = () => {
     }
   };
 
+  // Fetch roles from API
+  const fetchRoles = async () => {
+    try {
+      const response = await api.get('/Role');
+      setRoles(response);
+    } catch (err) {
+      console.error('Error fetching roles:', err);
+      // Set default roles if API fails
+      setRoles([
+        { roleId: 1, roleName: 'admin' },
+        { roleId: 2, roleName: 'member' }
+      ]);
+    }
+  };
+
   // Handle search
   const handleSearch = (e) => {
     e.preventDefault();
@@ -120,8 +150,21 @@ const Users = () => {
 
   // Handle user edit
   const handleEditUser = (userId) => {
-    console.log('Editing user:', userId);
-    // In a real app, you would navigate to edit page or open modal
+    const userToEdit = users.find(user => user.id === userId);
+    
+    if (userToEdit) {
+      setEditUser({
+        id: userToEdit.id,
+        username: userToEdit.username || '',
+        fullname: userToEdit.fullname || '',
+        email: userToEdit.email || '',
+        password: '',
+        role: userToEdit.roleId || null
+      });
+      
+      setShowEditModal(true);
+      setUpdateSuccess(false);
+    }
   };
 
   // Handle add new user
@@ -158,6 +201,15 @@ const Users = () => {
     if (name === 'password' || name === 'confirmPassword') {
       setPasswordError('');
     }
+  };
+  
+  // Handle input changes for edit form
+  const handleEditInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditUser(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
   
   // Validate form
@@ -253,6 +305,57 @@ const Users = () => {
       }
     } finally {
       setIsRegistering(false);
+    }
+  };
+
+  // Handle update user form submission
+  const handleUpdateUser = async (e) => {
+    e.preventDefault();
+    
+    try {
+      setIsUpdating(true);
+      
+      // Create update object
+      const updateData = {
+        username: editUser.username || null,
+        password: editUser.password || null,
+        fullname: editUser.fullname || null,
+        email: editUser.email || null,
+        role: editUser.role
+      };
+      
+      // Call API to update user
+      await api.put(`/User/${editUser.id}`, updateData);
+      
+      setUpdateSuccess(true);
+      
+      // Refresh user list
+      fetchUsers();
+      
+      // Close modal after delay
+      setTimeout(() => {
+        setShowEditModal(false);
+        setEditUser({
+          id: null,
+          username: '',
+          fullname: '',
+          email: '',
+          password: '',
+          role: null
+        });
+        setUpdateSuccess(false);
+      }, 2000);
+      
+    } catch (err) {
+      console.error('Error updating user:', err);
+      
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError('Cập nhật không thành công. Vui lòng thử lại.');
+      }
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -526,6 +629,127 @@ const Users = () => {
                     {isRegistering ? (
                       <div className="spinner"></div>
                     ) : 'Register Admin'}
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Edit User Modal */}
+      {showEditModal && (
+        <div className="modal-overlay">
+          <div className="register-modal-content">
+            <div className="register-modal-header">
+              <div className="register-logo">
+                <img 
+                  src="/assets/images/logo.jpg" 
+                  className='register-logo-image'
+                />
+              </div>
+              <h2>Edit User</h2>
+              <p>Update user information</p>
+            </div>
+            
+            {updateSuccess ? (
+              <div className="success-message">
+                <div className="check-icon">✓</div>
+                <h3>Update Successful!</h3>
+                <p>The user information has been updated successfully.</p>
+              </div>
+            ) : (
+              <form className="register-form" onSubmit={handleUpdateUser}>
+                <div className="form-floating focused">
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder=" "
+                    value={editUser.username}
+                    onChange={handleEditInputChange}
+                  />
+                  <label htmlFor="username">Username</label>
+                  <div className="input-highlight"></div>
+                  <small className="form-text">Leave empty to keep current username</small>
+                </div>
+                
+                <div className="form-floating focused">
+                  <input
+                    type="text"
+                    id="fullname"
+                    name="fullname"
+                    placeholder=" "
+                    value={editUser.fullname}
+                    onChange={handleEditInputChange}
+                  />
+                  <label htmlFor="fullname">Full Name</label>
+                  <div className="input-highlight"></div>
+                  <small className="form-text">Leave empty to keep current name</small>
+                </div>
+                
+                <div className="form-floating focused">
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder=" "
+                    value={editUser.email}
+                    onChange={handleEditInputChange}
+                  />
+                  <label htmlFor="email">Email Address</label>
+                  <div className="input-highlight"></div>
+                  <small className="form-text">Leave empty to keep current email</small>
+                </div>
+                
+                <div className="form-floating focused">
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder=" "
+                    value={editUser.password}
+                    onChange={handleEditInputChange}
+                  />
+                  <label htmlFor="password">Password</label>
+                  <div className="input-highlight"></div>
+                  <small className="form-text">Leave empty to keep current password</small>
+                </div>
+                
+                <div className="form-floating focused">
+                  <select
+                    id="role"
+                    name="role"
+                    value={editUser.role || ''}
+                    onChange={handleEditInputChange}
+                  >
+                    <option value="">Select Role</option>
+                    {roles.map(role => (
+                      <option key={role.roleId} value={role.roleId}>
+                        {role.roleName}
+                      </option>
+                    ))}
+                  </select>
+                  <label htmlFor="role">Role</label>
+                  <div className="input-highlight"></div>
+                </div>
+                
+                <div className="modal-actions">
+                  <button 
+                    type="button" 
+                    className="cancel-button"
+                    onClick={() => setShowEditModal(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    type="submit" 
+                    className={`register-button ${isUpdating ? 'loading' : ''}`}
+                    disabled={isUpdating}
+                  >
+                    {isUpdating ? (
+                      <div className="spinner"></div>
+                    ) : 'Update User'}
                   </button>
                 </div>
               </form>

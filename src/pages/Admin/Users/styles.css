@@ -844,3 +844,11 @@
   color: var(--primary-color);
   opacity: 0.8;
 }
+
+/* Form helper text */
+.form-text {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-top: 4px;
+  display: block;
+}
