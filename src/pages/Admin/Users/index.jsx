@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './styles.css';
 import AuthService from '../../../services/auth.service';
+import api from '../../../config/api.config';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -38,25 +39,42 @@ const Users = () => {
     { id: 3, username: 'manager', fullname: 'Manager User', email: 'manager@example.com', roleName: 'admin' },
   ];
 
-  // API instance with withCredentials enabled
-  const api = axios.create({
-    baseURL: '/api',
-    withCredentials: true, // Đảm bảo gửi cookies với mỗi request
-    headers: {
-      'Content-Type': 'application/json'
+  // Load data on component mount
+  useEffect(() => {
+    // Check if authenticated first
+    if (!AuthService.isAuthenticated()) {
+      console.log('No authentication state found in localStorage, redirecting to login');
+      setTimeout(() => {
+        window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
+      }, 500);
+      return;
     }
-  });
+    
+    // If we have auth state in localStorage, proceed with fetching data
+    // The api interceptor will handle token refresh if needed
+    fetchUsers();
+  }, []);
 
   // Fetch users from API
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      // Sử dụng withCredentials để gửi cookie trong request
       const response = await api.get('/User');
-      setUsers(response.data);
+      setUsers(response);
       setError(null);
     } catch (err) {
       console.error('Error fetching users:', err);
+      
+      // Handle auth errors
+      if (err.message && err.message.includes("Phiên đăng nhập")) {
+        setError('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
+        // Redirect to login after showing the error
+        setTimeout(() => {
+          window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
+        }, 2000);
+        return;
+      }
+      
       // Use sample data for demonstration
       setUsers(sampleUsers);
       
@@ -69,11 +87,6 @@ const Users = () => {
       setLoading(false);
     }
   };
-
-  // Load users data on component mount
-  useEffect(() => {
-    fetchUsers();
-  }, []);
 
   // Handle search
   const handleSearch = (e) => {
@@ -88,6 +101,12 @@ const Users = () => {
       setUsers(users.filter(user => user.id !== userId));
     } catch (err) {
       console.error('Error deleting user:', err);
+      
+      if (err.message && err.message.includes("Phiên đăng nhập")) {
+        setError('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
+        return;
+      }
+      
       // Just remove from local state for demo purposes
       setUsers(users.filter(user => user.id !== userId));
       

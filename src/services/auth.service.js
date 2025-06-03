@@ -9,7 +9,7 @@ const AuthService = {
     return {
       ...userData,
       // Use rolename from backend or fallback to roleName, ensure lowercase
-      roleName: (userData.rolename || userData.roleName || '').toLowerCase()
+      roleName: (userData.rolename || userData.roleName || userData.role || '').toLowerCase()
     };
   },
 
@@ -31,8 +31,20 @@ const AuthService = {
         // Store authentication state
         localStorage.setItem('isAuthenticated', 'true');
         
+        // Store user data if available in the response
+        if (response.user) {
+          const normalizedUser = AuthService.normalizeUserData(response.user);
+          localStorage.setItem('userData', JSON.stringify(normalizedUser));
+          
+          return {
+            success: true,
+            message: response.message,
+            user: normalizedUser
+          };
+        }
+        
         try {
-          // After login, fetch user data
+          // If user data wasn't in login response, try to fetch it
           const userData = await api.get('/User/me');
           console.log("User data response:", userData);
           
@@ -89,10 +101,39 @@ const AuthService = {
   // Register new user
   register: async (userData) => {
     try {
-      const response = await api.post('/auth/register', userData);
+      const response = await api.post('/Register', userData);
       return response;
     } catch (error) {
       throw error;
+    }
+  },
+
+  // Verify auth token
+  verifyToken: async () => {
+    try {
+      // First check if we have authentication state in localStorage
+      if (!localStorage.getItem('isAuthenticated')) {
+        console.log('No authentication state found in localStorage');
+        return false;
+      }
+      
+      // Try to make a simple API call that requires authentication
+      // If it succeeds, the token is valid
+      // If it fails with 401, the token is invalid
+      const response = await api.get('/User/me');
+      console.log('Token verification succeeded via /User/me', response);
+      return true;
+    } catch (error) {
+      console.error('Token verification failed:', error);
+      
+      // If the error is a 401, the token is invalid
+      if (error.response && error.response.status === 401) {
+        // Clear auth state since token is invalid
+        localStorage.removeItem('isAuthenticated');
+        localStorage.removeItem('userData');
+      }
+      
+      return false;
     }
   },
 

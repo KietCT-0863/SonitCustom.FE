@@ -6,6 +6,20 @@ const API_URL = 'https://sonitcustom-be.onrender.com/api';
 // Biến theo dõi trạng thái refresh token
 let isRefreshingToken = false;
 let refreshPromise = null;
+let failedQueue = [];
+
+// Process failed requests queue
+const processQueue = (error, token = null) => {
+  failedQueue.forEach(prom => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve();
+    }
+  });
+  
+  failedQueue = [];
+};
 
 // Hàm refresh token
 const refreshToken = async () => {
@@ -18,7 +32,8 @@ const refreshToken = async () => {
   
   refreshPromise = new Promise(async (resolve, reject) => {
     try {
-      const response = await axios.post(`${API_URL}/Auth/refresh`, {}, {
+      // Cập nhật endpoint cho refresh token
+      const response = await axios.post(`${API_URL}/Auth/refresh-token`, {}, {
         withCredentials: true
       });
       
@@ -30,12 +45,15 @@ const refreshToken = async () => {
         isRefreshingToken = false;
       }, 5000);
       
+      processQueue(null);
       resolve(true);
     } catch (error) {
       console.error('Refresh token thất bại:', error);
       localStorage.removeItem('isAuthenticated');
       localStorage.removeItem('userData');
       isRefreshingToken = false;
+      
+      processQueue(error);
       reject(error);
     }
   });
@@ -93,6 +111,20 @@ api.interceptors.response.use(
       // Xử lý lỗi 401 Unauthorized và thử refresh token
       if (error.response.status === 401 && !originalRequest._retry) {
         console.log('Phát hiện lỗi 401, thử refresh token');
+        
+        if (isRefreshingToken) {
+          // If token refresh is already in progress, add this request to queue
+          return new Promise((resolve, reject) => {
+            failedQueue.push({ resolve, reject });
+          })
+            .then(() => {
+              // Retry original request after refresh is complete
+              return api(originalRequest);
+            })
+            .catch(err => {
+              return Promise.reject(err);
+            });
+        }
         
         // Đánh dấu request này đã được thử refresh để tránh loop
         originalRequest._retry = true;
