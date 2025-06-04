@@ -19,11 +19,12 @@ const Products = () => {
   const [formData, setFormData] = useState({
     proName: '',
     description: '',
-    imgUrl: '',
     price: 0,
     category: 1, // Default to first category
-    isCustom: false
+    isCustom: false,
+    productImage: null,
   });
+  const [imagePreview, setImagePreview] = useState(null);
   const [formErrors, setFormErrors] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState({ show: false, id: null });
@@ -129,12 +130,29 @@ const Products = () => {
   
   // Form handling
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked, files } = e.target;
     
-    // Special handling for price
+    // Xử lý upload file hình ảnh
+    if (name === 'productImage' && files && files.length > 0) {
+      const file = files[0];
+      setFormData(prev => ({
+        ...prev,
+        productImage: file
+      }));
+      
+      // Tạo preview cho hình ảnh
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+      return;
+    }
+    
+    // Xử lý trường giá tiền
     if (name === 'price') {
       const numValue = parseFloat(value);
-      // Allow empty string (will be converted to 0 later) or valid numbers
+      // Cho phép chuỗi rỗng (sẽ được chuyển đổi thành 0 sau) hoặc số hợp lệ
       if (value === '' || (!isNaN(numValue) && isFinite(numValue))) {
         setFormData(prev => ({
           ...prev,
@@ -144,7 +162,7 @@ const Products = () => {
       return;
     }
     
-    // Normal handling for other fields
+    // Xử lý các trường khác
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
@@ -164,8 +182,8 @@ const Products = () => {
       errors.description = 'Mô tả không được để trống';
     }
     
-    if (!formData.imgUrl?.trim()) {
-      errors.imgUrl = 'URL hình ảnh không được để trống';
+    if (!isEditing && !formData.productImage) {
+      errors.productImage = 'Vui lòng chọn hình ảnh sản phẩm';
     }
     
     if (formData.price < 0) {
@@ -203,8 +221,9 @@ const Products = () => {
           updateData.description = formData.description;
         }
         
-        if (formData.imgUrl !== currentProduct.imgUrl) {
-          updateData.imgUrl = formData.imgUrl;
+        // Thêm hình ảnh mới nếu có
+        if (formData.productImage) {
+          updateData.productImage = formData.productImage;
         }
         
         // Xử lý giá riêng biệt (có thể là 0)
@@ -223,7 +242,7 @@ const Products = () => {
         }
         
         // Kiểm tra nếu có thay đổi thực sự
-        if (Object.keys(updateData).length === 0) {
+        if (Object.keys(updateData).length === 0 && !formData.productImage) {
           setErrorMessage('Không phát hiện thay đổi nào');
           setActionLoading(false);
           return;
@@ -262,9 +281,10 @@ const Products = () => {
         const createData = {
           proName: formData.proName.trim(),
           description: formData.description.trim(),
-          imgUrl: formData.imgUrl.trim(),
+          productImage: formData.productImage,
           price: parseFloat(formData.price), // Chuyển thành số
-          category: parseInt(formData.category)
+          category: parseInt(formData.category),
+          isCustom: formData.isCustom
         };
         
         console.log('Đang tạo sản phẩm mới:', createData);
@@ -339,12 +359,13 @@ const Products = () => {
     setFormData({
       proName: '',
       description: '',
-      imgUrl: '',
       price: 0,
       category: categories.length > 0 ? categories[0].cateId : 1,
-      isCustom: false
+      isCustom: false,
+      productImage: null
     });
     
+    setImagePreview(null);
     setFormErrors({});
     setIsEditing(false);
     setCurrentProduct(null);
@@ -361,12 +382,13 @@ const Products = () => {
     setFormData({
       proName: product.proName,
       description: product.description,
-      imgUrl: product.imgUrl,
       price: product.price,
       category: categoryId,
-      isCustom: product.isCustom
+      isCustom: product.isCustom,
+      productImage: null // Không yêu cầu hình ảnh khi chỉnh sửa
     });
     
+    setImagePreview(product.imgUrl); // Sử dụng URL hiện tại làm preview
     setFormErrors({});
     setIsEditing(true);
     setCurrentProduct(product);
@@ -661,24 +683,21 @@ const Products = () => {
                 </div>
                 
                 <div className="form-group">
-                  <label>URL Hình ảnh</label>
+                  <label>Hình ảnh</label>
                   <input
-                    type="url"
-                    name="imgUrl"
-                    value={formData.imgUrl || ''}
+                    type="file"
+                    name="productImage"
                     onChange={handleInputChange}
+                    accept="image/*"
                     required
                     disabled={actionLoading}
                   />
-                  {formErrors.imgUrl && <span className="error">{formErrors.imgUrl}</span>}
-                  {formData.imgUrl && (
+                  {formErrors.productImage && <span className="error">{formErrors.productImage}</span>}
+                  {imagePreview && (
                     <div className="img-preview">
                       <img 
-                        src={formData.imgUrl} 
+                        src={imagePreview} 
                         alt="Product Preview"
-                        onError={(e) => {
-                          e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2VlZWVlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LXNpemU9IjE0IiBmaWxsPSIjOTk5OTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBhbGlnbm1lbnQtYmFzZWxpbmU9Im1pZGRsZSI+SW1hZ2UgbG9hZCBlcnJvcjwvdGV4dD48L3N2Zz4=';
-                        }}
                       />
                     </div>
                   )}

@@ -141,29 +141,37 @@ const ProductService = {
       // Validate required fields
       if (!productData.proName) throw new Error('Tên sản phẩm không được để trống');
       if (!productData.description) throw new Error('Mô tả không được để trống');
-      if (!productData.imgUrl) throw new Error('URL hình ảnh không được để trống');
+      if (!productData.productImage) throw new Error('Hình ảnh sản phẩm không được để trống');
       if (productData.price < 0) throw new Error('Giá không được âm');
       if (!productData.category) throw new Error('Danh mục không được để trống');
       
-      // Log thông tin gửi đi để debug
+      // Sử dụng FormData để gửi dữ liệu multipart/form-data với tệp hình ảnh
+      const formData = new FormData();
+      formData.append('productData.proName', productData.proName);
+      formData.append('productData.description', productData.description);
+      formData.append('productData.price', productData.price);
+      formData.append('productData.category', parseInt(productData.category));
+      formData.append('productData.isCustom', productData.isCustom);
+      formData.append('imageUpload.productImage', productData.productImage);
+      
       console.log('Dữ liệu tạo sản phẩm:', {
         proName: productData.proName,
         description: productData.description,
-        imgUrl: productData.imgUrl,
         price: productData.price,
-        category: parseInt(productData.category)
+        category: parseInt(productData.category),
+        isCustom: productData.isCustom,
+        image: productData.productImage ? productData.productImage.name : 'Không có hình ảnh'
       });
       
-      const response = await externalApi.post('/Product', {
-        proName: productData.proName,
-        description: productData.description,
-        imgUrl: productData.imgUrl,
-        price: productData.price,
-        category: parseInt(productData.category)
+      const response = await axios.post(`${API_URL}/Product`, formData, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
       });
       
-      console.log('Kết quả tạo sản phẩm:', response);
-      return response;
+      console.log('Kết quả tạo sản phẩm:', response.data);
+      return response.data;
     } catch (error) {
       console.error('Lỗi khi tạo sản phẩm:', error);
       throw error;
@@ -177,28 +185,41 @@ const ProductService = {
         throw new Error('ID sản phẩm là bắt buộc để cập nhật');
       }
       
-      // Chỉ gửi những trường đã thay đổi, loại bỏ các trường null
-      const updateRequest = {};
+      // Sử dụng FormData để gửi dữ liệu multipart/form-data với tệp hình ảnh (nếu có)
+      const formData = new FormData();
       
-      // Chỉ thêm vào request những trường có giá trị không null
-      if (productData.proName !== null) updateRequest.proName = productData.proName;
-      if (productData.description !== null) updateRequest.description = productData.description;
-      if (productData.imgUrl !== null) updateRequest.imgUrl = productData.imgUrl;
-      if (productData.price !== null) updateRequest.price = productData.price;
-      if (productData.category !== null) updateRequest.category = parseInt(productData.category);
-      if (productData.isCustom !== null) updateRequest.isCustom = productData.isCustom;
+      // Chỉ thêm vào request những trường có giá trị không null/undefined
+      if (productData.proName !== null && productData.proName !== undefined) 
+        formData.append('productDto.proName', productData.proName);
       
-      // Log thông tin gửi đi để debug
-      console.log(`Cập nhật sản phẩm ID ${productId}:`, updateRequest);
+      if (productData.description !== null && productData.description !== undefined) 
+        formData.append('productDto.description', productData.description);
       
-      // Đảm bảo có ít nhất một trường được cập nhật
-      if (Object.keys(updateRequest).length === 0) {
-        throw new Error('Không có dữ liệu nào được thay đổi để cập nhật');
+      if (productData.price !== null && productData.price !== undefined) 
+        formData.append('productDto.price', productData.price);
+      
+      if (productData.category !== null && productData.category !== undefined) 
+        formData.append('productDto.category', parseInt(productData.category));
+      
+      if (productData.isCustom !== null && productData.isCustom !== undefined) 
+        formData.append('productDto.isCustom', productData.isCustom);
+        
+      // Thêm hình ảnh mới nếu có
+      if (productData.productImage) {
+        formData.append('imageDto.productImage', productData.productImage);
       }
       
-      const response = await externalApi.put(`/Product/${productId}`, updateRequest);
-      console.log('Kết quả cập nhật:', response);
-      return response;
+      console.log(`Cập nhật sản phẩm ID ${productId}:`, Object.fromEntries(formData));
+      
+      const response = await axios.put(`${API_URL}/Product/${productId}`, formData, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
+      });
+      
+      console.log('Kết quả cập nhật:', response.data);
+      return response.data;
     } catch (error) {
       console.error(`Lỗi khi cập nhật sản phẩm ${productId}:`, error);
       throw error;
