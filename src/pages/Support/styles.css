@@ -114,7 +114,7 @@
 
 .info-card {
   padding: 30px;
-  background-color: #1e1e1e;
+  background-color: #000000;  
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -125,8 +125,8 @@
 .info-icon {
   margin-bottom: 20px;
   font-size: 2.5rem;
-  color: #D4C9BE;
-  background-color: rgba(212, 201, 190, 0.1);
+    color: #000;
+  background-color: linear-gradient(to right, #D4C9BE, #b1aa99);
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -135,6 +135,16 @@
   justify-content: center;
   margin: 0 auto 20px;
 }
+
+.info-icon:hover {
+  background-color: linear-gradient(to right, #D4C9BE, #b1aa99);
+  color: #000;
+}
+
+.info-icon:hover {
+  background-color: linear-gradient(to right, #D4C9BE, #b1aa99);
+  color: #000;
+  }
 
 .info-card h3 {
   font-size: 1.4rem;
@@ -146,7 +156,7 @@
 
 .info-card p {
   margin-bottom: 20px;
-  color: rgba(212, 201, 190, 0.8);
+  color:  #D4C9BE;
   font-family: 'Cabin', sans-serif;
 }
 
@@ -168,8 +178,8 @@
 }
 
 .chat-button {
-  background-color: rgba(212, 201, 190, 0.9);
-  color: #121212;
+  background-color: linear-gradient(to right, #D4C9BE, #b1aa99);
+  color: #D4C9BE;
   border: none;
   padding: 12px 25px;
   border-radius: 6px;
@@ -182,7 +192,8 @@
 }
 
 .chat-button:hover {
-  background-color: #D4C9BE;
+  background-color: linear-gradient(to right, #D4C9BE, #b1aa99);
+  color: #000;
 }
 
 /* FAQ Section */
@@ -208,7 +219,7 @@
 }
 
 .faq-item {
-  background-color: #1e1e1e;
+  background-color: linear-gradient(to right, #D4C9BE, #b1aa99);
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid rgba(212, 201, 190, 0.1);
@@ -261,7 +272,7 @@
 .contact-form-container {
   margin-top: 20px;
   padding: 40px;
-  background-color: #1e1e1e;
+  background-color: linear-gradient(to right, #D4C9BE, #b1aa99);
   border-radius: 12px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   border: 1px solid rgba(212, 201, 190, 0.1);
@@ -363,13 +374,14 @@
 }
 
 .submit-button:hover {
-  background-color: #D4C9BE;
+  background-color: linear-gradient(to right, #D4C9BE, #b1aa99);
+  color: #000;
 }
 
 .success-message {
   text-align: center;
-  padding: 50px 20px;
-  background-color: rgba(212, 201, 190, 0.05);
+  padding: 50px 20px; 
+  background-color: linear-gradient(to right, #D4C9BE, #b1aa99);
   border-radius: 8px;
   border: 1px solid rgba(212, 201, 190, 0.1);
 }
@@ -377,12 +389,12 @@
 .success-message i {
   font-size: 4rem;
   margin-bottom: 20px;
-  color: #D4C9BE;
+  color: #000;
 }
 
 .success-message p {
   font-size: 1.2rem;
-  color: #D4C9BE;
+    color: #000;
   font-family: 'Cabin', sans-serif;
 }
 

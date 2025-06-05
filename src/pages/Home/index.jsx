@@ -20,7 +20,7 @@ const HomePage = () => {
       name: 'Bumper',
       categories: ['Custom', 'Accessories'],
       image: '/assets/products/bvc4.png',
-      description: 'Custom bumper for Pro extensions'
+      description: 'Bumper for Pro extensions'
     },
     {
       id: 3,

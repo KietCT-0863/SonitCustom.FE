@@ -80,7 +80,7 @@ const Dashboard = () => {
         <p>Welcome to your administration dashboard. Here's what's happening today.</p>
         
         <div className="admin-search-container">
-          <span className="admin-search-icon">🔍</span>
+          <span className="admin-search-icon"></span>
           <input 
             type="text"
             className="admin-search-input"

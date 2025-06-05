@@ -134,11 +134,7 @@ const StoreDetail = () => {
               )}
             </div>
             
-            <div className="product-detail-custom">
-              <div className="custom-badge">
-                {product.isCustom ? 'Có thể tùy chỉnh' : 'Không tùy chỉnh'}
-              </div>
-            </div>
+
             
             <div className="product-detail-actions">
               {!product.isCustom && product.price > 0 && (

@@ -156,28 +156,7 @@ const Blog = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.8 }}
       >
-        <div className="search-container">
-          <motion.div 
-            className={`search-box ${isSearchFocused ? 'focused' : ''}`}
-            whileTap={{ scale: 1.01 }}
-          >
-            <input
-              type="text"
-              placeholder="Search articles..."
-              value={searchTerm}
-              onChange={handleSearch}
-              onFocus={() => setIsSearchFocused(true)}
-              onBlur={() => setIsSearchFocused(false)}
-            />
-            <motion.i 
-              className="search-icon"
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              🔍
-            </motion.i>
-          </motion.div>
-        </div>
+
         <motion.div 
           className="categories"
           variants={staggerContainer}

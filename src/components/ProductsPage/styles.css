@@ -1,131 +1,99 @@
 @import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
 
-/* ProductCard Component */
-.product-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(212, 201, 190, 0.05);
-  border-radius: 8px;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  position: relative;
+/* --- New ProductCard Styles --- */
+
+.new-product-card {
+  background: #000; /* Black background */
+  border: 1px solid rgba(212, 201, 190, 0.05); /* Subtle border */
+  border-radius: 8px; /* Rounded corners */
+  overflow: hidden; /* Hide overflowing content */
+  transition: all 0.3s ease; /* Smooth transitions for hover effects */
+  cursor: pointer; /* Indicate clickable */
+  display: flex; /* Use flexbox for internal layout */
+  flex-direction: column; /* Stack content vertically */
+  position: relative; /* Needed for absolute positioning of elements like actions */
+  color: #fff; /* Default text color white */
+  font-family: 'Cabin', sans-serif; /* Apply the font */
 }
 
-.product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-  border-color: rgba(212, 201, 190, 0.1);
+.new-product-card:hover {
+  transform: translateY(-5px); /* Lift effect on hover */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Increased shadow on hover */
+  border-color: rgba(212, 201, 190, 0.2); /* Slightly more visible border on hover */
 }
 
-.product-image-container {
-  position: relative;
-  height: 200px;
-  overflow: hidden;
+.new-product-image-container {
+  position: relative; /* For potential absolute positioning of badges */
+  height: 200px; /* Fixed height for images */
+  overflow: hidden; /* Ensure image doesn not overflow container */
 }
 
-.product-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+.new-product-image {
+  width: 100%; /* Make image fill container width */
+  height: 100%; /* Make image fill container height */
+  object-fit: cover; /* Cover the container while maintaining aspect ratio */
+  transition: transform 0.3s ease; /* Smooth zoom effect on hover */
 }
 
-.product-card:hover .product-image {
-  transform: scale(1.05);
+.new-product-card:hover .new-product-image {
+  transform: scale(1.08); /* Zoom in slightly on hover */
 }
 
-.product-info {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  background: rgba(0, 0, 0, 0.5);
+.new-product-info {
+  padding: 15px; /* Padding inside the info section */
+  display: flex; /* Use flexbox for ID and Name */
+  flex-direction: column; /* Stack ID and Name vertically */
+  flex-grow: 1; /* Allow info section to take available space */
+  background: rgba(0, 0, 0, 0.7); /* Slightly transparent background */
 }
 
-.product-id {
-  font-size: 0.75rem;
-  color: rgba(212, 201, 190, 0.6);
-  margin-bottom: 8px;
+.new-product-id {
+  font-size: 0.75rem; /* Smaller font size for ID */
+  color: rgba(255, 255, 255, 0.7); /* Slightly muted white color for ID */
+  margin-bottom: 4px; /* Space below ID */
   font-weight: 500;
   letter-spacing: 0.5px;
 }
 
-.product-name {
-  font-size: 1rem;
-  font-weight: 500;
-  margin: 0 0 12px;
-  color: #D4C9BE;
+.new-product-name {
+  font-size: 1rem; /* Standard font size for Name */
+  font-weight: 600; /* Bolder font for Name */
+  margin: 0; /* Remove default margin */
+  color: #fff; /* White color for Name */
+  /* Truncate long names */
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 2; /* Limit to 2 lines */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: 2.5em;
+  height: 2.8em; /* Ensure consistent height for 2 lines */
+  line-height: 1.4; /* Adjust line height */
+  letter-spacing: 0.3px;
+}
+
+.new-product-details {
+  padding: 15px; /* Padding for the price/contact section */
+  background: #000; /* Black background for consistency */
+  text-align: center; /* Center price/contact text */
+}
+
+.new-product-price {
+  font-size: 1.2rem; /* Larger font size for price */
+  font-weight: 700; /* Bolder font for price */
+  color: #fff; /* White color for price */
+  letter-spacing: 0.8px;
+}
+
+.new-product-contact {
+  font-size: 1.1rem; /* Font size for contact text */
+  font-weight: 600; /* Bolder font for contact */
+  color: rgba(255, 255, 255, 0.8); /* Slightly muted white for contact */
   letter-spacing: 0.5px;
-  line-height: 1.5;
 }
 
-.product-details {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: auto;
-}
+/* Optional: Add styles for hover actions or badges here if needed */
 
-.product-price {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #D4C9BE;
-  letter-spacing: 0.5px;
-}
-
-.product-contact {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: rgba(212, 201, 190, 0.7);
-  letter-spacing: 0.5px;
-}
-
-.product-actions {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 15px;
-  background: rgba(0, 0, 0, 0.8);
-  transform: translateY(100%);
-  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-  backdrop-filter: blur(4px);
-}
-
-.product-card:hover .product-actions {
-  transform: translateY(0);
-}
-
-.show-details-btn {
-  background: transparent;
-  color: #D4C9BE;
-  border: 1px solid rgba(212, 201, 190, 0.3);
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  width: 100%;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-}
-
-.show-details-btn:hover {
-  background: rgba(212, 201, 190, 0.1);
-  border-color: rgba(212, 201, 190, 0.5);
-  transform: translateY(-2px);
-}
+/* --- End New ProductCard Styles --- */
 
 /* ProductsGrid Component */
 .products-grid {
@@ -189,23 +157,6 @@
   border-color: var(--primary-color);
   box-shadow: var(--focus-ring);
   outline: none;
-}
-
-.search-button {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: transparent;
-  border: none;
-  color: var(--primary-color);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  width: 30px;
-  height: 30px;
 }
 
 .search-results {
@@ -527,18 +478,6 @@
   font-size: 14px;
 }
 
-.search-button {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  color: #666;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
   .products-grid {
@@ -588,4 +527,4 @@
     gap: 15px;
     align-items: flex-start;
   }
-} 
+}

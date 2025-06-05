@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import './styles.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 export const SearchBar = ({ onSearch, initialValue = '' }) => {
   const [searchTerm, setSearchTerm] = useState(initialValue);
@@ -12,11 +10,6 @@ export const SearchBar = ({ onSearch, initialValue = '' }) => {
 
   const handleSearch = () => {
     onSearch(searchTerm);
-  };
-
-  const handleClear = () => {
-    setSearchTerm('');
-    onSearch('');
   };
 
   const handleKeyPress = (e) => {
@@ -35,14 +28,6 @@ export const SearchBar = ({ onSearch, initialValue = '' }) => {
         placeholder="Tìm kiếm sản phẩm..."
         className="search-input"
       />
-      {searchTerm && (
-        <button onClick={handleClear} className="search-clear-button">
-          <FontAwesomeIcon icon={faTimes} />
-        </button>
-      )}
-      <button onClick={handleSearch} className="search-button">
-        <FontAwesomeIcon icon={faSearch} />
-      </button>
     </div>
   );
 }; 
