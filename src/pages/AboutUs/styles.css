@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
 
 :root {
-  --primary-color: #D4C9BE;
-  --secondary-color: #cccccc;
-  --accent-color: #ffffff;
+  --primary-color:  #D4C9BE;
+  --secondary-color: #D4C9BE;
+  --accent-color: #E63946;
   --background-color: #000000;
   --border-color: #222222;
   --text-color: #D4C9BE;
@@ -49,57 +49,60 @@
 }
 
 .hero-content h1 {
-  font-family: var(--heading-font);
-  font-size: 4rem;
+  font-family: var(--body-font);
+  font-size: 4.5rem;
   font-weight: 300;
   margin-bottom: 1rem;
   letter-spacing: 4px;
+  color: #FFFFFF;
 }
 
 .hero-content p {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   margin-bottom: 3rem;
   font-weight: 300;
+  color: var(--secondary-color);
 }
 
 .hero-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
+  gap: 2.5rem;
   margin-top: 4rem;
 }
 
 .stat-item {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 2rem;
-  border-radius: 10px;
-  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 2.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   transition: all 0.3s ease;
 }
 
 .stat-item:hover {
   transform: translateY(-10px);
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
 }
 
 .stat-number {
   display: block;
-  font-family: var(--heading-font);
-  font-size: 2.5rem;
+  font-family:var(--body-font);
+  font-size: 3rem;
   font-weight: 300;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
   color: var(--primary-color);
 }
 
 .stat-label {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--secondary-color);
 }
 
 /* Story Section */
 .about-story {
-  padding: 6rem 2rem;
-  background: linear-gradient(to bottom, var(--background-color), #0a0a0a);
+  padding: 8rem 2rem;
+  background-color: #050505;
 }
 
 .story-content {
@@ -110,76 +113,86 @@
 .story-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  gap: 5rem;
   align-items: center;
   margin-top: 3rem;
 }
 
 .story-text p {
-  margin-bottom: 1.5rem;
-  line-height: 1.8;
+  margin-bottom: 1.8rem;
+  line-height: 1.9;
   color: var(--secondary-color);
-  font-size: 1.1rem;
+  font-size: 1.15rem;
 }
 
 .story-image img {
   width: 100%;
   height: auto;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
 }
 
 /* Values Section */
 .about-values {
-  padding: 6rem 2rem;
-  background: #0a0a0a;
+  padding: 8rem 2rem;
+  background-color: var(--background-color);
 }
 
 .values-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
+  gap: 2.5rem;
   max-width: 1200px;
   margin: 3rem auto 0;
 }
 
 .value-card {
   background: rgba(255, 255, 255, 0.03);
-  padding: 2rem;
-  border-radius: 10px;
-  border: 1px solid var(--border-color);
+  padding: 2.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   text-align: center;
   transition: all 0.3s ease;
 }
 
+.value-card:hover {
+  transform: translateY(-10px);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
 .value-icon {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 1.5rem;
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 1.8rem;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  font-size: 2rem;
+  font-size: 2.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  border: 2px solid var(--primary-color);
 }
 
 .value-card h3 {
-  font-family: var(--heading-font);
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  font-weight: 300;
+  font-family: var(--body-font);
+  font-size: 1.6rem;
+  margin-bottom: 1.2rem;
+  font-weight: 500;
+  color: #FFFFFF;
 }
 
 .value-card p {
   color: var(--secondary-color);
-  line-height: 1.6;
-  font-size: 0.9rem;
+  line-height: 1.7;
+  font-size: 1rem;
 }
 
 /* Milestones Section */
 .about-milestones {
-  padding: 8rem 0;
-  background: var(--background-color);
+  padding: 10rem 0;
+  background: #050505;
   position: relative;
   overflow: hidden;
 }
@@ -191,8 +204,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle, rgba(212, 201, 190, 0.03) 1px, transparent 1px);
-  background-size: 20px 20px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 25px 25px;
   opacity: 0.1;
   pointer-events: none;
 }
@@ -351,7 +364,7 @@
 }
 
 .year {
-  font-family: var(--heading-font);
+  font-family: var(--body-font);
   font-size: 2.8rem;
   color: var(--primary-color);
   margin-bottom: 0.8rem;
@@ -365,7 +378,7 @@
 }
 
 .timeline-content h3 {
-  font-family: var(--heading-font);
+  font-family: var(--body-font);
   font-size: 1.6rem;
   margin-bottom: 1rem;
   font-weight: 400;
@@ -436,7 +449,7 @@
 /* Contact Section */
 .about-contact {
   padding: 6rem 2rem;
-  background: linear-gradient(to bottom, #0a0a0a, var(--background-color));
+  background: black;
 }
 
 .contact-content {
@@ -479,7 +492,7 @@
 
 /* Common Styles */
 h2 {
-  font-family: var(--heading-font);
+    font-family: var(--body-font);
   font-size: 2.5rem;
   text-align: center;
   margin-bottom: 2rem;

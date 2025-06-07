@@ -1,16 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
 
+:root {
+  --primary-text-color: #D4C9BE; /* Main text color */
+  --secondary-text-color: #A0A0A0; /* Secondary text color */
+  --background-color: #000000; /* Pure black background */
+  --card-background: rgba(10, 10, 10, 0.9); /* Slightly lighter black for cards */
+  --border-color: rgba(212, 201, 190, 0.1); /* Subtle border color */
+  --highlight-color: #E63946; /* Accent color for highlights/buttons */
+  --font-family: 'Cabin', sans-serif;
+}
+
 .support-page {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   padding-top: 90px;
   min-height: 100vh;
-  color: #D4C9BE;
-  background-color: #000;
+  color: var(--primary-text-color);
+  background-color: var(--background-color);
   position: relative;
   overflow: hidden;
-  font-family: 'Cabin', sans-serif;
+  font-family: var(--font-family);
 }
 
 .page-banner {
@@ -20,10 +30,10 @@
   padding: 100px 20px;
   border-radius: 12px;
   overflow: hidden;
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/support-banner.jpg');
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/assets/support-banner.jpg');
   background-size: cover;
   background-position: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
 .banner-overlay {
@@ -32,28 +42,32 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4));
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5));
   z-index: 1;
-  border: 1px solid #403e3c;
+  border: 1px solid var(--border-color);
   border-radius: 20px;
 }
 
 .page-banner h1 {
-  font-size: 3rem;
+  font-size: 3.5rem;
   margin-bottom: 1.5rem;
-  font-weight: 600;
-  color: #D4C9BE;
+  font-weight: 700;
+  color: #FFFFFF; /* White for main title */
   text-transform: uppercase;
   letter-spacing: 3px;
-  font-family: 'Cabin', sans-serif;
+  font-family: var(--font-family);
+  position: relative;
+  z-index: 2;
 }
 
 .page-banner p {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   max-width: 700px;
   margin: 0 auto 2rem;
-  color: #D4C9BE;
-  font-family: 'Cabin', sans-serif;
+  color: var(--primary-text-color);
+  font-family: var(--font-family);
+  position: relative;
+  z-index: 2;
 }
 
 .support-content {
@@ -69,7 +83,7 @@
   justify-content: center;
   gap: 20px;
   margin-bottom: 30px;
-  border-bottom: 1px solid rgba(212, 201, 190, 0.2);
+  border-bottom: 1px solid var(--border-color);
   padding-bottom: 15px;
 }
 
@@ -78,11 +92,15 @@
   border: none;
   padding: 10px 25px;
   font-size: 1.1rem;
-  color: #D4C9BE;
+  color: var(--secondary-text-color);
   cursor: pointer;
   position: relative;
-  font-family: 'Cabin', sans-serif;
+  font-family: var(--font-family);
   transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+  color: #FFFFFF; /* White on hover */
 }
 
 .tab-button:after {
@@ -92,12 +110,12 @@
   left: 0;
   width: 0;
   height: 3px;
-  background-color: #D4C9BE;
+  background-color: var(--primary-text-color);
   transition: width 0.3s ease;
 }
 
 .tab-button.active {
-  color: #D4C9BE;
+  color: #FFFFFF; /* White when active */
   font-weight: 600;
 }
 
@@ -114,19 +132,25 @@
 
 .info-card {
   padding: 30px;
-  background-color: #000000;  
+  background-color: var(--card-background);  
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   text-align: center;
   transition: all 0.3s ease;
-  border: 1px solid rgba(212, 201, 190, 0.1);
+  border: 1px solid var(--border-color);
+}
+
+.info-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  border-color: rgba(212, 201, 190, 0.2);
 }
 
 .info-icon {
   margin-bottom: 20px;
   font-size: 2.5rem;
-    color: #000;
-  background-color: linear-gradient(to right, #D4C9BE, #b1aa99);
+  color: var(--primary-text-color);
+  background-color: rgba(255, 255, 255, 0.05); /* Subtle background for icon */
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -134,52 +158,51 @@
   align-items: center;
   justify-content: center;
   margin: 0 auto 20px;
+  border: 2px solid var(--primary-text-color); /* Border color */
+  transition: all 0.3s ease;
 }
 
-.info-icon:hover {
-  background-color: linear-gradient(to right, #D4C9BE, #b1aa99);
-  color: #000;
+.info-card:hover .info-icon {
+  background-color: var(--primary-text-color); /* White background on hover */
+  color: var(--background-color); /* Black icon on hover */
 }
-
-.info-icon:hover {
-  background-color: linear-gradient(to right, #D4C9BE, #b1aa99);
-  color: #000;
-  }
 
 .info-card h3 {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   margin-bottom: 15px;
-  color: #D4C9BE;
-  font-family: 'Cabin', sans-serif;
+  color: #FFFFFF; /* White for heading */
+  font-family: var(--font-family);
   letter-spacing: 1px;
 }
 
 .info-card p {
   margin-bottom: 20px;
-  color:  #D4C9BE;
-  font-family: 'Cabin', sans-serif;
+  color:  var(--secondary-text-color);
+  font-family: var(--font-family);
 }
 
 .contact-link {
   display: inline-block;
-  color: #D4C9BE;
+  color: var(--highlight-color); /* Accent color for links */
   font-weight: 500;
   text-decoration: none;
   font-size: 1.1rem;
   padding: 8px 15px;
   border-radius: 5px;
-  background-color: rgba(212, 201, 190, 0.1);
+  background-color: rgba(212, 201, 190, 0.05); /* Subtle background */
   transition: all 0.3s ease;
-  font-family: 'Cabin', sans-serif;
+  font-family: var(--font-family);
+  border: 1px solid rgba(212, 201, 190, 0.2);
 }
 
 .contact-link:hover {
-  background-color: rgba(212, 201, 190, 0.2);
+  background-color: rgba(212, 201, 190, 0.15);
+  color: #FFFFFF;
 }
 
 .chat-button {
-  background-color: linear-gradient(to right, #D4C9BE, #b1aa99);
-  color: #D4C9BE;
+  background-color: var(--highlight-color); /* Accent color for chat button */
+  color: #FFFFFF; /* White text */
   border: none;
   padding: 12px 25px;
   border-radius: 6px;
@@ -188,12 +211,131 @@
   cursor: pointer;
   transition: all 0.3s ease;
   letter-spacing: 0.5px;
-  font-family: 'Cabin', sans-serif;
+  font-family: var(--font-family);
 }
 
 .chat-button:hover {
-  background-color: linear-gradient(to right, #D4C9BE, #b1aa99);
-  color: #000;
+  background-color: #CC0000; /* Darker red on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Contact Form Section */
+.contact-form-container {
+  background-color: var(--card-background);
+  border-radius: 12px;
+  padding: 40px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.contact-form-container h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #FFFFFF;
+  text-align: center;
+  font-family: var(--font-family);
+}
+
+.contact-form-container > p {
+  text-align: center;
+  margin-bottom: 30px;
+  color: var(--secondary-text-color);
+  font-size: 1rem;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--primary-text-color);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  background-color: rgba(255, 255, 255, 0.05); /* Subtle input background */
+  border: 1px solid rgba(212, 201, 190, 0.2); /* Light border */
+  border-radius: 6px;
+  color: #FFFFFF;
+  font-size: 1rem;
+  font-family: var(--font-family);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--highlight-color);
+  box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.3); /* Soft red focus ring */
+  outline: none;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.submit-button {
+  background-color: var(--highlight-color);
+  color: #FFFFFF;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 20px;
+}
+
+.submit-button:hover {
+  background-color: #CC0000; /* Darker red on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+}
+
+.success-message {
+  background-color: rgba(60, 179, 113, 0.2); /* Green tint for success */
+  color: #3CB371; /* Medium Sea Green */
+  border: 1px solid #3CB371;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  font-size: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.success-message i {
+  font-size: 2.5rem;
+  color: #3CB371;
 }
 
 /* FAQ Section */
@@ -202,11 +344,11 @@
 }
 
 .support-faq h2 {
-  font-size: 2rem;
+  font-size: 2.5rem; /* Larger heading */
   margin-bottom: 30px;
-  color: #D4C9BE;
+  color: #FFFFFF;
   text-align: center;
-  font-family: 'Cabin', sans-serif;
+  font-family: var(--font-family);
   letter-spacing: 1px;
 }
 
@@ -219,17 +361,17 @@
 }
 
 .faq-item {
-  background-color: linear-gradient(to right, #D4C9BE, #b1aa99);
+  background-color: var(--card-background);
   border-radius: 8px;
   overflow: hidden;
-  border: 1px solid rgba(212, 201, 190, 0.1);
+  border: 1px solid var(--border-color);
   transition: all 0.3s ease;
   cursor: pointer;
 }
 
 .faq-item.expanded {
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  border-color: rgba(212, 201, 190, 0.2);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  border-color: rgba(212, 201, 190, 0.25);
 }
 
 .faq-header {
@@ -241,14 +383,15 @@
 
 .faq-header h3 {
   font-size: 1.2rem;
-  color: #D4C9BE;
-  font-family: 'Cabin', sans-serif;
+  color: #FFFFFF; /* White heading */
+  font-family: var(--font-family);
   margin: 0;
+  flex-grow: 1;
 }
 
 .faq-icon {
   font-size: 1.5rem;
-  color: #D4C9BE;
+  color: var(--primary-text-color);
   transition: transform 0.3s ease;
 }
 
@@ -258,166 +401,20 @@
 
 .faq-content {
   padding: 0 20px 20px;
+  color: var(--secondary-text-color);
+  font-size: 0.95rem;
+  line-height: 1.7;
   overflow: hidden;
 }
 
 .faq-content p {
-  color: rgba(212, 201, 190, 0.8);
-  line-height: 1.6;
-  font-family: 'Cabin', sans-serif;
-  margin: 0;
-}
-
-/* Contact Form */
-.contact-form-container {
-  margin-top: 20px;
-  padding: 40px;
-  background-color: linear-gradient(to right, #D4C9BE, #b1aa99);
-  border-radius: 12px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(212, 201, 190, 0.1);
-}
-
-.contact-form-container h2 {
-  font-size: 2rem;
-  margin-bottom: 15px;
-  color: #D4C9BE;
-  text-align: center;
-  font-family: 'Cabin', sans-serif;
-  letter-spacing: 1px;
-}
-
-.contact-form-container > p {
-  text-align: center;
-  margin-bottom: 30px;
-  color: rgba(212, 201, 190, 0.8);
-  font-family: 'Cabin', sans-serif;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.contact-form {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.form-row {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
-}
-
-.form-row .form-group {
-  flex: 1;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
   margin-bottom: 10px;
-  font-weight: 500;
-  color: #D4C9BE;
-  font-family: 'Cabin', sans-serif;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
-  width: 100%;
-  padding: 14px 16px;
-  background-color: #2a2a2a;
-  border: 1px solid rgba(212, 201, 190, 0.2);
-  border-radius: 6px;
-  font-size: 16px;
-  color: #D4C9BE;
-  transition: all 0.3s ease;
-  font-family: 'Cabin', sans-serif;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  border-color: #D4C9BE;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(212, 201, 190, 0.1);
-}
-
-.form-group select {
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(212, 201, 190, 0.8)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 15px center;
-  background-size: 15px;
-  padding-right: 40px;
-}
-
-.submit-button {
-  display: block;
-  width: 100%;
-  padding: 16px;
-  background-color: rgba(212, 201, 190, 0.9);
-  color: #121212;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 15px;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  font-family: 'Cabin', sans-serif;
-}
-
-.submit-button:hover {
-  background-color: linear-gradient(to right, #D4C9BE, #b1aa99);
-  color: #000;
-}
-
-.success-message {
-  text-align: center;
-  padding: 50px 20px; 
-  background-color: linear-gradient(to right, #D4C9BE, #b1aa99);
-  border-radius: 8px;
-  border: 1px solid rgba(212, 201, 190, 0.1);
-}
-
-.success-message i {
-  font-size: 4rem;
-  margin-bottom: 20px;
-  color: #000;
-}
-
-.success-message p {
-  font-size: 1.2rem;
-    color: #000;
-  font-family: 'Cabin', sans-serif;
-}
-
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  .support-info {
-    grid-template-columns: 1fr;
-  }
-  
-  .form-row {
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .contact-form-container {
-    padding: 30px 20px;
-  }
-  
-  .page-banner {
-    padding: 60px 20px;
-  }
-  
   .page-banner h1 {
-    font-size: 2.2rem;
+    font-size: 2.5rem;
   }
 
   .page-banner p {
@@ -426,116 +423,114 @@
 
   .support-tabs {
     flex-direction: column;
-    align-items: center;
     gap: 10px;
   }
 
   .tab-button {
-    width: 100%;
-    max-width: 300px;
+    padding: 10px 15px;
     font-size: 1rem;
   }
 
-  .tab-button:after {
-    bottom: -5px;
+  .support-info {
+    grid-template-columns: 1fr;
   }
-  
-  .support-faq h2,
-  .contact-form-container h2 {
-    font-size: 1.8rem;
+
+  .info-card {
+    padding: 25px;
   }
-  
-  .info-card h3 {
-    font-size: 1.3rem;
+
+  .info-icon {
+    width: 70px;
+    height: 70px;
+    font-size: 2rem;
   }
-  
-  .info-card p {
-    font-size: 0.95rem;
+
+  .contact-form-container {
+    padding: 30px;
   }
-  
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .submit-button {
+    padding: 12px 25px;
+    font-size: 1rem;
+  }
+
+  .support-faq h2 {
+    font-size: 2rem;
+  }
+
   .faq-header h3 {
     font-size: 1.1rem;
-  }
-  
-  .faq-content p {
-    font-size: 0.95rem;
-  }
-  
-  .contact-form-container > p {
-    font-size: 0.95rem;
-  }
-  
-  .form-group label {
-    font-size: 0.95rem;
-  }
-  
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    font-size: 0.95rem;
   }
 }
 
 @media (max-width: 576px) {
-  .page-banner {
-    padding: 40px 15px;
+  .support-page {
+    padding-top: 70px;
   }
-  
+
   .page-banner h1 {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
-  
+
   .page-banner p {
     font-size: 0.9rem;
   }
-  
+
   .tab-button {
     font-size: 0.9rem;
-    padding: 8px 20px;
   }
-  
-  .support-faq h2,
-  .contact-form-container h2 {
-    font-size: 1.6rem;
-  }
-  
+
   .info-card h3 {
     font-size: 1.2rem;
   }
-  
+
   .info-card p {
     font-size: 0.9rem;
   }
-  
+
   .contact-link {
-    font-size: 0.9rem;
-  }
-  
-  .faq-header h3 {
     font-size: 1rem;
   }
-  
-  .faq-content p {
+
+  .chat-button {
+    padding: 10px 20px;
     font-size: 0.9rem;
   }
-  
-  .contact-form-container > p {
-    font-size: 0.9rem;
+
+  .contact-form-container {
+    padding: 20px;
   }
-  
+
   .form-group label {
     font-size: 0.85rem;
   }
-  
+
   .form-group input,
-  .form-group select,
-  .form-group textarea {
+  .form-group textarea,
+  .form-group select {
+    padding: 10px;
     font-size: 0.9rem;
-    padding: 12px 14px;
   }
-  
+
   .submit-button {
+    padding: 10px 20px;
     font-size: 0.9rem;
-    padding: 14px;
+  }
+
+  .support-faq h2 {
+    font-size: 1.8rem;
+  }
+
+  .faq-header h3 {
+    font-size: 1rem;
+  }
+
+  .faq-content p {
+    font-size: 0.85rem;
   }
 } 

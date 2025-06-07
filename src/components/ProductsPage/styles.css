@@ -91,6 +91,27 @@
   letter-spacing: 0.5px;
 }
 
+.add-to-cart-btn {
+  background-color: var(--primary-color); /* Use a defined primary color for consistency */
+  color: #000; /* Text color for the button */
+  border: none;
+  border-radius: 4px; /* Slightly rounded corners for the button */
+  padding: 10px 15px;
+  margin-top: 10px; /* Space above the button */
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  width: 100%; /* Make the button full width */
+  text-transform: uppercase; /* Uppercase text */
+}
+
+.add-to-cart-btn:hover {
+  background-color: #E63946; /* A slightly darker or more vibrant shade on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow on hover */
+}
+
 /* Optional: Add styles for hover actions or badges here if needed */
 
 /* --- End New ProductCard Styles --- */
@@ -144,17 +165,18 @@
   width: 100%;
   padding: 12px 45px 12px 15px;
   background-color: rgba(0, 0, 0, 0.7);
-  border: 1px solid var(--border-color);
+  border: none;
   border-radius: var(--input-border-radius);
   color: var(--primary-color);
   font-size: 1rem;
   font-weight: 300;
   transition: all 0.3s;
   font-family: 'Cabin', sans-serif;
+  box-sizing: border-box;
 }
 
 .search-input:focus {
-  border-color: var(--primary-color);
+  border-color: transparent;
   box-shadow: var(--focus-ring);
   outline: none;
 }
@@ -468,14 +490,6 @@
 .search-bar {
   position: relative;
   margin-bottom: 20px;
-}
-
-.search-input {
-  width: 100%;
-  padding: 10px 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
 }
 
 /* Responsive */

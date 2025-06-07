@@ -1,6 +1,4 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
 import './styles.css';
 import ScrollToTop from '../../components/ScrollToTop';
 const AboutUs = () => {
@@ -74,21 +72,6 @@ const AboutUs = () => {
     { number: "10+", label: "Years of Experience" }
   ];
 
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0 }
-  };
-
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  };
-
   const scrollTimeline = (direction) => {
     if (timelineRef.current) {
       const scrollAmount = direction === 'left' ? -400 : 400;
@@ -151,49 +134,35 @@ const AboutUs = () => {
   return (
     <div className="about-us">
       {/* Hero Section */}
-      <motion.section 
+      <section 
         className="about-hero"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.5 }}
       >
         <div className="hero-overlay"></div>
-        <motion.div 
+        <div 
           className="hero-content"
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5, duration: 1 }}
         >
           <h1>SONIT CUSTOM</h1>
           <p>Where Art Meets Billiard Passion</p>
-          <motion.div 
+          <div 
             className="hero-stats"
-            variants={staggerContainer}
-            initial="hidden"
-            animate="visible"
           >
             {achievements.map((achievement, index) => (
-              <motion.div 
+              <div 
                 key={index}
                 className="stat-item"
-                variants={fadeInUp}
               >
                 <span className="stat-number">{achievement.number}</span>
                 <span className="stat-label">{achievement.label}</span>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
-        </motion.div>
-      </motion.section>
+          </div>
+        </div>
+      </section>
 
       {/* Story Section */}
       <section className="about-story">
-        <motion.div 
+        <div 
           className="story-content"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
         >
           <h2>Our Story</h2>
           <div className="story-grid">
@@ -212,154 +181,96 @@ const AboutUs = () => {
               <img src="/assets/about/workshop.jpg" alt="SONIT CUSTOM Workshop" />
             </div>
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* Values Section */}
       <section className="about-values">
         <h2>Core Values</h2>
-        <motion.div 
+        <div 
           className="values-grid"
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
         >
           {values.map((value, index) => (
-            <motion.div 
+            <div 
               key={index}
               className="value-card"
-              variants={fadeInUp}
-              whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
             >
-              <div className="value-icon" style={{ backgroundColor: value.color }}>
+              <div className="value-icon">
                 <span>{value.icon}</span>
               </div>
               <h3>{value.title}</h3>
               <p>{value.description}</p>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </section>
 
       {/* Milestones Section */}
       <section className="about-milestones">
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >Development Journey</motion.h2>
+        <h2>Development Journey</h2>
         
         <div className="timeline">
-          <motion.div 
+          <div 
             className="timeline-wrapper"
             ref={timelineRef}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
           >
             {milestones.map((milestone, index) => (
-              <motion.div 
+              <div 
                 key={index}
                 className="timeline-item"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ 
-                  duration: 0.8, 
-                  delay: index * 0.1,
-                  type: "spring",
-                  stiffness: 50
-                }}
               >
-                <motion.div 
+                <div 
                   className="timeline-icon"
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ 
-                    duration: 0.5, 
-                    delay: index * 0.1 + 0.2,
-                    type: "spring" 
-                  }}
                 >
                   {milestone.icon}
-                </motion.div>
+                </div>
                 
-                <motion.div 
+                <div 
                   className="timeline-content"
-                  initial={{ y: 20, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 + 0.4 }}
-                  whileHover={{ 
-                    scale: 1.02,
-                    transition: { duration: 0.3 }
-                  }}
                 >
-                  <motion.span 
+                  <span 
                     className="year"
-                    initial={{ scale: 0.8 }}
-                    whileInView={{ scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: index * 0.1 + 0.6 }}
                   >
                     {milestone.year}
-                  </motion.span>
+                  </span>
                   <h3>{milestone.title}</h3>
                   <p>{milestone.description}</p>
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
             ))}
-          </motion.div>
+          </div>
           
           <div className="timeline-dots">
             {milestones.map((_, index) => (
-              <motion.div
+              <div
                 key={index}
                 className={`timeline-dot ${index === activeIndex ? 'active' : ''}`}
                 onClick={() => scrollToMilestone(index)}
-                whileHover={{ scale: 1.2 }}
-                whileTap={{ scale: 0.9 }}
-                animate={index === activeIndex ? {
-                  scale: [1, 1.3, 1.2],
-                  transition: { duration: 0.5 }
-                } : {}}
               />
             ))}
           </div>
           
           <div className="timeline-nav">
-            <motion.button 
+            <button 
               className="nav-button"
               onClick={() => scrollTimeline('left')}
-              whileHover={{ scale: 1.1, backgroundColor: "rgba(212, 201, 190, 0.2)" }}
-              whileTap={{ scale: 0.9 }}
             >
               ←
-            </motion.button>
-            <motion.button 
+            </button>
+            <button 
               className="nav-button"
               onClick={() => scrollTimeline('right')}
-              whileHover={{ scale: 1.1, backgroundColor: "rgba(212, 201, 190, 0.2)" }}
-              whileTap={{ scale: 0.9 }}
             >
               →
-            </motion.button>
+            </button>
           </div>
         </div>
       </section>
 
       {/* Contact Section */}
       <section className="about-contact">
-        <motion.div 
+        <div 
           className="contact-content"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
         >
           <h2>Contact Us</h2>
           <p>Let us help you find the perfect product</p>
@@ -377,14 +288,12 @@ const AboutUs = () => {
               <p>123 ABC Street, XYZ District, Ho Chi Minh City</p>
             </div>
           </div>
-          <motion.button 
+          <button 
             className="contact-btn"
-            whileHover={{ scale: 1.05, backgroundColor: "#D4C9BE" }}
-            whileTap={{ scale: 0.95 }}
           >
             Contact Now
-          </motion.button>
-        </motion.div>
+          </button>
+        </div>
       </section>
       <ScrollToTop />
     </div>
