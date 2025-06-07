@@ -45,11 +45,6 @@ const AuthService = {
           const normalizedUser = AuthService.normalizeUserData(response.user);
           localStorage.setItem("userData", JSON.stringify(normalizedUser));
 
-          // Store token if available
-          if (response.token) {
-            localStorage.setItem("access_token", response.token);
-          }
-
           return {
             success: true,
             message: response.message,
@@ -148,7 +143,6 @@ const AuthService = {
         // Clear auth state since token is invalid
         localStorage.removeItem("isAuthenticated");
         localStorage.removeItem("userData");
-        localStorage.removeItem("access_token");
       }
 
       return false;
@@ -173,7 +167,6 @@ const AuthService = {
       localStorage.removeItem("isAuthenticated");
       localStorage.removeItem("userData");
       localStorage.removeItem("authError");
-      localStorage.removeItem("access_token");
     }
   },
 
