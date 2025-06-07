@@ -38,6 +38,9 @@ const refreshToken = async () => {
         {},
         {
           withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
         }
       );
 
@@ -55,6 +58,7 @@ const refreshToken = async () => {
       console.error("Refresh token thất bại:", error);
       localStorage.removeItem("isAuthenticated");
       localStorage.removeItem("userData");
+      localStorage.removeItem("access_token");
       isRefreshingToken = false;
 
       processQueue(error);
@@ -68,15 +72,14 @@ const refreshToken = async () => {
 // Create axios instance with default config
 const api = axios.create({
   baseURL: API_URL,
-  timeout: 15000, // Tăng timeout lên 15 giây
+  timeout: 15000,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
   },
-  withCredentials: true, // Quan trọng: Đảm bảo cookies được gửi với mọi request
-  // Thêm cấu hình cho iOS
+  withCredentials: true,
   validateStatus: function (status) {
-    return status >= 200 && status < 500; // Chấp nhận tất cả status code từ 200-499
+    return status >= 200 && status < 500;
   },
 });
 
@@ -89,6 +92,12 @@ api.interceptors.request.use(
       _t: Date.now(),
     };
 
+    // Thêm token vào header nếu có
+    const accessToken = localStorage.getItem("access_token");
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+
     return config;
   },
   (error) => Promise.reject(error)
@@ -100,7 +109,11 @@ api.interceptors.response.use(
     // Nếu response thành công, đánh dấu đã xác thực
     localStorage.setItem("isAuthenticated", "true");
 
-    // Chỉ trả về data từ response
+    // Lưu token nếu có trong response
+    if (response.data && response.data.token) {
+      localStorage.setItem("access_token", response.data.token);
+    }
+
     return response.data;
   },
   async (error) => {
@@ -150,6 +163,7 @@ api.interceptors.response.use(
           console.log("Refresh token thất bại, đăng xuất");
           localStorage.removeItem("isAuthenticated");
           localStorage.removeItem("userData");
+          localStorage.removeItem("access_token");
 
           // Kiểm tra nếu đang ở trang admin thì chuyển hướng về login
           if (window.location.pathname.includes("/admin")) {
