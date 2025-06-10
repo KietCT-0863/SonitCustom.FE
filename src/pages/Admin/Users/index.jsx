@@ -1,29 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './styles.css';
-import AuthService from '../../../services/auth.service';
-import api from '../../../config/api.config';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./styles.css";
+import AuthService from "../../../services/auth.service";
+import api from "../../../config/api.config";
+import { useUser } from "../../../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const Users = () => {
+  const { user, isAdmin } = useUser();
+  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedRole, setSelectedRole] = useState('');
-  const [selectedStatus, setSelectedStatus] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedRole, setSelectedRole] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
   const [showRegisterModal, setShowRegisterModal] = useState(false);
-  const [passwordError, setPasswordError] = useState('');
+  const [passwordError, setPasswordError] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const [newUser, setNewUser] = useState({
-    username: '',
-    fullname: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    roleName: 'admin'
+    username: "",
+    fullname: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    roleName: "admin",
   });
-  
+
   // New state for edit user modal
   const [showEditModal, setShowEditModal] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -31,72 +35,89 @@ const Users = () => {
   const [roles, setRoles] = useState([]);
   const [editUser, setEditUser] = useState({
     id: null,
-    username: '',
-    fullname: '',
-    email: '',
-    password: '',
-    role: null
+    username: "",
+    fullname: "",
+    email: "",
+    password: "",
+    role: null,
   });
-  
+
   const [focusedInputs, setFocusedInputs] = useState({
     username: false,
     fullname: false,
     email: false,
     password: false,
-    confirmPassword: false
+    confirmPassword: false,
   });
-  
+
   // Sample user data to use when API fails
   const sampleUsers = [
-    { id: 1, username: 'admin', fullname: 'Admin User', email: 'admin@example.com', roleName: 'admin' },
-    { id: 2, username: 'user1', fullname: 'Regular User', email: 'user1@example.com', roleName: 'user' },
-    { id: 3, username: 'manager', fullname: 'Manager User', email: 'manager@example.com', roleName: 'admin' },
+    {
+      id: 1,
+      username: "admin",
+      fullname: "Admin User",
+      email: "admin@example.com",
+      roleName: "admin",
+    },
+    {
+      id: 2,
+      username: "user1",
+      fullname: "Regular User",
+      email: "user1@example.com",
+      roleName: "user",
+    },
+    {
+      id: 3,
+      username: "manager",
+      fullname: "Manager User",
+      email: "manager@example.com",
+      roleName: "admin",
+    },
   ];
 
   // Load data on component mount
   useEffect(() => {
-    // Check if authenticated first
-    if (!AuthService.isAuthenticated()) {
-      console.log('No authentication state found in localStorage, redirecting to login');
-      setTimeout(() => {
-        window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
-      }, 500);
-      return;
+    // Nếu đã load user và không phải admin thì chuyển hướng về login
+    if (user && !isAdmin()) {
+      navigate("/login", {
+        state: {
+          from: "/admin/users",
+          message: "Bạn cần đăng nhập với tài khoản admin.",
+        },
+      });
     }
-    
-    // If we have auth state in localStorage, proceed with fetching data
-    // The api interceptor will handle token refresh if needed
-    fetchUsers();
-    fetchRoles();
-  }, []);
+  }, [user, isAdmin, navigate]);
 
   // Fetch users from API
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await api.get('/User');
+      const response = await api.get("/User");
       setUsers(response);
       setError(null);
     } catch (err) {
-      console.error('Error fetching users:', err);
-      
+      console.error("Error fetching users:", err);
+
       // Handle auth errors
       if (err.message && err.message.includes("Phiên đăng nhập")) {
-        setError('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
+        setError("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
         // Redirect to login after showing the error
         setTimeout(() => {
-          window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
+          window.location.href =
+            "/login?redirect=" + encodeURIComponent(window.location.pathname);
         }, 2000);
         return;
       }
-      
+
       // Use sample data for demonstration
       setUsers(sampleUsers);
-      
+
       if (err.response && err.response.status === 401) {
-        setError('Authentication required. Vui lòng đăng nhập với tài khoản admin.');
+        setError(
+          "Authentication required. Vui lòng đăng nhập với tài khoản admin."
+        );
       } else {
-        setError('API connection issue. Đang hiển thị dữ liệu mẫu.');
+        setError("API connection issue. Đang hiển thị dữ liệu mẫu.");
       }
     } finally {
       setLoading(false);
@@ -106,14 +127,14 @@ const Users = () => {
   // Fetch roles from API
   const fetchRoles = async () => {
     try {
-      const response = await api.get('/Role');
+      const response = await api.get("/Role");
       setRoles(response);
     } catch (err) {
-      console.error('Error fetching roles:', err);
+      console.error("Error fetching roles:", err);
       // Set default roles if API fails
       setRoles([
-        { roleId: 1, roleName: 'admin' },
-        { roleId: 2, roleName: 'member' }
+        { roleId: 1, roleName: "admin" },
+        { roleId: 2, roleName: "member" },
       ]);
     }
   };
@@ -128,40 +149,42 @@ const Users = () => {
   const handleDeleteUser = async (userId) => {
     try {
       await api.delete(`/User/${userId}`);
-      setUsers(users.filter(user => user.id !== userId));
+      setUsers(users.filter((user) => user.id !== userId));
     } catch (err) {
-      console.error('Error deleting user:', err);
-      
+      console.error("Error deleting user:", err);
+
       if (err.message && err.message.includes("Phiên đăng nhập")) {
-        setError('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
+        setError("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
         return;
       }
-      
+
       // Just remove from local state for demo purposes
-      setUsers(users.filter(user => user.id !== userId));
-      
+      setUsers(users.filter((user) => user.id !== userId));
+
       if (err.response && err.response.status === 401) {
-        setError('Authentication failed. Just removed from UI for demo purposes.');
+        setError(
+          "Authentication failed. Just removed from UI for demo purposes."
+        );
       } else {
-        setError('API error. Just removed from UI for demo purposes.');
+        setError("API error. Just removed from UI for demo purposes.");
       }
     }
   };
 
   // Handle user edit
   const handleEditUser = (userId) => {
-    const userToEdit = users.find(user => user.id === userId);
-    
+    const userToEdit = users.find((user) => user.id === userId);
+
     if (userToEdit) {
       setEditUser({
         id: userToEdit.id,
-        username: userToEdit.username || '',
-        fullname: userToEdit.fullname || '',
-        email: userToEdit.email || '',
-        password: '',
-        role: userToEdit.roleId || null
+        username: userToEdit.username || "",
+        fullname: userToEdit.fullname || "",
+        email: userToEdit.email || "",
+        password: "",
+        role: userToEdit.roleId || null,
       });
-      
+
       setShowEditModal(true);
       setUpdateSuccess(false);
     }
@@ -172,69 +195,69 @@ const Users = () => {
     setShowRegisterModal(true);
     setRegistrationSuccess(false);
   };
-  
+
   // Handle input focus
   const handleFocus = (name) => {
-    setFocusedInputs(prev => ({
+    setFocusedInputs((prev) => ({
       ...prev,
-      [name]: true
+      [name]: true,
     }));
   };
-  
+
   // Handle input blur
   const handleBlur = (name) => {
-    setFocusedInputs(prev => ({
+    setFocusedInputs((prev) => ({
       ...prev,
-      [name]: false
+      [name]: false,
     }));
   };
 
   // Handle input changes for registration form
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewUser(prev => ({
+    setNewUser((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
-    
+
     // Clear password error when password fields change
-    if (name === 'password' || name === 'confirmPassword') {
-      setPasswordError('');
+    if (name === "password" || name === "confirmPassword") {
+      setPasswordError("");
     }
   };
-  
+
   // Handle input changes for edit form
   const handleEditInputChange = (e) => {
     const { name, value } = e.target;
-    setEditUser(prev => ({
+    setEditUser((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
-  
+
   // Validate form
   const validateForm = () => {
     if (newUser.password !== newUser.confirmPassword) {
-      setPasswordError('Mật khẩu không khớp');
+      setPasswordError("Mật khẩu không khớp");
       return false;
     }
-    
+
     if (newUser.password.length < 8) {
-      setPasswordError('Mật khẩu phải có ít nhất 8 ký tự');
+      setPasswordError("Mật khẩu phải có ít nhất 8 ký tự");
       return false;
     }
-    
+
     return true;
   };
 
   // Handle register admin form submission
   const handleRegisterAdmin = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     try {
       setIsRegistering(true);
       // Tạo user object để gửi đến API theo định dạng của API register
@@ -243,63 +266,71 @@ const Users = () => {
         fullname: newUser.fullname,
         email: newUser.email,
         password: newUser.password,
-        roleName: newUser.roleName
+        roleName: newUser.roleName,
       };
-      
+
       // Sử dụng API đăng ký giống với user thông thường
       const response = await AuthService.register(userToRegister);
-      
+
       // Nếu đăng ký thành công
-      if (response && response.message && response.message.includes("thành công")) {
+      if (
+        response &&
+        response.message &&
+        response.message.includes("thành công")
+      ) {
         setRegistrationSuccess(true);
         // Refresh danh sách user sau khi đăng ký thành công
         fetchUsers();
-        
+
         // Reset form sau 2 giây
         setTimeout(() => {
           setShowRegisterModal(false);
           setNewUser({
-            username: '',
-            fullname: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-            roleName: 'admin'
+            username: "",
+            fullname: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            roleName: "admin",
           });
           setRegistrationSuccess(false);
         }, 2000);
       } else {
-        setError('Đăng ký không thành công. Vui lòng thử lại.');
+        setError("Đăng ký không thành công. Vui lòng thử lại.");
       }
     } catch (err) {
-      console.error('Error registering admin:', err);
-      
+      console.error("Error registering admin:", err);
+
       if (err.message) {
         setPasswordError(err.message);
-      } else if (err.response && err.response.data && err.response.data.message) {
+      } else if (
+        err.response &&
+        err.response.data &&
+        err.response.data.message
+      ) {
         setPasswordError(err.response.data.message);
       } else {
-        setPasswordError('Đăng ký không thành công. Vui lòng thử lại.');
+        setPasswordError("Đăng ký không thành công. Vui lòng thử lại.");
       }
-      
+
       // Add locally for demo purposes in case of error
-      if (process.env.NODE_ENV === 'development') {
+      if (process.env.NODE_ENV === "development") {
         const newDemoUser = {
           ...newUser,
-          id: users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1
+          id: users.length > 0 ? Math.max(...users.map((u) => u.id)) + 1 : 1,
         };
         delete newDemoUser.confirmPassword;
-        
+
         setUsers([...users, newDemoUser]);
         setTimeout(() => {
           setShowRegisterModal(false);
           setNewUser({
-            username: '',
-            fullname: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-            roleName: 'admin'
+            username: "",
+            fullname: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            roleName: "admin",
           });
         }, 2000);
       }
@@ -311,48 +342,47 @@ const Users = () => {
   // Handle update user form submission
   const handleUpdateUser = async (e) => {
     e.preventDefault();
-    
+
     try {
       setIsUpdating(true);
-      
+
       // Create update object
       const updateData = {
         username: editUser.username || null,
         password: editUser.password || null,
         fullname: editUser.fullname || null,
         email: editUser.email || null,
-        role: editUser.role
+        role: editUser.role,
       };
-      
+
       // Call API to update user
       await api.put(`/User/${editUser.id}`, updateData);
-      
+
       setUpdateSuccess(true);
-      
+
       // Refresh user list
       fetchUsers();
-      
+
       // Close modal after delay
       setTimeout(() => {
         setShowEditModal(false);
         setEditUser({
           id: null,
-          username: '',
-          fullname: '',
-          email: '',
-          password: '',
-          role: null
+          username: "",
+          fullname: "",
+          email: "",
+          password: "",
+          role: null,
         });
         setUpdateSuccess(false);
       }, 2000);
-      
     } catch (err) {
-      console.error('Error updating user:', err);
-      
+      console.error("Error updating user:", err);
+
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
       } else {
-        setError('Cập nhật không thành công. Vui lòng thử lại.');
+        setError("Cập nhật không thành công. Vui lòng thử lại.");
       }
     } finally {
       setIsUpdating(false);
@@ -360,14 +390,15 @@ const Users = () => {
   };
 
   // Filter users based on role and search term
-  const filteredUsers = users.filter(user => {
-    const matchesSearch = 
-      user.fullname?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+  const filteredUsers = users.filter((user) => {
+    const matchesSearch =
+      user.fullname?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.username?.toLowerCase().includes(searchTerm.toLowerCase());
     return (
       matchesSearch &&
-      (selectedRole === '' || user.roleName?.toLowerCase() === selectedRole.toLowerCase())
+      (selectedRole === "" ||
+        user.roleName?.toLowerCase() === selectedRole.toLowerCase())
     );
   });
 
@@ -376,16 +407,10 @@ const Users = () => {
       <div className="users-header">
         <h2>User Management</h2>
         <div className="button-group">
-          <button 
-            className="add-user-btn"
-            onClick={handleAddNewUser}
-          >
+          <button className="add-user-btn" onClick={handleAddNewUser}>
             Add New User
           </button>
-          <button 
-            className="register-admin-btn"
-            onClick={handleAddNewUser}
-          >
+          <button className="register-admin-btn" onClick={handleAddNewUser}>
             Register Admin
           </button>
         </div>
@@ -445,25 +470,27 @@ const Users = () => {
                     <td>{user.fullname}</td>
                     <td className="email-column">{user.email}</td>
                     <td>
-                      <span className={`role-badge ${user.roleName?.toLowerCase()}`}>
+                      <span
+                        className={`role-badge ${user.roleName?.toLowerCase()}`}
+                      >
                         {user.roleName}
                       </span>
                     </td>
                     <td className="actions-column">
                       <div className="action-buttons">
-                        <button 
+                        <button
                           className="view-btn"
-                          onClick={() => console.log('View user', user.id)}
+                          onClick={() => console.log("View user", user.id)}
                         >
                           View
                         </button>
-                        <button 
+                        <button
                           className="edit-btn"
                           onClick={() => handleEditUser(user.id)}
                         >
                           Edit
                         </button>
-                        <button 
+                        <button
                           className="delete-btn"
                           onClick={() => handleDeleteUser(user.id)}
                         >
@@ -499,15 +526,15 @@ const Users = () => {
           <div className="register-modal-content">
             <div className="register-modal-header">
               <div className="register-logo">
-                <img 
-                  src="/assets/images/logo.jpg" 
-                  className='register-logo-image'
+                <img
+                  src="/assets/images/logo.jpg"
+                  className="register-logo-image"
                 />
               </div>
               <h2>Register New Admin</h2>
               <p>Create a new admin account for the system</p>
             </div>
-            
+
             {registrationSuccess ? (
               <div className="success-message">
                 <div className="check-icon">✓</div>
@@ -516,7 +543,11 @@ const Users = () => {
               </div>
             ) : (
               <form className="register-form" onSubmit={handleRegisterAdmin}>
-                <div className={`form-floating ${focusedInputs.username || newUser.username ? 'focused' : ''}`}>
+                <div
+                  className={`form-floating ${
+                    focusedInputs.username || newUser.username ? "focused" : ""
+                  }`}
+                >
                   <input
                     type="text"
                     id="username"
@@ -524,15 +555,19 @@ const Users = () => {
                     placeholder=" "
                     value={newUser.username}
                     onChange={handleInputChange}
-                    onFocus={() => handleFocus('username')}
-                    onBlur={() => handleBlur('username')}
+                    onFocus={() => handleFocus("username")}
+                    onBlur={() => handleBlur("username")}
                     required
                   />
                   <label htmlFor="username">Username</label>
                   <div className="input-highlight"></div>
                 </div>
-                
-                <div className={`form-floating ${focusedInputs.fullname || newUser.fullname ? 'focused' : ''}`}>
+
+                <div
+                  className={`form-floating ${
+                    focusedInputs.fullname || newUser.fullname ? "focused" : ""
+                  }`}
+                >
                   <input
                     type="text"
                     id="fullname"
@@ -540,15 +575,19 @@ const Users = () => {
                     placeholder=" "
                     value={newUser.fullname}
                     onChange={handleInputChange}
-                    onFocus={() => handleFocus('fullname')}
-                    onBlur={() => handleBlur('fullname')}
+                    onFocus={() => handleFocus("fullname")}
+                    onBlur={() => handleBlur("fullname")}
                     required
                   />
                   <label htmlFor="fullname">Full Name</label>
                   <div className="input-highlight"></div>
                 </div>
-                
-                <div className={`form-floating ${focusedInputs.email || newUser.email ? 'focused' : ''}`}>
+
+                <div
+                  className={`form-floating ${
+                    focusedInputs.email || newUser.email ? "focused" : ""
+                  }`}
+                >
                   <input
                     type="email"
                     id="email"
@@ -556,15 +595,19 @@ const Users = () => {
                     placeholder=" "
                     value={newUser.email}
                     onChange={handleInputChange}
-                    onFocus={() => handleFocus('email')}
-                    onBlur={() => handleBlur('email')}
+                    onFocus={() => handleFocus("email")}
+                    onBlur={() => handleBlur("email")}
                     required
                   />
                   <label htmlFor="email">Email Address</label>
                   <div className="input-highlight"></div>
                 </div>
-                
-                <div className={`form-floating ${focusedInputs.password || newUser.password ? 'focused' : ''}`}>
+
+                <div
+                  className={`form-floating ${
+                    focusedInputs.password || newUser.password ? "focused" : ""
+                  }`}
+                >
                   <input
                     type="password"
                     id="password"
@@ -572,15 +615,21 @@ const Users = () => {
                     placeholder=" "
                     value={newUser.password}
                     onChange={handleInputChange}
-                    onFocus={() => handleFocus('password')}
-                    onBlur={() => handleBlur('password')}
+                    onFocus={() => handleFocus("password")}
+                    onBlur={() => handleBlur("password")}
                     required
                   />
                   <label htmlFor="password">Password</label>
                   <div className="input-highlight"></div>
                 </div>
-                
-                <div className={`form-floating ${focusedInputs.confirmPassword || newUser.confirmPassword ? 'focused' : ''}`}>
+
+                <div
+                  className={`form-floating ${
+                    focusedInputs.confirmPassword || newUser.confirmPassword
+                      ? "focused"
+                      : ""
+                  }`}
+                >
                   <input
                     type="password"
                     id="confirmPassword"
@@ -588,23 +637,29 @@ const Users = () => {
                     placeholder=" "
                     value={newUser.confirmPassword}
                     onChange={handleInputChange}
-                    onFocus={() => handleFocus('confirmPassword')}
-                    onBlur={() => handleBlur('confirmPassword')}
+                    onFocus={() => handleFocus("confirmPassword")}
+                    onBlur={() => handleBlur("confirmPassword")}
                     required
                   />
                   <label htmlFor="confirmPassword">Confirm Password</label>
                   <div className="input-highlight"></div>
-                  {passwordError && <p className="error-message">{passwordError}</p>}
+                  {passwordError && (
+                    <p className="error-message">{passwordError}</p>
+                  )}
                 </div>
-                
-                <div className={`form-floating ${focusedInputs.roleName || newUser.roleName ? 'focused' : ''}`}>
+
+                <div
+                  className={`form-floating ${
+                    focusedInputs.roleName || newUser.roleName ? "focused" : ""
+                  }`}
+                >
                   <select
                     id="roleName"
                     name="roleName"
                     value={newUser.roleName}
                     onChange={handleInputChange}
-                    onFocus={() => handleFocus('roleName')}
-                    onBlur={() => handleBlur('roleName')}
+                    onFocus={() => handleFocus("roleName")}
+                    onBlur={() => handleBlur("roleName")}
                   >
                     <option value="admin">Admin</option>
                     <option value="user">User</option>
@@ -612,23 +667,27 @@ const Users = () => {
                   <label htmlFor="roleName">Role</label>
                   <div className="input-highlight"></div>
                 </div>
-                
+
                 <div className="modal-actions">
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     className="cancel-button"
                     onClick={() => setShowRegisterModal(false)}
                   >
                     Cancel
                   </button>
-                  <button 
-                    type="submit" 
-                    className={`register-button ${isRegistering ? 'loading' : ''}`}
+                  <button
+                    type="submit"
+                    className={`register-button ${
+                      isRegistering ? "loading" : ""
+                    }`}
                     disabled={isRegistering}
                   >
                     {isRegistering ? (
                       <div className="spinner"></div>
-                    ) : 'Register Admin'}
+                    ) : (
+                      "Register Admin"
+                    )}
                   </button>
                 </div>
               </form>
@@ -643,15 +702,15 @@ const Users = () => {
           <div className="register-modal-content">
             <div className="register-modal-header">
               <div className="register-logo">
-                <img 
-                  src="/assets/images/logo.jpg" 
-                  className='register-logo-image'
+                <img
+                  src="/assets/images/logo.jpg"
+                  className="register-logo-image"
                 />
               </div>
               <h2>Edit User</h2>
               <p>Update user information</p>
             </div>
-            
+
             {updateSuccess ? (
               <div className="success-message">
                 <div className="check-icon">✓</div>
@@ -671,9 +730,11 @@ const Users = () => {
                   />
                   <label htmlFor="username">Username</label>
                   <div className="input-highlight"></div>
-                  <small className="form-text">Leave empty to keep current username</small>
+                  <small className="form-text">
+                    Leave empty to keep current username
+                  </small>
                 </div>
-                
+
                 <div className="form-floating focused">
                   <input
                     type="text"
@@ -685,9 +746,11 @@ const Users = () => {
                   />
                   <label htmlFor="fullname">Full Name</label>
                   <div className="input-highlight"></div>
-                  <small className="form-text">Leave empty to keep current name</small>
+                  <small className="form-text">
+                    Leave empty to keep current name
+                  </small>
                 </div>
-                
+
                 <div className="form-floating focused">
                   <input
                     type="email"
@@ -699,9 +762,11 @@ const Users = () => {
                   />
                   <label htmlFor="email">Email Address</label>
                   <div className="input-highlight"></div>
-                  <small className="form-text">Leave empty to keep current email</small>
+                  <small className="form-text">
+                    Leave empty to keep current email
+                  </small>
                 </div>
-                
+
                 <div className="form-floating focused">
                   <input
                     type="password"
@@ -713,18 +778,20 @@ const Users = () => {
                   />
                   <label htmlFor="password">Password</label>
                   <div className="input-highlight"></div>
-                  <small className="form-text">Leave empty to keep current password</small>
+                  <small className="form-text">
+                    Leave empty to keep current password
+                  </small>
                 </div>
-                
+
                 <div className="form-floating focused">
                   <select
                     id="role"
                     name="role"
-                    value={editUser.role || ''}
+                    value={editUser.role || ""}
                     onChange={handleEditInputChange}
                   >
                     <option value="">Select Role</option>
-                    {roles.map(role => (
+                    {roles.map((role) => (
                       <option key={role.roleId} value={role.roleId}>
                         {role.roleName}
                       </option>
@@ -733,23 +800,25 @@ const Users = () => {
                   <label htmlFor="role">Role</label>
                   <div className="input-highlight"></div>
                 </div>
-                
+
                 <div className="modal-actions">
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     className="cancel-button"
                     onClick={() => setShowEditModal(false)}
                   >
                     Cancel
                   </button>
-                  <button 
-                    type="submit" 
-                    className={`register-button ${isUpdating ? 'loading' : ''}`}
+                  <button
+                    type="submit"
+                    className={`register-button ${isUpdating ? "loading" : ""}`}
                     disabled={isUpdating}
                   >
                     {isUpdating ? (
                       <div className="spinner"></div>
-                    ) : 'Update User'}
+                    ) : (
+                      "Update User"
+                    )}
                   </button>
                 </div>
               </form>
@@ -761,4 +830,4 @@ const Users = () => {
   );
 };
 
-export default Users; 
+export default Users;
