@@ -88,6 +88,13 @@ const Users = () => {
     }
   }, [user, isAdmin, navigate]);
 
+  useEffect(() => {
+    if (user && isAdmin()) {
+      fetchUsers();
+      fetchRoles();
+    }
+  }, [user, isAdmin]);
+
   // Fetch users from API
   const fetchUsers = async () => {
     try {
